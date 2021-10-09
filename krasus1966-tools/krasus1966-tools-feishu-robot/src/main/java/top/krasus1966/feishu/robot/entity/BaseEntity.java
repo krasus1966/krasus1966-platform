@@ -8,9 +8,6 @@ public class BaseEntity {
     private String msgType;
     private Card card;
 
-    public BaseEntity() {
-    }
-
     public String getMsgType() {
         return msgType;
     }

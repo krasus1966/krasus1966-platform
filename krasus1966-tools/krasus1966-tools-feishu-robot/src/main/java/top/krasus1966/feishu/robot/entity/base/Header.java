@@ -10,9 +10,6 @@ public class Header {
 
     private Text title;
 
-    public Header() {
-    }
-
     public String getTemplate() {
         return template;
     }

@@ -9,9 +9,6 @@ public class Text {
     private String content;
     private String tag;
 
-    public Text() {
-    }
-
     public String getContent() {
         return content;
     }
