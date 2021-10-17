@@ -10,6 +10,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>krasus1966-tools</module>
+
     </modules>
 
     <properties>
