@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=top.krasus1966.fastdfs.FastDFSAutoConfig
