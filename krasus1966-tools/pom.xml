@@ -19,6 +19,7 @@
         <module>krasus1966-tools-baiducloud</module>
         <module>krasus1966-tools-idempotent</module>
         <module>krasus1966-tools-fs</module>
+        <module>krasus1966-tools-swagger3</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 
