@@ -88,6 +88,9 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
             for (String path : docketInfo.getExcludePath()) {
                 excludePath.add(PathSelectors.ant(path));
             }
+
+
+
             Docket docket = new Docket(DocumentationType.SWAGGER_2)
                     .apiInfo(apiInfo)
                     .groupName(docketInfo.getGroup())

@@ -8,9 +8,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <version>0.0.1-SNAPSHOT</version>
 
-    <artifactId>krasus1966-tools-swagger</artifactId>
+    <artifactId>krasus1966-tools-swagger3</artifactId>
+
+    <properties>
+        <knife4j.spring.boot.3.version>3.0.3</knife4j.spring.boot.3.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -27,6 +30,7 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>${knife4j.spring.boot.3.version}</version>
         </dependency>
     </dependencies>
 </project>

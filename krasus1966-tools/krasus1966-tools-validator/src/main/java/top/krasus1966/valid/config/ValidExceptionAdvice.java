@@ -2,6 +2,7 @@ package top.krasus1966.valid.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ import java.util.Map;
 @ControllerAdvice(annotations = {RestController.class, Controller.class})
 public class ValidExceptionAdvice {
 
+    @Autowired
+    private ValidatorConfiguration validatorConfiguration;
+
     /**
      * 实体类字段校验异常处理
      *
@@ -41,13 +45,23 @@ public class ValidExceptionAdvice {
         //对校验错误信息进行封装，并输出到日志
         BindingResult result = e.getBindingResult();
         Map<String, String> resultMap = new HashMap<>();
-        if (result.hasErrors()) {
-            resultMap = BindingResultError.getError(result);
-        }
         Map<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put("code",HttpStatus.PRECONDITION_FAILED.value());
-        bodyMap.put("msg","参数信息不合法!");
-        bodyMap.put("data",resultMap);
+        if (null != validatorConfiguration) {
+            String message = "";
+            if (result.hasErrors()) {
+                message = BindingResultError.getErrorStr(result);
+            }
+            bodyMap.put("code", HttpStatus.PRECONDITION_FAILED.value());
+            bodyMap.put("msg", message);
+        } else {
+            if (result.hasErrors()) {
+                resultMap = BindingResultError.getError(result);
+            }
+            bodyMap.put("msg", "参数信息不合法!");
+            bodyMap.put("data", resultMap);
+        }
+        bodyMap.put("code", HttpStatus.PRECONDITION_FAILED.value());
+        bodyMap.put("isSuccessful", false);
         ObjectMapper objectMapper = new ObjectMapper();
         return ResponseEntity
                 .status(HttpStatus.PRECONDITION_FAILED)

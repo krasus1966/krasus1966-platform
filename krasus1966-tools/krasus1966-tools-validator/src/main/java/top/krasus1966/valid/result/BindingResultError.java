@@ -32,4 +32,19 @@ public class BindingResultError {
         }
         return map;
     }
+
+    /**
+     * 获取所有错误
+     *
+     * @param result
+     * @return
+     */
+    public static String getErrorStr(BindingResult result) {
+        Map<String, String> map = new HashMap<>();
+        List<FieldError> errorList = result.getFieldErrors();
+        if (errorList.isEmpty()){
+            return "";
+        }
+        return errorList.get(0).getDefaultMessage();
+    }
 }
