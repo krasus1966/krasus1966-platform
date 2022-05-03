@@ -16,6 +16,9 @@ public class AuthService {
 
     private static final Logger log = LoggerFactory.getLogger(AuthService.class);
 
+    private AuthService() {
+    }
+
     /**
      * 获取权限token
      *

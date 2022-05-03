@@ -18,6 +18,9 @@ import java.io.IOException;
  */
 public class FaceMatchUtils {
 
+    private FaceMatchUtils() {
+    }
+
     /**
      * 调用百度人脸对比接口
      *
