@@ -1,6 +1,5 @@
 package top.krasus1966.baiducloud.facematch;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -19,6 +18,9 @@ import java.io.IOException;
  */
 public class FaceMatchUtils {
 
+    private FaceMatchUtils() {
+    }
+
     /**
      * 调用百度人脸对比接口
      *
@@ -28,17 +30,13 @@ public class FaceMatchUtils {
      * @return 人像比对相似度
      * @throws IOException
      */
-    public static Float faceMatch(String authToken, String imgId1, String imgId2) throws IOException {
+    public static String faceMatch(String authToken, String imgId1, String imgId2) throws IOException {
         //百度人脸比对
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode arrayNode = mapper.createArrayNode();
         arrayNode.add(getJsonObject(imgId1));
         arrayNode.add(getJsonObject(imgId2));
-        float rate = 0.0f;
-        String result = faceMatchByBaidu(authToken, mapper.writeValueAsString(arrayNode));
-        JsonNode res = mapper.readTree(result);
-        rate = (float) res.get("result").get("score").asDouble();
-        return rate;
+        return faceMatchByBaidu(authToken, mapper.writeValueAsString(arrayNode));
     }
 
     /**

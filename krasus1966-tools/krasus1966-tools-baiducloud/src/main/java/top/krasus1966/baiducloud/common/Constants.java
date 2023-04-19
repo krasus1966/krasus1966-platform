@@ -6,6 +6,8 @@ package top.krasus1966.baiducloud.common;
  **/
 public interface Constants {
     interface Url{
+        String AUTH_TOKEN_URL = "https://aip.baidubce.com/oauth/2.0/token?";
+
         String DETECT_URL = "https://aip.baidubce.com/rest/2.0/face/v3/detect";
         String FACE_MATCH_URL = "https://aip.baidubce.com/rest/2.0/face/v3/match";
     }
