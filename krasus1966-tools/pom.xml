@@ -21,6 +21,7 @@
         <module>krasus1966-tools-fs</module>
         <module>krasus1966-tools-swagger3</module>
         <module>krasus1966-tools-quartz</module>
+        <module>krasus1966-tools-schedule</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 
