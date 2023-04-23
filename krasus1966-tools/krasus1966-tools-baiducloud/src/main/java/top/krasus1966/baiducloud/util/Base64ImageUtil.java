@@ -11,6 +11,10 @@ import java.io.InputStream;
  * @date 2021/10/12 14:40
  **/
 public class Base64ImageUtil {
+
+    private Base64ImageUtil() {
+    }
+
     public static String getBase64Img(String path) throws IOException {
         InputStream in = OkHttpUtils.getStream(path, new Headers.Builder().build());
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();

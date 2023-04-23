@@ -10,11 +10,22 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 /**
+ * 参数校验配置
+ *
  * @author Krasus1966
  * @date 2021/9/26 00:18
  **/
 public class ValidatorConfiguration {
 
+    /**
+     * 注入validator
+     *
+     * @return javax.validation.Validator
+     * @method validator
+     * @author krasus1966
+     * @date 2022/4/18 15:33
+     * @description 注入validator
+     */
     @Bean
     public Validator validator() {
         ValidatorFactory validatorFactory =
@@ -29,6 +40,13 @@ public class ValidatorConfiguration {
     /**
      * 开启快速返回
      * 如果参数校验有异常，直接抛异常，不会进入到 controller，使用全局异常拦截进行拦截
+     *
+     * @param validator validator bean
+     * @return org.springframework.validation.beanvalidation.MethodValidationPostProcessor
+     * @method methodValidationPostProcessor
+     * @author krasus1966
+     * @date 2022/4/18 15:33
+     * @description 开启快速返回，如果参数校验有异常，直接抛异常，不会进入到 controller，使用全局异常拦截进行拦截
      */
     @Bean
     @ConditionalOnBean(value = Validator.class)
