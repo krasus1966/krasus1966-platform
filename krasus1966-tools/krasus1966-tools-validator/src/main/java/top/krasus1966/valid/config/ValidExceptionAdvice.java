@@ -3,16 +3,18 @@ package top.krasus1966.valid.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import top.krasus1966.valid.result.BindingResultError;
 
 import java.util.HashMap;
@@ -24,10 +26,11 @@ import java.util.Map;
  * @author Krasus1966
  * @date 2021/9/26 00:03
  **/
-@ControllerAdvice(annotations = {RestController.class, Controller.class})
+@RestControllerAdvice
+@Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class ValidExceptionAdvice {
 
-    @Autowired
+    @Autowired(required = false)
     private ValidatorConfiguration validatorConfiguration;
 
     /**
@@ -48,11 +51,17 @@ public class ValidExceptionAdvice {
         Map<String, Object> bodyMap = new HashMap<>();
         if (null != validatorConfiguration) {
             String message = "";
+            FieldError fieldError = null;
             if (result.hasErrors()) {
-                message = BindingResultError.getErrorStr(result);
+                fieldError = BindingResultError.getErrorStr(result);
+                if (null != fieldError) {
+                    resultMap.put(fieldError.getField(), fieldError.getDefaultMessage());
+                    message = fieldError.getDefaultMessage();
+                }
             }
             bodyMap.put("code", HttpStatus.PRECONDITION_FAILED.value());
             bodyMap.put("msg", message);
+            bodyMap.put("data", resultMap);
         } else {
             if (result.hasErrors()) {
                 resultMap = BindingResultError.getError(result);
@@ -62,9 +71,10 @@ public class ValidExceptionAdvice {
         }
         bodyMap.put("code", HttpStatus.PRECONDITION_FAILED.value());
         bodyMap.put("isSuccessful", false);
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = JacksonEnum.INSTANCE.getObjectMapper();
         return ResponseEntity
                 .status(HttpStatus.PRECONDITION_FAILED)
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(objectMapper.writeValueAsString(bodyMap));
     }
 }
