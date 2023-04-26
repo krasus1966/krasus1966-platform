@@ -9,8 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import top.krasus1966.core.entity.db.BaseEntity;
-import top.krasus1966.core.util.JsonUtils;
+import top.krasus1966.core.db.entity.BaseEntity;
+import top.krasus1966.core.json.util.JsonUtils;
 
 /**
  * @author Krasus1966

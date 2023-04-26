@@ -9,10 +9,10 @@ import top.krasus1966.common.file.entity.dto.FileChunkDTO;
 import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.file.entity.dto.PageResultDTO;
 import top.krasus1966.common.file.service.IFileService;
-import top.krasus1966.core.entity.web.R;
-import top.krasus1966.core.exception.BizException;
-import top.krasus1966.core.util.servlet.StreamUtils;
+import top.krasus1966.core.base.exception.BizException;
+import top.krasus1966.core.web.entity.R;
 import top.krasus1966.core.web.facade.BaseController;
+import top.krasus1966.core.web.util.servlet.StreamUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -5,7 +5,7 @@ import top.krasus1966.common.file.entity.dto.FileChunkDTO;
 import top.krasus1966.common.file.entity.dto.FileChunkResultDTO;
 import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.file.service.IFileService;
-import top.krasus1966.core.entity.web.R;
+import top.krasus1966.core.web.entity.R;
 import top.krasus1966.core.web.facade.BaseController;
 
 import javax.servlet.http.HttpServletRequest;

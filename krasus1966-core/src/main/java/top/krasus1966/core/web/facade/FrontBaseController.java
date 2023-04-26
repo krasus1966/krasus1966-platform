@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
-import top.krasus1966.core.entity.db.BaseEntity;
-import top.krasus1966.core.entity.web.R;
-import top.krasus1966.core.exception.NotFoundException;
-import top.krasus1966.core.service.IService2;
+import top.krasus1966.core.db.entity.BaseEntity;
+import top.krasus1966.core.web.entity.R;
+import top.krasus1966.core.web.exception.NotFoundException;
+import top.krasus1966.core.db.service.IService2;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

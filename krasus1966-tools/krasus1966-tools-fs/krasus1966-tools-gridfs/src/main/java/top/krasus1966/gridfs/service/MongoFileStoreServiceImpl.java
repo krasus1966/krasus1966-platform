@@ -9,8 +9,8 @@ import top.krasus1966.common.file.entity.dto.FileChunkDTO;
 import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.file.factory.FileChunkFactory;
 import top.krasus1966.common.file.service.IFileStoreService;
-import top.krasus1966.core.exception.BizException;
-import top.krasus1966.core.util.i18n.I18NUtils;
+import top.krasus1966.core.base.exception.BizException;
+import top.krasus1966.core.spring.i18n.util.I18NUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

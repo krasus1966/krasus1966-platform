@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Component;
-import top.krasus1966.core.entity.web.R;
+import top.krasus1966.core.web.entity.R;
 
 /**
  * @author baiyan
