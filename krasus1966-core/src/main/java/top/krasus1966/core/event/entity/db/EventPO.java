@@ -1,4 +1,4 @@
-package top.krasus1966.core.event;
+package top.krasus1966.core.event.entity.db;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -10,6 +10,9 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import top.krasus1966.core.db.entity.BaseEntity;
+import top.krasus1966.core.event.enums.BaseEventEnum;
+import top.krasus1966.core.event.enums.EventStatusEnum;
+import top.krasus1966.core.event.entity.BaseEvent;
 import top.krasus1966.core.json.util.JsonUtils;
 
 /**

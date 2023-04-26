@@ -1,7 +1,9 @@
-package top.krasus1966.core.event;
+package top.krasus1966.core.event.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import top.krasus1966.core.event.enums.BaseEventEnum;
+import top.krasus1966.core.event.enums.EventStatusEnum;
 
 import java.time.LocalDateTime;
 

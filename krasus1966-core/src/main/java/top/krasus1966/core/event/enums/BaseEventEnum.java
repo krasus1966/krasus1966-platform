@@ -1,4 +1,4 @@
-package top.krasus1966.core.event;
+package top.krasus1966.core.event.enums;
 
 /**
  * @author Krasus1966
@@ -31,15 +31,15 @@ public enum BaseEventEnum {
         return null;
     }
 
-    String getKey() {
+    public String getKey() {
         return key;
     }
 
-    String getValue() {
+    public String getValue() {
         return value;
     }
 
-    BaseEventEnum[] getAll() {
+    public BaseEventEnum[] getAll() {
         return BaseEventEnum.values();
     }
 }

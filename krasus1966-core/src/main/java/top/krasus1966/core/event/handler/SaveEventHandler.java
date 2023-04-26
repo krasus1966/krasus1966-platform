@@ -1,4 +1,4 @@
-package top.krasus1966.core.event;
+package top.krasus1966.core.event.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -7,6 +7,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Component;
+import top.krasus1966.core.event.IEventRepository;
+import top.krasus1966.core.event.entity.BaseEvent;
 import top.krasus1966.core.web.entity.R;
 
 /**

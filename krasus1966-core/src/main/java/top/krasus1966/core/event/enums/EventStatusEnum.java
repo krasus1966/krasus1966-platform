@@ -1,4 +1,4 @@
-package top.krasus1966.core.event;
+package top.krasus1966.core.event.enums;
 
 /**
  * @author Krasus1966

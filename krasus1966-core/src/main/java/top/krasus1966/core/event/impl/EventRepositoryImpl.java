@@ -3,8 +3,8 @@ package top.krasus1966.core.event.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.krasus1966.core.db.service.IService2;
-import top.krasus1966.core.event.BaseEvent;
-import top.krasus1966.core.event.EventPO;
+import top.krasus1966.core.event.entity.BaseEvent;
+import top.krasus1966.core.event.entity.db.EventPO;
 import top.krasus1966.core.event.IEventRepository;
 
 /**
