@@ -52,7 +52,7 @@ spring:
     mongodb:
       database: news
       username: admin
-      password: 196610121
+      password: '196610121'
       host: 127.0.0.1
       port: 27017
       authentication-database: news

@@ -79,14 +79,12 @@
             <groupId>top.krasus1966.platform</groupId>
             <artifactId>krasus1966-tools-validator</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>top.krasus1966.platform</groupId>
             <artifactId>krasus1966-tools-swagger</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
