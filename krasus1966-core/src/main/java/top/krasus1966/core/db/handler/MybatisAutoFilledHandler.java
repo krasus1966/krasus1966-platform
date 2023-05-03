@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
-import top.krasus1966.core.base.constant.DictConst;
+import top.krasus1966.core.cache.constant.DictConst;
 import top.krasus1966.core.web.auth.entity.UserLoginInfo;
 import top.krasus1966.core.web.util.login.LoginUtils;
 

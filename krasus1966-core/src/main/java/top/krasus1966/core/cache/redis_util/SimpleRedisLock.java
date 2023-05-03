@@ -1,4 +1,4 @@
-package top.krasus1966.core.cache.util.redis_util;
+package top.krasus1966.core.cache.redis_util;
 
 import cn.hutool.core.lang.UUID;
 import org.springframework.core.io.ClassPathResource;

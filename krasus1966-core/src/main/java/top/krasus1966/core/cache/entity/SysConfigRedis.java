@@ -1,4 +1,4 @@
-package top.krasus1966.core.base.entity;
+package top.krasus1966.core.cache.entity;
 
 import lombok.Data;
 

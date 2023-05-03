@@ -32,6 +32,7 @@ public class JacksonConfig {
     public static ObjectMapper getObjectMapper() {
         return new Jackson2ObjectMapperBuilder()
                 .findModulesViaServiceLoader(true)
+                .simpleDateFormat(DateTimeConstants.DATE_TIME_FORMAT_STANDARD)
                 .serializerByType(LocalDate.class,
                         new LocalDateSerializer(DateTimeFormatter.ofPattern(DateTimeConstants.DATE_FORMAT_STANDARD)))
                 .deserializerByType(LocalDate.class,
@@ -73,6 +74,7 @@ public class JacksonConfig {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
         return mapper;
     }
 }

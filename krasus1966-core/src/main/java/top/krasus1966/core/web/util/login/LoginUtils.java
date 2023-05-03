@@ -4,7 +4,7 @@ import cn.hutool.core.text.CharSequenceUtil;
 import top.krasus1966.core.web.constant.LoginConstants;
 import top.krasus1966.core.base.constant.PropertiesConstants;
 import top.krasus1966.core.web.auth.entity.UserLoginInfo;
-import top.krasus1966.core.cache.util.redis_util.CacheUtil;
+import top.krasus1966.core.cache.redis_util.CacheUtil;
 import top.krasus1966.core.web.util.servlet.ServletUtils;
 import top.krasus1966.core.spring.util.SpringUtil;
 

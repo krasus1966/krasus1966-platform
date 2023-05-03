@@ -1,4 +1,4 @@
-package top.krasus1966.core.base.constant;
+package top.krasus1966.core.cache.constant;
 
 /**
  * @author Krasus1966

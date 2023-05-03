@@ -1,4 +1,4 @@
-package top.krasus1966.core.cache.util.redis_util;
+package top.krasus1966.core.cache.redis_util;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;

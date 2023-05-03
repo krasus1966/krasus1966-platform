@@ -1,7 +1,7 @@
-package top.krasus1966.core.cache.util.redis_util;
+package top.krasus1966.core.cache.redis_util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import top.krasus1966.core.base.entity.SysConfigRedis;
+import top.krasus1966.core.cache.entity.SysConfigRedis;
 
 /**
  * @author Krasus1966

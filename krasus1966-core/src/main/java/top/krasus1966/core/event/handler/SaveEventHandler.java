@@ -17,7 +17,7 @@ import top.krasus1966.core.web.entity.R;
 @Aspect
 @Component
 @Slf4j
-@MapperScan("top.krasus1966.base_project.common.core.event.impl")
+@MapperScan("top.krasus1966.core.event.impl")
 public class SaveEventHandler {
 
     private IEventRepository repository;
@@ -26,7 +26,7 @@ public class SaveEventHandler {
         this.repository = repository;
     }
 
-    @Pointcut("@annotation(NeedSaveEvent)")
+    @Pointcut("@annotation(top.krasus1966.core.event.NeedSaveEvent)")
     public void pointcut() {
     }
 

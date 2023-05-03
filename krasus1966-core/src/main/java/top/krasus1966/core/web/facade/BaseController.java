@@ -15,4 +15,8 @@ public abstract class BaseController {
         this.request = request;
         this.response = response;
     }
+
+    public String getParam(String param){
+        return request.getParameter(param);
+    }
 }

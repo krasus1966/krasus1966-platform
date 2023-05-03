@@ -1,6 +1,6 @@
 package top.krasus1966.core.web.constant;
 
-import top.krasus1966.core.base.constant.Cache;
+import top.krasus1966.core.cache.constant.Cache;
 
 /**
  * 登录相关的常量配置
