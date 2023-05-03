@@ -37,7 +37,7 @@ public class FileChunkFactory implements IFileInfoFactory<FileChunkDTO> {
                     .setContentType(fileChunkDTO.getContentType())
                     .setCrtTime(fileChunkDTO.getCrtTime())
                     .setMd5(fileChunkDTO.getMd5())
-                    .setInputStream(fileChunkDTO.getFile().getInputStream());
+                    .setInputStream(null != fileChunkDTO.getFile() ? fileChunkDTO.getFile().getInputStream() : null);
         } catch (IOException e) {
             return null;
         }

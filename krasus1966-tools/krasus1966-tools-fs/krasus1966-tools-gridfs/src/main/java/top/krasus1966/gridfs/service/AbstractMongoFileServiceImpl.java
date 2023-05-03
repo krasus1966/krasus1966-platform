@@ -39,7 +39,7 @@ public abstract class AbstractMongoFileServiceImpl {
 //        String md5 =
 //                Arrays.toString(new Binary(BsonBinarySubType.MD5, file.getFile().getBytes())
 //                .getData());
-        Query query = Query.query(Criteria.where("md5").is(file.getMd5()));
+        Query query = Query.query(Criteria.where("metadata.md5").is(file.getMd5()));
         GridFSFile gridFSFile = gridFsTemplate.findOne(query);
         if (null != gridFSFile) {
             return gridFs2FileInfoDTO(false, gridFSFile);

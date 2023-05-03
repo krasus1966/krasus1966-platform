@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import top.krasus1966.common.file.entity.dto.FileChunkDTO;
 import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.file.factory.FileChunkFactory;
@@ -43,13 +44,14 @@ public class MongoFileStoreServiceImpl extends AbstractMongoFileServiceImpl impl
                 idList.add(fileInfoDTO);
                 continue;
             }
+            MultipartFile realFile = file.getFile();
+            file.setFile(null);
             // 存储到GridFS
             ObjectId objectId =
-                    gridFsTemplate.store(new ByteArrayInputStream(file.getFile().getBytes()),
+                    gridFsTemplate.store(new ByteArrayInputStream(realFile.getBytes()),
                             file.getFileName(),
-                            new FileChunkDTO());
+                            file);
             file.setFileId(objectId.toHexString());
-            file.setFile(null);
             idList.add(FileChunkFactory.getInstance().toFileInfo(file));
         }
         return idList;
