@@ -38,7 +38,7 @@ public class MongoFileQueryServiceImpl extends AbstractMongoFileServiceImpl impl
     @Override
     public List<FileInfoDTO> findInputStream(FileChunkDTO fileInfo) throws IOException {
         if (null == fileInfo.getFileId() || "".equals(fileInfo.getFileId())) {
-            throw new BizException(I18NUtils.getMessage("param.fileId_not_exist"));
+            throw new BizException(I18NUtils.getMessage("param.fileId_not_exist","文件id不能为空"));
         }
         return super.queryFileInfo(fileInfo, true);
     }

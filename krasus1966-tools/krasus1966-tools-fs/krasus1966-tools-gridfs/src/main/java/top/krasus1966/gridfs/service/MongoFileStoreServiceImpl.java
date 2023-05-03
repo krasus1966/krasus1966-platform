@@ -63,7 +63,7 @@ public class MongoFileStoreServiceImpl extends AbstractMongoFileServiceImpl impl
     public void delete(String ids) {
         Query query = new Query();
         if (null == ids || "".equals(ids.trim())) {
-            throw new BizException(I18NUtils.getMessage("param.ids_not_exist"));
+            throw new BizException(I18NUtils.getMessage("param.ids_not_exist","ids不能为空"));
         }
         String[] fileIds = ids.split(",");
         query.addCriteria(Criteria.where("id").in(fileIds));

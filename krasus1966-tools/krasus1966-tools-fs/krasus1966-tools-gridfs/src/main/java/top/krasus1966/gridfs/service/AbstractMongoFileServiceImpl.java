@@ -49,12 +49,12 @@ public abstract class AbstractMongoFileServiceImpl {
 
     protected FileInfoDTO getOneById(String id, boolean getInputStream) {
         if (null == id || "".equals(id)) {
-            throw new BizException(I18NUtils.getMessage("param.id_not_exist"));
+            throw new BizException(I18NUtils.getMessage("param.id_not_exist","id不能为空"));
         }
         Query gridQuery = new Query().addCriteria(Criteria.where("_id").is(id));
         GridFSFile gridFsFile = gridFsTemplate.findOne(gridQuery);
         if (null == gridFsFile) {
-            throw new BizException(I18NUtils.getMessage("file.file_not_exists"));
+            throw new BizException(I18NUtils.getMessage("file.file_not_exists","文件不存在"));
         }
         try {
             return gridFs2FileInfoDTO(getInputStream, gridFsFile);

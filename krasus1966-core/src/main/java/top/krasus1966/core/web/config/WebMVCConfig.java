@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import top.krasus1966.core.base.constant.PropertiesConstants;
+import top.krasus1966.core.base.constant.LoginConstants;
 import top.krasus1966.core.spring.util.SpringUtil;
 import top.krasus1966.core.web.interceptor.LoginInterceptor;
 
@@ -20,17 +20,17 @@ import java.util.List;
  * @date 2021/5/5 13:54
  **/
 //@Configuration
-//@EnableConfigurationProperties(PropertiesConstants.class)
+//@EnableConfigurationProperties(LoginConstants.class)
 public class WebMVCConfig implements WebMvcConfigurer {
 
     private final StringRedisTemplate stringRedisTemplate;
 
-    private final PropertiesConstants propertiesConstants;
+    private final LoginConstants loginConstants;
 
     public WebMVCConfig(StringRedisTemplate stringRedisTemplate,
-                        PropertiesConstants propertiesConstants) {
+                        LoginConstants loginConstants) {
         this.stringRedisTemplate = stringRedisTemplate;
-        this.propertiesConstants = propertiesConstants;
+        this.loginConstants = loginConstants;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
             irs.add("/webjars/**");
             irs.add("/service-worker.js");
         }
-        registry.addInterceptor(new LoginInterceptor(propertiesConstants, stringRedisTemplate)).excludePathPatterns(irs);
+        registry.addInterceptor(new LoginInterceptor(loginConstants, stringRedisTemplate)).excludePathPatterns(irs);
     }
 
     @Override

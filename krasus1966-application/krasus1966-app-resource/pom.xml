@@ -9,16 +9,13 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>krasus1966-app-system</artifactId>
+    <artifactId>krasus1966-app-resource</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>p6spy</groupId>
-            <artifactId>p6spy</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <groupId>top.krasus1966.platform</groupId>
+            <artifactId>krasus1966-tools-gridfs</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

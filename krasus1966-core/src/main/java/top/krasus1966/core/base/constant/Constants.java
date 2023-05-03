@@ -18,8 +18,8 @@ public interface Constants {
     }
 
     interface Result {
-        String ACTION_OK = I18NUtils.getMessage("action.success");
-        String ACTION_FAILED = I18NUtils.getMessage("action.failed");
+        String ACTION_OK = I18NUtils.getMessage("action.success","操作成功");
+        String ACTION_FAILED = I18NUtils.getMessage("action.failed","操作失败");
     }
 
     /**

@@ -7,7 +7,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import top.krasus1966.core.web.auth.anno.LoginUser;
-import top.krasus1966.core.base.constant.PropertiesConstants;
+import top.krasus1966.core.base.constant.LoginConstants;
 import top.krasus1966.core.web.auth.entity.UserLoginInfo;
 import top.krasus1966.core.web.util.login.LoginUtils;
 
@@ -19,10 +19,10 @@ import top.krasus1966.core.web.util.login.LoginUtils;
  **/
 public class UserLoginInfoArgumentHandler implements HandlerMethodArgumentResolver {
 
-    private final PropertiesConstants propertiesConstants;
+    private final LoginConstants loginConstants;
 
-    public UserLoginInfoArgumentHandler(PropertiesConstants propertiesConstants) {
-        this.propertiesConstants = propertiesConstants;
+    public UserLoginInfoArgumentHandler(LoginConstants loginConstants) {
+        this.loginConstants = loginConstants;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class UserLoginInfoArgumentHandler implements HandlerMethodArgumentResolv
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) throws Exception {
-        String token = webRequest.getHeader(propertiesConstants.getHeaderUserToken());
+        String token = webRequest.getHeader(loginConstants.getHeaderUserToken());
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }

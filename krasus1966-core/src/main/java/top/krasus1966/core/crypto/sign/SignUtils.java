@@ -4,7 +4,7 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.core.text.CharSequenceUtil;
 import lombok.extern.slf4j.Slf4j;
 import top.krasus1966.core.cache.constant.Cache;
-import top.krasus1966.core.base.constant.PropertiesConstants;
+import top.krasus1966.core.base.constant.LoginConstants;
 import top.krasus1966.core.cache.redis_util.CacheUtil;
 import top.krasus1966.core.json.util.JsonUtils;
 import top.krasus1966.core.web.auth.entity.UserLoginInfo;
@@ -28,18 +28,18 @@ import java.util.Map;
 @Slf4j
 public class SignUtils {
 
-    public static int sign(PropertiesConstants propertiesConstants) {
+    public static int sign(LoginConstants loginConstants) {
         ISignCrypto crypto =
-                SignCryptoFactory.createCrypto(propertiesConstants.getSignCryptoType());
+                SignCryptoFactory.createCrypto(loginConstants.getSignCryptoType());
         //获取接口访问路径
         HttpServletRequest request = ServletUtils.getRequest();
         // 获取前端签名
         String webSign =
-                CharSequenceUtil.trim(request.getHeader(propertiesConstants.getHeaderSignName()));
+                CharSequenceUtil.trim(request.getHeader(loginConstants.getHeaderSignName()));
         String random =
-                CharSequenceUtil.trim(request.getHeader(propertiesConstants.getHeaderSignRandomName()));
+                CharSequenceUtil.trim(request.getHeader(loginConstants.getHeaderSignRandomName()));
         String token =
-                CharSequenceUtil.trim(request.getHeader(propertiesConstants.getHeaderUserToken()));
+                CharSequenceUtil.trim(request.getHeader(loginConstants.getHeaderUserToken()));
         if (null == webSign || "".equals(webSign)) {
             return 0;
         }
@@ -88,24 +88,24 @@ public class SignUtils {
      *
      * @param result
      */
-    public static void resSetSign(PropertiesConstants propertiesConstants, Object result) {
+    public static void resSetSign(LoginConstants loginConstants, Object result) {
         ISignCrypto crypto =
-                SignCryptoFactory.createCrypto(propertiesConstants.getSignCryptoType());
+                SignCryptoFactory.createCrypto(loginConstants.getSignCryptoType());
         HttpServletRequest request = ServletUtils.getRequest();
         if (result instanceof R) {
             try {
                 HttpServletResponse response = ServletUtils.getResponse();
                 String random = UUID.randomUUID().toString(true);
-                response.setHeader(propertiesConstants.getHeaderSignRandomName(), random);
-                String token = request.getHeader(propertiesConstants.getHeaderUserToken());
+                response.setHeader(loginConstants.getHeaderSignRandomName(), random);
+                String token = request.getHeader(loginConstants.getHeaderUserToken());
                 UserLoginInfo info = LoginUtils.getUserLoginInfo(token);
                 if (null == info || "".equals(info.getInfos().get("NEWKEY"))) {
                     String aesKey =
                             UUID.randomUUID().toString(true) + "," + UUID.randomUUID().toString(true);
-                    response.setHeader(propertiesConstants.getHeaderSignAesKey(), aesKey);
+                    response.setHeader(loginConstants.getHeaderSignAesKey(), aesKey);
                 }
                 String res = crypto.encrypt(JsonUtils.objectToJson(result) + "|" + random);
-                response.setHeader(propertiesConstants.getHeaderSignName(), res);
+                response.setHeader(loginConstants.getHeaderSignName(), res);
             } catch (Exception e) {
                 System.out.println("返回报文签名失败！" + request.getRequestURI());
                 e.printStackTrace();

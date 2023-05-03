@@ -11,11 +11,19 @@ import top.krasus1966.core.spring.util.SpringUtil;
 public class I18NUtils {
     private static final MessageSource messageSource = SpringUtil.getBean(MessageSource.class);
 
-    public static String getMessage(String key) {
-        return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
+    public static String getMessage(String key, String defaultMessage) {
+        try {
+            return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
+        } catch (Exception e) {
+            return defaultMessage;
+        }
     }
 
-    public static String getMessage(String key, Object[] args) {
-        return messageSource.getMessage(key, args, LocaleContextHolder.getLocale());
+    public static String getMessage(String key, Object[] args,String defaultMessage) {
+        try{
+            return messageSource.getMessage(key, args, LocaleContextHolder.getLocale());
+        }catch (Exception e){
+            return defaultMessage;
+        }
     }
 }

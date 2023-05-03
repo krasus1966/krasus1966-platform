@@ -3,8 +3,7 @@ package top.krasus1966.core.web.interceptor;
 import cn.hutool.core.text.CharSequenceUtil;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
-import top.krasus1966.core.web.constant.LoginConstants;
-import top.krasus1966.core.base.constant.PropertiesConstants;
+import top.krasus1966.core.base.constant.LoginConstants;
 import top.krasus1966.core.web.auth.entity.UserLoginInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +21,11 @@ import java.util.concurrent.TimeUnit;
 public class RefreshTokenInterceptor implements HandlerInterceptor {
 
     private final StringRedisTemplate stringRedisTemplate;
-    private final PropertiesConstants propertiesConstants;
+    private final LoginConstants loginConstants;
 
-    public RefreshTokenInterceptor(PropertiesConstants propertiesConstants,
+    public RefreshTokenInterceptor(LoginConstants loginConstants,
                                    StringRedisTemplate stringRedisTemplate) {
-        this.propertiesConstants = propertiesConstants;
+        this.loginConstants = loginConstants;
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
@@ -34,30 +33,30 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
         // 从请求头中获取token
-        String token = request.getHeader(propertiesConstants.getHeaderUserToken());
+        String token = request.getHeader(loginConstants.getHeaderUserToken());
         if (CharSequenceUtil.isBlank(token)) {
             return true;
         }
         // 获取用户信息
         Map<String, String> userMap =
-                stringRedisTemplate.<String, String>opsForHash().entries(LoginConstants.USER_INFO + token);
+                stringRedisTemplate.<String, String>opsForHash().entries(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + token);
         // 判断用户是否存在
         if (userMap.isEmpty()) {
             return true;
         }
         UserLoginInfo info = UserLoginInfo.toInfo(userMap);
         String redisToken =
-                stringRedisTemplate.opsForValue().get(LoginConstants.USER_TOKEN + info.getTenantId() + ":" + info.getId());
+                stringRedisTemplate.opsForValue().get(top.krasus1966.core.web.constant.LoginConstants.USER_TOKEN + info.getTenantId() + ":" + info.getId());
         // 缓存中登录用户的token和当前请求客户端的token不一致，删除当前请求客户端token关联的用户数据
         if (!Objects.equals(redisToken, token)) {
             // 删除缓存用户信息
-            stringRedisTemplate.delete(LoginConstants.USER_INFO + token);
+            stringRedisTemplate.delete(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + token);
             return true;
         }
         // 刷新用户信息
-        stringRedisTemplate.expire(LoginConstants.USER_INFO + token,
-                propertiesConstants.getExpireTimeLogin(), TimeUnit.SECONDS);
-        stringRedisTemplate.expire(LoginConstants.USER_TOKEN + info.getTenantId() + ":" + info.getId(), propertiesConstants.getExpireTimeLogin(), TimeUnit.SECONDS);
+        stringRedisTemplate.expire(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + token,
+                loginConstants.getExpireTimeLogin(), TimeUnit.SECONDS);
+        stringRedisTemplate.expire(top.krasus1966.core.web.constant.LoginConstants.USER_TOKEN + info.getTenantId() + ":" + info.getId(), loginConstants.getExpireTimeLogin(), TimeUnit.SECONDS);
         return true;
     }
 }

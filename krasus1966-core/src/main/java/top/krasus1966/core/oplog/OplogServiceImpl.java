@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import top.krasus1966.core.base.constant.PropertiesConstants;
+import top.krasus1966.core.base.constant.LoginConstants;
 import top.krasus1966.core.oplog.anno.OplogInfo;
 import top.krasus1966.core.oplog.entity.OpLogInfo;
 import top.krasus1966.core.oplog.util.OplogUtil;
@@ -46,11 +46,11 @@ public class OplogServiceImpl {
     private String version;
 
     private final MongoTemplate mongoTemplate;
-    private final PropertiesConstants propertiesConstants;
+    private final LoginConstants loginConstants;
 
-    public OplogServiceImpl(MongoTemplate mongoTemplate,PropertiesConstants propertiesConstants) {
+    public OplogServiceImpl(MongoTemplate mongoTemplate, LoginConstants loginConstants) {
         this.mongoTemplate = mongoTemplate;
-        this.propertiesConstants = propertiesConstants;
+        this.loginConstants = loginConstants;
 
     }
 
@@ -144,7 +144,7 @@ public class OplogServiceImpl {
 
         // 登录状态保存信息
         UserLoginInfo loginInfo =
-                LoginUtils.getUserLoginInfo(request.getHeader(propertiesConstants.getHeaderUserToken()));
+                LoginUtils.getUserLoginInfo(request.getHeader(loginConstants.getHeaderUserToken()));
         if (null != loginInfo) {
             oplogs.setToken(loginInfo.getToken());
             oplogs.setOperatorId(loginInfo.getId());

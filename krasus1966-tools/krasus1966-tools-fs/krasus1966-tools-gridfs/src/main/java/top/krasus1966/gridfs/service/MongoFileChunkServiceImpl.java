@@ -32,10 +32,10 @@ public class MongoFileChunkServiceImpl extends AbstractMongoFileServiceImpl impl
     @Override
     public FileChunkResultDTO chunkIsExists(FileChunkDTO fileChunkDTO) throws IOException {
         if (null == fileChunkDTO) {
-            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists"));
+            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists","上传文件为空"));
         }
         if (null == fileChunkDTO.getMd5() || "".equals(fileChunkDTO.getMd5())) {
-            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists"));
+            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists","上传文件为空"));
         }
         // 检查合并文件是否存在
         if (null != checkFileExists(fileChunkDTO)) {
@@ -64,10 +64,10 @@ public class MongoFileChunkServiceImpl extends AbstractMongoFileServiceImpl impl
     @Override
     public void uploadChunk(FileChunkDTO fileChunkDTO) {
         if (null == fileChunkDTO) {
-            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists"));
+            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists","上传文件为空"));
         }
         if (null == fileChunkDTO.getMd5() || "".equals(fileChunkDTO.getMd5())) {
-            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists"));
+            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists","上传文件为空"));
         }
         String tempFileFolderPath =
                 chunkTempFilePath + File.separator + fileChunkDTO.getMd5() + File.separator;
@@ -89,10 +89,10 @@ public class MongoFileChunkServiceImpl extends AbstractMongoFileServiceImpl impl
     @Override
     public Boolean mergeChunk(FileChunkDTO fileChunkDTO) {
         if (null == fileChunkDTO) {
-            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists"));
+            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists","上传文件为空"));
         }
         if (null == fileChunkDTO.getMd5() || "".equals(fileChunkDTO.getMd5())) {
-            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists"));
+            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists","上传文件为空"));
         }
         String tempFileFolderPath =
                 chunkTempFilePath + File.separator + fileChunkDTO.getMd5() + File.separator;
