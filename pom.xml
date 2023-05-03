@@ -172,6 +172,12 @@
                 <version>${knife4j-aggregation.spring.boot.version}</version>
             </dependency>
 
+            <!-- ffmpeg 核心 -->
+            <dependency>
+                <groupId>ws.schild</groupId>
+                <artifactId>jave-core</artifactId>
+                <version>${jave.version}</version>
+            </dependency>
             <!-- window64位 ffmpeg -->
             <dependency>
                 <groupId>ws.schild</groupId>
