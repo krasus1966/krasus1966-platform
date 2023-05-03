@@ -1,5 +1,6 @@
 package top.krasus1966.common.file.entity.dto;
 
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
  * @author Krasus1966
  * {@code @date} 2023/4/4 00:09
  **/
+@Data
 public class FileChunkDTO {
 
     /**
@@ -52,6 +54,13 @@ public class FileChunkDTO {
     private String contentType;
 
     private LocalDateTime crtTime;
+
+    public FileChunkDTO() {
+    }
+
+    public FileChunkDTO(MultipartFile file) {
+        this.file = file;
+    }
 
     public String getFileId() {
         return fileId;

@@ -11,6 +11,7 @@ import top.krasus1966.core.web.facade.BaseController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,8 +31,10 @@ public class UploadController extends BaseController {
     }
 
     @PostMapping("/store")
-    public R<List<FileInfoDTO>> store(List<FileChunkDTO> fileChunkDTO) throws IOException {
-        return R.success(fileService.store(fileChunkDTO));
+    public R<List<FileInfoDTO>> store(FileChunkDTO fileChunkDTO) throws IOException {
+        List<FileChunkDTO> fileList = new ArrayList<>();
+        fileList.add(fileChunkDTO);
+        return R.success(fileService.store(fileList));
     }
 
     @PostMapping("/delete")

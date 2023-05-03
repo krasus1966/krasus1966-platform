@@ -17,7 +17,7 @@ spring:
   profiles:
     active: @env@
   application:
-    name: @base.project.name@-system
+    name: @base.project.name@-@system.name@
   messages:
     basename: i18n.constants
     encoding: UTF-8

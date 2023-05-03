@@ -1,0 +1,125 @@
+version: @version@
+# 外部配置
+project:
+  login:
+    expire-time-login: @project.login.expire-time-login@
+    fail-lock-num: @project.login.fail-lock-num@
+    lock-login-expire: @project.login.lock-login-expire@
+  convert:
+    ffmpeg: @project.convert.ffmpeg@
+    temp-file-path: @project.convert.temp-file-path@
+    video-trans-path: @project.convert.video-trans-path@
+    extra-file-path: @project.convert.extra-file-path@
+server:
+  port: @resource.port@
+
+spring:
+  profiles:
+    active: @env@
+  application:
+    name: @base.project.name@-@resource.name@
+  messages:
+    basename: i18n.constants
+    encoding: UTF-8
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: @backend.datasource.driver-class-name@
+    dynamic:
+      primary: @system.datasource.primary@
+      strict: false
+      datasource:
+        backend:
+          url: @backend.datasource.url@
+          username: @backend.datasource.username@
+          password: @backend.datasource.password@
+          hikari:
+            # 等待连接池分配链接的最大时长（毫秒），超过这个时长还没可用连接发生SQLException，默认：30秒
+            connection-timeout: @backend.datasource.connection-timeout@
+            # 最小连接数
+            min-idle: @backend.datasource.minimum-idle@
+            # 最大连接数
+            max-pool-size: @backend.datasource.maximum-pool-size@
+            # 自动提交
+            is-auto-commit: @backend.datasource.auto-commit@
+            # 连接超时的最大时长（毫秒），超时则被释放（retired），默认：10分钟
+            idle-timeout: @backend.datasource.idle-timeout@
+            # 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认：30分钟
+            max-lifetime: @backend.datasource.max-lifetime@
+            connection-test-query: @backend.datasource.connection-test-query@
+        log:
+          url: @log.datasource.url@
+          username: @log.datasource.username@
+          password: @log.datasource.password@
+          hikari:
+            # 等待连接池分配链接的最大时长（毫秒），超过这个时长还没可用连接发生SQLException，默认：30秒
+            connection-timeout: @log.datasource.connection-timeout@
+            # 最小连接数
+            min-idle: @log.datasource.minimum-idle@
+            # 最大连接数
+            max-pool-size: @log.datasource.maximum-pool-size@
+            # 自动提交
+            is-auto-commit: @log.datasource.auto-commit@
+            # 连接超时的最大时长（毫秒），超时则被释放（retired），默认：10分钟
+            idle-timeout: @log.datasource.idle-timeout@
+            # 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认：30分钟
+            max-lifetime: @log.datasource.max-lifetime@
+            connection-test-query: @log.datasource.connection-test-query@
+  redis:
+    host: @redis.host@
+    port: @redis.port@
+    password: @redis.password@
+    database: 0
+    lettuce:
+      pool:
+        max-idle: @redis.max-idle@
+        min-idle: @redis.min-idle@
+        max-active: @redis.max-active@
+        max-wait: @redis.max-wait@
+      shutdown-timeout: @redis.shutdown-timeout@
+  data:
+    mongodb:
+      database: @mongodb.database@
+      username: @mongodb.username@
+      password: @mongodb.password@
+      host: @mongodb.host@
+      port: @mongodb.port@
+      authentication-database: @mongodb.authentication-database@
+      gridfs:
+        bucket: @mongodb.gridfs.bucket@
+  mvc:
+    throw-exception-if-no-handler-found: true
+    path-match:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 5000MB
+      max-request-size: 2048MB
+  web:
+    resources:
+      add-mappings: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  #  注释后 不显示 logfile 模块
+  # 在访问/actuator/health时显示完整信息
+  endpoint:
+    health:
+      show-details: always
+    logfile:
+      #指向日志文件地址，需与LogBack配置的日志地址一致
+      external-file: @logging.file.path@/${spring.application.name}/${spring.application.name}.log
+
+# 日志
+logging:
+  level:
+    @logging.path@.@resource.name@: @logging.level@
+  file:
+    name: @logging.file.path@/${spring.application.name}/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      clean-history-on-start: @logging.clean-history-on-start@
+      max-history: @logging.max-history@
+      max-file-size: @logging.max-file-size@

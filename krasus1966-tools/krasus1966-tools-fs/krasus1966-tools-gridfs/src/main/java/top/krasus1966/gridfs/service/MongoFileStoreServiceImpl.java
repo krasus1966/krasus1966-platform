@@ -47,8 +47,9 @@ public class MongoFileStoreServiceImpl extends AbstractMongoFileServiceImpl impl
             ObjectId objectId =
                     gridFsTemplate.store(new ByteArrayInputStream(file.getFile().getBytes()),
                             file.getFileName(),
-                            file);
+                            new FileChunkDTO());
             file.setFileId(objectId.toHexString());
+            file.setFile(null);
             idList.add(FileChunkFactory.getInstance().toFileInfo(file));
         }
         return idList;

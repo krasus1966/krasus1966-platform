@@ -3,11 +3,11 @@ package top.krasus1966.gridfs.service;
 
 import cn.hutool.core.io.IoUtil;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import top.krasus1966.common.file.entity.dto.FileChunkDTO;
 import top.krasus1966.common.file.entity.dto.FileChunkResultDTO;
 import top.krasus1966.common.file.service.IFileChunkService;
+import top.krasus1966.core.base.constant.ConvertConstants;
 import top.krasus1966.core.base.exception.BizException;
 import top.krasus1966.core.spring.i18n.util.I18NUtils;
 
@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
  **/
 public class MongoFileChunkServiceImpl extends AbstractMongoFileServiceImpl implements IFileChunkService {
 
-    @Value("${temp.chunk_temp_file_path}")
-    private String chunkTempFilePath;
+    private final ConvertConstants convertConstants;
 
-    public MongoFileChunkServiceImpl(GridFsTemplate gridFsTemplate) {
+    public MongoFileChunkServiceImpl(GridFsTemplate gridFsTemplate, ConvertConstants convertConstants) {
         super(gridFsTemplate);
+        this.convertConstants = convertConstants;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class MongoFileChunkServiceImpl extends AbstractMongoFileServiceImpl impl
             return new FileChunkResultDTO(true);
         }
         String tempFileFolderPath =
-                chunkTempFilePath + File.separator + fileChunkDTO.getMd5() + File.separator;
+                convertConstants.getTempFilePath() + File.separator + fileChunkDTO.getMd5() + File.separator;
 
         File tempFolder = new File(tempFileFolderPath);
         // 分片目录不存在，代表没有上传，创建目录并返回
@@ -70,7 +70,7 @@ public class MongoFileChunkServiceImpl extends AbstractMongoFileServiceImpl impl
             throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists","上传文件为空"));
         }
         String tempFileFolderPath =
-                chunkTempFilePath + File.separator + fileChunkDTO.getMd5() + File.separator;
+                convertConstants.getTempFilePath() + File.separator + fileChunkDTO.getMd5() + File.separator;
         File tempFolder = new File(tempFileFolderPath);
         // 分片目录不存在，代表没有上传，创建目录并返回
         if (!tempFolder.exists()) {
@@ -95,7 +95,7 @@ public class MongoFileChunkServiceImpl extends AbstractMongoFileServiceImpl impl
             throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists","上传文件为空"));
         }
         String tempFileFolderPath =
-                chunkTempFilePath + File.separator + fileChunkDTO.getMd5() + File.separator;
+                convertConstants.getTempFilePath() + File.separator + fileChunkDTO.getMd5() + File.separator;
         // 检查分片是否都存在
         if (checkChunksExists(tempFileFolderPath, fileChunkDTO.getTotalChunks())) {
             File chunkFileFolder = new File(tempFileFolderPath);

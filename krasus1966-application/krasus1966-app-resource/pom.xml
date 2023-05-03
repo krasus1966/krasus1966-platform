@@ -17,5 +17,13 @@
             <artifactId>krasus1966-tools-gridfs</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 </project>
