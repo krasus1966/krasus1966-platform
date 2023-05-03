@@ -1,5 +1,7 @@
 package top.krasus1966.core.base.constant;
 
+import top.krasus1966.core.spring.i18n.util.I18NUtils;
+
 /**
  * @author Krasus1966
  * @date 2021/6/9 17:48
@@ -16,8 +18,8 @@ public interface Constants {
     }
 
     interface Result {
-        String ACTION_OK = "操作成功";
-        String ACTION_FAILED = "操作失败";
+        String ACTION_OK = I18NUtils.getMessage("action.success");
+        String ACTION_FAILED = I18NUtils.getMessage("action.failed");
     }
 
     /**
