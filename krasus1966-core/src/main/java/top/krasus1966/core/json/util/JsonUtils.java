@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import top.krasus1966.core.json.JacksonEnum;
+import top.krasus1966.core.spring.util.SpringUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.Map;
  **/
 @Slf4j
 public class JsonUtils {
-    private static final ObjectMapper MAPPER = JacksonEnum.INSTANCE.getObjectMapper();
+    private static final ObjectMapper MAPPER = SpringUtil.getBean(ObjectMapper.class);
 
     private JsonUtils() {
     }
