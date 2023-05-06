@@ -15,11 +15,14 @@ import javax.validation.constraints.NotBlank;
 @ConfigurationProperties(prefix = "project.convert")
 @Slf4j
 @Validated
-public class ConvertConstants {
+public class ConvertProperty {
     /**
      * 是否启用ffmpeg，若未安装无法设置为true
      */
     private boolean ffmpeg = false;
+
+    @NotBlank(message = "本系统文件下载地址不能为空")
+    private String downloadUrl;
 
     /**
      * 临时文件目录
@@ -52,7 +55,7 @@ public class ConvertConstants {
      * @date 2022/4/19 22:51
      * @description 检查是否安装ffmpeg，未安装则产生错误提示，且转码功能不可用
      */
-    public ConvertConstants setFfmpeg(boolean ffmpeg) {
+    public ConvertProperty setFfmpeg(boolean ffmpeg) {
         // 判断是否安装ffmpeg
         String ffmpegInfo = RuntimeUtil.execForStr("ffmpeg -version");
         if (!ffmpegInfo.contains("version")) {
@@ -69,11 +72,20 @@ public class ConvertConstants {
         return this;
     }
 
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public ConvertProperty setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
+        return this;
+    }
+
     public String getTempFilePath() {
         return tempFilePath;
     }
 
-    public ConvertConstants setTempFilePath(String tempFilePath) {
+    public ConvertProperty setTempFilePath(String tempFilePath) {
         this.tempFilePath = tempFilePath;
         return this;
     }
@@ -82,7 +94,7 @@ public class ConvertConstants {
         return videoTransPath;
     }
 
-    public ConvertConstants setVideoTransPath(String videoTransPath) {
+    public ConvertProperty setVideoTransPath(String videoTransPath) {
         if (this.ffmpeg) {
             if (CharSequenceUtil.isBlank(videoTransPath)) {
                 log.error("视频转码临时文件地址不能为空");
@@ -97,7 +109,7 @@ public class ConvertConstants {
         return extraFilePath;
     }
 
-    public ConvertConstants setExtraFilePath(String extraFilePath) {
+    public ConvertProperty setExtraFilePath(String extraFilePath) {
         if (this.ffmpeg) {
             if (CharSequenceUtil.isBlank(extraFilePath)) {
                 log.error("视频转码附加临时文件地址不能为空");

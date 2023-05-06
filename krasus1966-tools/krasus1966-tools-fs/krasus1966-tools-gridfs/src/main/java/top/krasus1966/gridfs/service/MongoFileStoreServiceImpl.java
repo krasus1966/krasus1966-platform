@@ -45,6 +45,10 @@ public class MongoFileStoreServiceImpl extends AbstractMongoFileServiceImpl impl
                 continue;
             }
             MultipartFile realFile = file.getFile();
+            file.setContentType(realFile.getContentType());
+            file.setTotalSize(realFile.getSize());
+            file.setFileName(realFile.getOriginalFilename());
+
             file.setFile(null);
             // 存储到GridFS
             ObjectId objectId =

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import top.krasus1966.common.file.service.*;
-import top.krasus1966.core.base.constant.ConvertConstants;
+import top.krasus1966.core.base.constant.ConvertProperty;
 import top.krasus1966.gridfs.service.MongoFileChunkServiceImpl;
 import top.krasus1966.gridfs.service.MongoFileQueryServiceImpl;
 import top.krasus1966.gridfs.service.MongoFileStoreServiceImpl;
@@ -33,8 +33,8 @@ public class GridFSConfig {
 
     @Bean
     @ConditionalOnMissingBean(IFileChunkService.class)
-    public IFileChunkService fileChunkService(GridFsTemplate gridFsTemplate, ConvertConstants convertConstants) {
-        return new MongoFileChunkServiceImpl(gridFsTemplate,convertConstants);
+    public IFileChunkService fileChunkService(GridFsTemplate gridFsTemplate, ConvertProperty convertProperty) {
+        return new MongoFileChunkServiceImpl(gridFsTemplate, convertProperty);
     }
 
     @Bean
