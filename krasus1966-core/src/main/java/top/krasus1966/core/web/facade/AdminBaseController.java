@@ -1,6 +1,8 @@
 package top.krasus1966.core.web.facade;
 
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -8,12 +10,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-import top.krasus1966.core.anno.sensitive.Crypto;
-import top.krasus1966.core.constant.Constants;
-import top.krasus1966.core.entity.db.BaseEntity;
-import top.krasus1966.core.entity.web.R;
-import top.krasus1966.core.exception.NotFoundException;
-import top.krasus1966.core.service.IService2;
+import top.krasus1966.core.base.constant.Constants;
+import top.krasus1966.core.crypto.anno.Crypto;
+import top.krasus1966.core.db.entity.BaseEntity;
+import top.krasus1966.core.db.service.IService2;
+import top.krasus1966.core.web.entity.R;
+import top.krasus1966.core.web.exception.NotFoundException;
 import top.krasus1966.valid.anno.group.Insert;
 import top.krasus1966.valid.anno.group.Update;
 
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -34,8 +37,7 @@ public abstract class AdminBaseController<S extends IService2<T>, T extends Base
 
     protected final S service;
 
-    public AdminBaseController(HttpServletRequest request, HttpServletResponse response,
-                               S service) {
+    public AdminBaseController(HttpServletRequest request, HttpServletResponse response, S service) {
         super(request, response);
         this.service = service;
     }
@@ -72,10 +74,7 @@ public abstract class AdminBaseController<S extends IService2<T>, T extends Base
      * @description 修改接口
      */
     @ApiOperation(value = "修改", notes = "修改，无变化数据判定为修改失败", httpMethod = "POST")
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "id", value = "id", paramType = "form", dataTypeClass
-                    = String.class, required = true),
-    })
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "id", value = "id", paramType = "form", dataTypeClass = String.class, required = true),})
     @RequestMapping(value = "/update", method = {RequestMethod.POST, RequestMethod.PUT})
     public R<T> update(@Validated(Update.class) @RequestBody T obj) {
         service.checkUpdateValidity(obj);
@@ -136,12 +135,7 @@ public abstract class AdminBaseController<S extends IService2<T>, T extends Base
      * @description 分页查询接口
      */
     @ApiOperation(value = "分页查询", notes = "分页查询返回，默认页码1，默认每页条数10", httpMethod = "GET")
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "current", value = "页码", paramType = "query", dataTypeClass
-                    = Integer.class, defaultValue = "1", required = true),
-            @ApiImplicitParam(name = "size", value = "每页条数", paramType = "query", dataTypeClass =
-                    Integer.class, defaultValue = "10", required = true)
-    })
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current", value = "页码", paramType = "query", dataTypeClass = Integer.class, defaultValue = "1", required = true), @ApiImplicitParam(name = "size", value = "每页条数", paramType = "query", dataTypeClass = Integer.class, defaultValue = "10", required = true)})
     @GetMapping("/queryPage")
     @Crypto
     public R<Page<T>> queryPage(T obj, @ApiIgnore Page<T> page) {
@@ -184,5 +178,34 @@ public abstract class AdminBaseController<S extends IService2<T>, T extends Base
     @GetMapping("/get/{id}")
     public R<T> getByPathVariable(@PathVariable String id) {
         return get(id);
+    }
+
+    /**
+     * 查询特殊内容
+     *
+     * @param obj       查询条件对象
+     * @param key       key字段
+     * @param keyLabel  key名称
+     * @param label     标签字段
+     * @param labelName 标签名称
+     * @return top.krasus1966.core.web.entity.R<java.util.List < java.util.Map < java.lang.String, java.lang.Object>>>
+     * @throws
+     * @method option
+     * @author krasus1966
+     * @date 2023/5/3 15:47
+     * @description 查询特殊内容
+     */
+    @GetMapping("/option")
+    public R<List<Map<String, Object>>> option(@RequestBody(required = false) T obj,
+                                               @RequestParam(defaultValue = "id") String key,
+                                               @RequestParam(defaultValue = "value") String keyLabel,
+                                               String label,
+                                               @RequestParam(defaultValue = "label") String labelName) {
+        key = StrUtil.toSymbolCase(key, '_');
+        label = StrUtil.toSymbolCase(label, '_');
+        QueryWrapper<T> wrapper = new QueryWrapper<T>(obj);
+        wrapper.select(key + " AS " + keyLabel, label + " AS " + labelName).groupBy(key);
+        List<Map<String, Object>> maps = service.getBaseMapper().selectMaps(wrapper);
+        return R.success(maps);
     }
 }

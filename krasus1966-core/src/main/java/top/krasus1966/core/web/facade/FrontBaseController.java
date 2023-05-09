@@ -2,23 +2,23 @@ package top.krasus1966.core.web.facade;
 
 
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-import top.krasus1966.core.entity.db.BaseEntity;
-import top.krasus1966.core.entity.web.R;
-import top.krasus1966.core.exception.NotFoundException;
-import top.krasus1966.core.service.IService2;
+import top.krasus1966.core.db.entity.BaseEntity;
+import top.krasus1966.core.web.entity.R;
+import top.krasus1966.core.web.exception.NotFoundException;
+import top.krasus1966.core.db.service.IService2;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -112,5 +112,34 @@ public abstract class FrontBaseController<S extends IService2<T>, T extends Base
     @GetMapping("/get/{id}")
     public R<T> getByPathVariable(@PathVariable String id) {
         return get(id);
+    }
+
+    /**
+     * 查询特殊内容
+     *
+     * @param obj       查询条件对象
+     * @param key       key字段
+     * @param keyLabel  key名称
+     * @param label     标签字段
+     * @param labelName 标签名称
+     * @return top.krasus1966.core.web.entity.R<java.util.List < java.util.Map < java.lang.String, java.lang.Object>>>
+     * @throws
+     * @method option
+     * @author krasus1966
+     * @date 2023/5/3 15:47
+     * @description 查询特殊内容
+     */
+    @GetMapping("/option")
+    public R<List<Map<String, Object>>> option(@RequestBody(required = false) T obj,
+                                               @RequestParam(defaultValue = "id") String key,
+                                               @RequestParam(defaultValue = "value") String keyLabel,
+                                               String label,
+                                               @RequestParam(defaultValue = "label") String labelName) {
+        key = StrUtil.toSymbolCase(key, '_');
+        label = StrUtil.toSymbolCase(label, '_');
+        QueryWrapper<T> wrapper = new QueryWrapper<T>(obj);
+        wrapper.select(key + " AS " + keyLabel, label + " AS " + labelName).groupBy(key);
+        List<Map<String, Object>> maps = service.getBaseMapper().selectMaps(wrapper);
+        return R.success(maps);
     }
 }

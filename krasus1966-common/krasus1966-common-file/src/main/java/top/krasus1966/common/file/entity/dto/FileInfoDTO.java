@@ -20,6 +20,8 @@ public class FileInfoDTO {
 
     private String md5;
 
+    private Integer sort;
+
     private InputStream inputStream;
 
     public String getFileId() {
@@ -73,6 +75,15 @@ public class FileInfoDTO {
 
     public FileInfoDTO setMd5(String md5) {
         this.md5 = md5;
+        return this;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public FileInfoDTO setSort(Integer sort) {
+        this.sort = sort;
         return this;
     }
 

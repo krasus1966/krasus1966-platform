@@ -22,6 +22,11 @@
             <artifactId>krasus1966-common-file</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>top.krasus1966.platform</groupId>
+            <artifactId>krasus1966-common-preview</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

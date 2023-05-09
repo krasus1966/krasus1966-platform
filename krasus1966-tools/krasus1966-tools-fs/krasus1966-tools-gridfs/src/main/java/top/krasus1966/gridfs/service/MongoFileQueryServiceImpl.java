@@ -13,8 +13,8 @@ import top.krasus1966.common.file.entity.dto.FileChunkDTO;
 import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.file.entity.dto.PageResultDTO;
 import top.krasus1966.common.file.service.IFileQueryService;
-import top.krasus1966.core.exception.BizException;
-import top.krasus1966.core.util.i18n.I18NUtils;
+import top.krasus1966.core.base.exception.BizException;
+import top.krasus1966.core.spring.i18n.util.I18NUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class MongoFileQueryServiceImpl extends AbstractMongoFileServiceImpl impl
     @Override
     public List<FileInfoDTO> findInputStream(FileChunkDTO fileInfo) throws IOException {
         if (null == fileInfo.getFileId() || "".equals(fileInfo.getFileId())) {
-            throw new BizException(I18NUtils.getMessage("param.fileId_not_exist"));
+            throw new BizException(I18NUtils.getMessage("param.fileId_not_exist","文件id不能为空"));
         }
         return super.queryFileInfo(fileInfo, true);
     }
@@ -53,7 +53,6 @@ public class MongoFileQueryServiceImpl extends AbstractMongoFileServiceImpl impl
             query.addCriteria(Criteria.where("fileName").alike(Example.of(fileInfo.getFileName())));
             countQuery.addCriteria(Criteria.where("fileName").alike(Example.of(fileInfo.getFileName())));
         }
-
         MongoCursor<GridFSFile> iterator = gridFsTemplate.find(countQuery).iterator();
         long count = 0;
         while (iterator.hasNext()) {

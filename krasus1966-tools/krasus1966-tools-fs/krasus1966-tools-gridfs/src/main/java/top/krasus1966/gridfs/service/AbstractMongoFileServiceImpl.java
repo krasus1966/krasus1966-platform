@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import top.krasus1966.common.file.entity.dto.FileChunkDTO;
 import top.krasus1966.common.file.entity.dto.FileInfoDTO;
-import top.krasus1966.core.exception.BizException;
-import top.krasus1966.core.util.i18n.I18NUtils;
+import top.krasus1966.core.base.exception.BizException;
+import top.krasus1966.core.spring.i18n.util.I18NUtils;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -39,7 +39,7 @@ public abstract class AbstractMongoFileServiceImpl {
 //        String md5 =
 //                Arrays.toString(new Binary(BsonBinarySubType.MD5, file.getFile().getBytes())
 //                .getData());
-        Query query = Query.query(Criteria.where("md5").is(file.getMd5()));
+        Query query = Query.query(Criteria.where("metadata.md5").is(file.getMd5()));
         GridFSFile gridFSFile = gridFsTemplate.findOne(query);
         if (null != gridFSFile) {
             return gridFs2FileInfoDTO(false, gridFSFile);
@@ -49,12 +49,12 @@ public abstract class AbstractMongoFileServiceImpl {
 
     protected FileInfoDTO getOneById(String id, boolean getInputStream) {
         if (null == id || "".equals(id)) {
-            throw new BizException(I18NUtils.getMessage("param.id_not_exist"));
+            throw new BizException(I18NUtils.getMessage("param.id_not_exist","id不能为空"));
         }
         Query gridQuery = new Query().addCriteria(Criteria.where("_id").is(id));
         GridFSFile gridFsFile = gridFsTemplate.findOne(gridQuery);
         if (null == gridFsFile) {
-            throw new BizException(I18NUtils.getMessage("file.file_not_exists"));
+            throw new BizException(I18NUtils.getMessage("file.file_not_exists","文件不存在"));
         }
         try {
             return gridFs2FileInfoDTO(getInputStream, gridFsFile);
@@ -80,6 +80,12 @@ public abstract class AbstractMongoFileServiceImpl {
         if (null != fileInfo.getFileId() && !"".equals(fileInfo.getFileId().trim())) {
             String[] ids = fileInfo.getFileId().split(",");
             query.addCriteria(Criteria.where("id").in(ids));
+        }
+        if (null != fileInfo.getFileOriginalId() && !"".equals(fileInfo.getFileOriginalId().trim())) {
+            query.addCriteria(Criteria.where("metadata.fileOriginalId").is(fileInfo.getFileOriginalId().trim()));
+        }
+        if (null != fileInfo.getPreviewType() && !"".equals(fileInfo.getPreviewType().trim())) {
+            query.addCriteria(Criteria.where("metadata.previewType").is(fileInfo.getPreviewType().trim()));
         }
         GridFSFindIterable gridFSFiles = gridFsTemplate.find(query);
         List<FileInfoDTO> fileList = new ArrayList<FileInfoDTO>();
@@ -109,7 +115,8 @@ public abstract class AbstractMongoFileServiceImpl {
                 .setFileName(gridFSFile.getFilename())
                 .setFileLength(gridFSFile.getLength())
                 .setContentType(null != gridFSFile.getMetadata() ?
-                        gridFSFile.getMetadata().getString("_contentType") : "")
+                        gridFSFile.getMetadata().getString("contentType") : "")
+                .setSort(null != gridFSFile.getMetadata() ? gridFSFile.getMetadata().getInteger("sort") : null)
                 .setCrtTime(instant.atZone(ZoneId.systemDefault()).toLocalDateTime());
         //获取流对象
         if (getInputStream) {

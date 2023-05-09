@@ -5,12 +5,13 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import top.krasus1966.common.file.entity.dto.FileChunkDTO;
 import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.file.factory.FileChunkFactory;
 import top.krasus1966.common.file.service.IFileStoreService;
-import top.krasus1966.core.exception.BizException;
-import top.krasus1966.core.util.i18n.I18NUtils;
+import top.krasus1966.core.base.exception.BizException;
+import top.krasus1966.core.spring.i18n.util.I18NUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -43,9 +44,15 @@ public class MongoFileStoreServiceImpl extends AbstractMongoFileServiceImpl impl
                 idList.add(fileInfoDTO);
                 continue;
             }
+            MultipartFile realFile = file.getFile();
+            file.setContentType(realFile.getContentType());
+            file.setTotalSize(realFile.getSize());
+            file.setFileName(realFile.getOriginalFilename());
+
+            file.setFile(null);
             // 存储到GridFS
             ObjectId objectId =
-                    gridFsTemplate.store(new ByteArrayInputStream(file.getFile().getBytes()),
+                    gridFsTemplate.store(new ByteArrayInputStream(realFile.getBytes()),
                             file.getFileName(),
                             file);
             file.setFileId(objectId.toHexString());
@@ -63,7 +70,7 @@ public class MongoFileStoreServiceImpl extends AbstractMongoFileServiceImpl impl
     public void delete(String ids) {
         Query query = new Query();
         if (null == ids || "".equals(ids.trim())) {
-            throw new BizException(I18NUtils.getMessage("param.ids_not_exist"));
+            throw new BizException(I18NUtils.getMessage("param.ids_not_exist","ids不能为空"));
         }
         String[] fileIds = ids.split(",");
         query.addCriteria(Criteria.where("id").in(fileIds));
