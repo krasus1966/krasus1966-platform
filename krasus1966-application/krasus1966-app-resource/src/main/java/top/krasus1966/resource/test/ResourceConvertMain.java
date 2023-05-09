@@ -13,7 +13,7 @@ import java.util.List;
  * @date 2023/5/3 23:24
  **/
 @Slf4j
-public class TestMain {
+public class ResourceConvertMain {
 
     public static void main(String[] args) throws InterruptedException {
 //        File file = compressionVideo(new File("/Users/krasus1966/Documents/01-Spring Cloud  Alibaba 微服务架构实战/从01到05/第02章 理解微服务架构，清楚微服务设计原则/2-1 微服务架构的演进过程.mp4"),
@@ -247,7 +247,7 @@ public class TestMain {
                 // 设置最大值：比特率越高，清晰度/音质越好
                 // 设置音频比特率,单位:b (比特率越高，清晰度/音质越好，当然文件也就越大 128000 = 182kb)
                 if (audioInfo.getBitRate() > maxBitRate) {
-                    audio.setBitRate(new Integer(maxBitRate));
+                    audio.setBitRate(maxBitRate);
                 }
 
                 // 设置重新编码的音频流中使用的声道数（1 =单声道，2 = 双声道（立体声））。如果未设置任何声道值，则编码器将选择默认值 0。

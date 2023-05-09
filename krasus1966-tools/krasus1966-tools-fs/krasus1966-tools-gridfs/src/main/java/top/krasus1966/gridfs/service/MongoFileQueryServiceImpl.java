@@ -53,7 +53,6 @@ public class MongoFileQueryServiceImpl extends AbstractMongoFileServiceImpl impl
             query.addCriteria(Criteria.where("fileName").alike(Example.of(fileInfo.getFileName())));
             countQuery.addCriteria(Criteria.where("fileName").alike(Example.of(fileInfo.getFileName())));
         }
-
         MongoCursor<GridFSFile> iterator = gridFsTemplate.find(countQuery).iterator();
         long count = 0;
         while (iterator.hasNext()) {

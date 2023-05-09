@@ -7,6 +7,7 @@ project:
     lock-login-expire: @project.login.lock-login-expire@
   convert:
     ffmpeg: @project.convert.ffmpeg@
+    download-url: 'http://127.0.0.1:8002/file/download/'
     temp-file-path: @project.convert.temp-file-path@
     video-trans-path: @project.convert.video-trans-path@
     extra-file-path: @project.convert.extra-file-path@

@@ -55,6 +55,22 @@ public class FileChunkDTO {
 
     private LocalDateTime crtTime;
 
+    /**
+     * 预览相关
+     */
+    /**
+     * 源文件id
+     */
+    private String fileOriginalId;
+    /**
+     * 预览类型
+     */
+    private String previewType;
+    /**
+     * 排序
+     */
+    private Integer sort;
+
     public FileChunkDTO() {
     }
 

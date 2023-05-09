@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>krasus1966-common-file</module>
+        <module>krasus1966-common-preview</module>
     </modules>
 
 

@@ -81,6 +81,12 @@ public abstract class AbstractMongoFileServiceImpl {
             String[] ids = fileInfo.getFileId().split(",");
             query.addCriteria(Criteria.where("id").in(ids));
         }
+        if (null != fileInfo.getFileOriginalId() && !"".equals(fileInfo.getFileOriginalId().trim())) {
+            query.addCriteria(Criteria.where("metadata.fileOriginalId").is(fileInfo.getFileOriginalId().trim()));
+        }
+        if (null != fileInfo.getPreviewType() && !"".equals(fileInfo.getPreviewType().trim())) {
+            query.addCriteria(Criteria.where("metadata.previewType").is(fileInfo.getPreviewType().trim()));
+        }
         GridFSFindIterable gridFSFiles = gridFsTemplate.find(query);
         List<FileInfoDTO> fileList = new ArrayList<FileInfoDTO>();
         for (GridFSFile gridFSFile : gridFSFiles) {
@@ -109,7 +115,8 @@ public abstract class AbstractMongoFileServiceImpl {
                 .setFileName(gridFSFile.getFilename())
                 .setFileLength(gridFSFile.getLength())
                 .setContentType(null != gridFSFile.getMetadata() ?
-                        gridFSFile.getMetadata().getString("_contentType") : "")
+                        gridFSFile.getMetadata().getString("contentType") : "")
+                .setSort(null != gridFSFile.getMetadata() ? gridFSFile.getMetadata().getInteger("sort") : null)
                 .setCrtTime(instant.atZone(ZoneId.systemDefault()).toLocalDateTime());
         //获取流对象
         if (getInputStream) {
