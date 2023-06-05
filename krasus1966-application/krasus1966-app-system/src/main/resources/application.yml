@@ -10,6 +10,7 @@ project:
     temp-file-path: @project.convert.temp-file-path@
     video-trans-path: @project.convert.video-trans-path@
     extra-file-path: @project.convert.extra-file-path@
+    download-url: 1
 server:
   port: @system.port@
 
