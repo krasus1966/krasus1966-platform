@@ -45,6 +45,7 @@
         <xdocreport.version>1.0.6</xdocreport.version>
         <pdfbox.version>2.0.27</pdfbox.version>
         <itextpdf.version>5.5.13.3</itextpdf.version>
+        <flowable.version>6.8.0</flowable.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     </properties>
 
@@ -256,7 +257,15 @@
                 <artifactId>itextpdf</artifactId>
                 <version>${itextpdf.version}</version>
             </dependency>
-            <!-- poi start -->
+            <!-- poi end -->
+
+            <!-- flowable -->
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-spring-boot-starter</artifactId>
+                <version>${flowable.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -14,6 +14,7 @@
     <modules>
         <module>krasus1966-app-system</module>
         <module>krasus1966-app-resource</module>
+        <module>krasus1966-app-flowable</module>
     </modules>
 
     <dependencies>

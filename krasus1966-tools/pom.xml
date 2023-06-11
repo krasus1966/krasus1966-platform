@@ -22,6 +22,7 @@
         <module>krasus1966-tools-swagger3</module>
         <module>krasus1966-tools-quartz</module>
         <module>krasus1966-tools-schedule</module>
+        <module>krasus1966-tools-flowable</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 
