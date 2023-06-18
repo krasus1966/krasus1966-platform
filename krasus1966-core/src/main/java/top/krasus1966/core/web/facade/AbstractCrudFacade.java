@@ -1,10 +1,13 @@
 package top.krasus1966.core.web.facade;
 
 import cn.hutool.core.text.CharSequenceUtil;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -12,6 +15,10 @@ import top.krasus1966.core.base.constant.Constants;
 import top.krasus1966.core.crypto.anno.Crypto;
 import top.krasus1966.core.db.entity.AbstractPersistent;
 import top.krasus1966.core.db.service.IService2;
+import top.krasus1966.core.web.convert.IConverter;
+import top.krasus1966.core.web.entity.AbstractResponse;
+import top.krasus1966.core.web.entity.AbstractSearchForm;
+import top.krasus1966.core.web.entity.AbstractUpdateForm;
 import top.krasus1966.core.web.entity.R;
 import top.krasus1966.core.web.exception.NotFoundException;
 import top.krasus1966.valid.anno.group.Insert;
@@ -24,16 +31,20 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * 公用后台Controller
- *
  * @author Krasus1966
- * @date 2022/1/3 17:00
+ * @date 2023/6/16 23:46
  **/
-public abstract class AdminBaseController<Service extends IService2<Persistent>, Persistent extends AbstractPersistent> extends BaseController {
+public abstract class AbstractCrudFacade<Service extends IService2<Persistent>, Persistent extends AbstractPersistent,
+        Response extends AbstractResponse,
+        UpdateForm extends AbstractUpdateForm, SearchForm extends AbstractSearchForm> extends BaseController
+        implements ICrudFacade<Persistent, Response, UpdateForm, SearchForm>,
+        IConverter<Persistent, Response, UpdateForm, SearchForm> {
 
     protected final Service service;
 
-    public AdminBaseController(HttpServletRequest request, HttpServletResponse response, Service service) {
+    public AbstractCrudFacade(
+            HttpServletRequest request, HttpServletResponse response,
+            Service service) {
         super(request, response);
         this.service = service;
     }
@@ -51,10 +62,11 @@ public abstract class AdminBaseController<Service extends IService2<Persistent>,
 
     @ApiOperation(value = "新增", notes = "新增并返回对应的对象", httpMethod = "POST")
     @PostMapping(value = "/insert")
-    public R<Persistent> insert(@Validated(Insert.class) @RequestBody Persistent obj) {
-        service.checkInsertValidity(obj);
-        if (service.save(obj)) {
-            return R.success(obj);
+    public R<Response> insert(@Validated(Insert.class) @RequestBody UpdateForm obj) {
+        Persistent persistent = updateFormToPersistent(obj);
+        service.checkInsertValidity(persistent);
+        if (service.save(persistent)) {
+            return R.success(toResponse(persistent));
         }
         return R.failed("新增失败，数据无改变");
     }
@@ -72,10 +84,11 @@ public abstract class AdminBaseController<Service extends IService2<Persistent>,
     @ApiOperation(value = "修改", notes = "修改，无变化数据判定为修改失败", httpMethod = "POST")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "id", value = "id", paramType = "form", dataTypeClass = String.class, required = true),})
     @RequestMapping(value = "/update", method = {RequestMethod.POST, RequestMethod.PUT})
-    public R<Persistent> update(@Validated(Update.class) @RequestBody Persistent obj) {
-        service.checkUpdateValidity(obj);
-        if (service.updateById(obj)) {
-            return R.success(obj);
+    public R<Response> update(@Validated(Update.class) @RequestBody UpdateForm obj) {
+        Persistent persistent = updateFormToPersistent(obj);
+        service.checkUpdateValidity(persistent);
+        if (service.updateById(persistent)) {
+            return R.success(toResponse(persistent));
         }
         return R.failed("更新失败，数据无改变");
     }
@@ -115,9 +128,14 @@ public abstract class AdminBaseController<Service extends IService2<Persistent>,
      */
     @ApiOperation(value = "列表查询", notes = "返回实体对应的列表", httpMethod = "GET")
     @GetMapping("/query")
-    public R<List<Persistent>> query(Persistent obj) {
-        return R.success(service.lambdaQuery().setEntity(obj).list());
+    public R<List<Response>> query(SearchForm obj, List<OrderItem> orderItems) {
+        Persistent persistent = searchFormToPersistent(obj);
+        service.formatOrderItem(orderItems);
+        List<Persistent> persistentList = service.chainQuery(persistent,orderItems).list();
+        return R.success(toResponseList(persistentList));
     }
+
+
 
     /**
      * 分页查询接口
@@ -134,9 +152,17 @@ public abstract class AdminBaseController<Service extends IService2<Persistent>,
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current", value = "页码", paramType = "query", dataTypeClass = Integer.class, defaultValue = "1", required = true), @ApiImplicitParam(name = "size", value = "每页条数", paramType = "query", dataTypeClass = Integer.class, defaultValue = "10", required = true)})
     @GetMapping("/queryPage")
     @Crypto
-    public R<Page<Persistent>> queryPage(Persistent obj, @ApiIgnore Page<Persistent> page) {
-        return R.success(service.lambdaQuery().setEntity(obj).page(page));
+    public R<Page<Response>> queryPage(SearchForm obj, @ApiIgnore PageDTO<Persistent> page) {
+        Persistent persistent = searchFormToPersistent(obj);
+        service.formatOrderItem(page.orders());
+        Page<Persistent> persistentPage = service.chainQuery(persistent).page(page);
+        Page<Response> responsePage = new Page<>();
+        BeanUtils.copyProperties(persistentPage, responsePage);
+        responsePage.setRecords(toResponseList(persistentPage.getRecords()));
+        return R.success(responsePage);
     }
+
+
 
     /**
      * 单条查询接口
@@ -150,29 +176,10 @@ public abstract class AdminBaseController<Service extends IService2<Persistent>,
      */
     @ApiOperation(value = "通过id查询数据", notes = "通过id查询数据", httpMethod = "GET")
     @GetMapping("/get")
-    public R<Persistent> get(@RequestParam("id") String id) {
+    public R<Response> get(@RequestParam("id") String id) {
         if (CharSequenceUtil.isBlank(id)) {
             return R.failed("id不能为空！");
         }
-        return R.success(Optional.ofNullable(service.getById(id)).<NotFoundException>orElseThrow(() -> {
-            throw new NotFoundException();
-        }));
-    }
-
-    /**
-     * 单条查询接口
-     *
-     * @param id 数据id
-     * @return top.krasus1966.base.result.R<Persistent>
-     * @method getByPathVariable
-     * @author krasus1966
-     * @date 2022/1/3 17:15
-     * @description 单条查询接口
-     */
-
-    @ApiOperation(value = "通过id查询数据", notes = "通过id查询数据，参数id拼接在请求路径中", httpMethod = "GET")
-    @GetMapping("/get/{id}")
-    public R<Persistent> getByPathVariable(@PathVariable String id) {
-        return get(id);
+        return R.success(Optional.ofNullable(toResponse(service.getById(id))).<NotFoundException>orElseThrow(NotFoundException::new));
     }
 }

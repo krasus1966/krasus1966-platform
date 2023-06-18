@@ -3,7 +3,7 @@ package top.krasus1966.system.service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.krasus1966.core.db.service.IService2;
-import top.krasus1966.system.domain.SysUser;
+import top.krasus1966.system.domain.persistent.SysUser;
 import top.krasus1966.system.mapper.SysUserMapper;
 
 /**

@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-import top.krasus1966.core.db.entity.BaseEntity;
+import top.krasus1966.core.db.entity.AbstractPersistent;
 import top.krasus1966.core.web.entity.R;
 import top.krasus1966.core.web.exception.NotFoundException;
 import top.krasus1966.core.db.service.IService2;
@@ -28,7 +28,7 @@ import java.util.Optional;
  * @date 2022/10/30 22:26
  **/
 @RestController
-public abstract class FrontBaseController<S extends IService2<T>, T extends BaseEntity> extends BaseController {
+public abstract class FrontBaseController<S extends IService2<T>, T extends AbstractPersistent> extends BaseController {
 
     protected final S service;
 

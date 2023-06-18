@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class BaseEntity implements Serializable {
+public class AbstractPersistent implements Serializable {
 
     @ApiModelProperty(value = "主键id")
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
