@@ -14,7 +14,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import top.krasus1966.core.base.constant.Constants;
 import top.krasus1966.core.crypto.anno.Crypto;
 import top.krasus1966.core.db.entity.AbstractPersistent;
-import top.krasus1966.core.db.service.IService2;
+import top.krasus1966.core.db.service.IBaseService;
 import top.krasus1966.core.web.convert.IConverter;
 import top.krasus1966.core.web.entity.AbstractResponse;
 import top.krasus1966.core.web.entity.AbstractSearchForm;
@@ -34,7 +34,7 @@ import java.util.Optional;
  * @author Krasus1966
  * @date 2023/6/16 23:46
  **/
-public abstract class AbstractCrudFacade<Service extends IService2<Persistent>, Persistent extends AbstractPersistent,
+public abstract class AbstractCrudFacade<Service extends IBaseService<Persistent>, Persistent extends AbstractPersistent,
         Response extends AbstractResponse,
         UpdateForm extends AbstractUpdateForm, SearchForm extends AbstractSearchForm> extends BaseController
         implements ICrudFacade<Persistent, Response, UpdateForm, SearchForm>,

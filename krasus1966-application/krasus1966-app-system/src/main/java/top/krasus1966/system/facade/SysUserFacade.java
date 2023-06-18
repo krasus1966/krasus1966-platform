@@ -7,7 +7,7 @@ import top.krasus1966.system.domain.form.SysUserSearchForm;
 import top.krasus1966.system.domain.form.SysUserUpdateForm;
 import top.krasus1966.system.domain.persistent.SysUser;
 import top.krasus1966.system.domain.response.SysUserResponse;
-import top.krasus1966.system.service.SysUserServiceImpl;
+import top.krasus1966.system.service.SysUserBaseServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  **/
 @RestController
 @RequestMapping("/admin/sys-user")
-public class SysUserFacade extends AbstractCrudFacade<SysUserServiceImpl, SysUser, SysUserResponse, SysUserUpdateForm, SysUserSearchForm> {
-    public SysUserFacade(HttpServletRequest request, HttpServletResponse response, SysUserServiceImpl service) {
+public class SysUserFacade extends AbstractCrudFacade<SysUserBaseServiceImpl, SysUser, SysUserResponse, SysUserUpdateForm, SysUserSearchForm> {
+    public SysUserFacade(HttpServletRequest request, HttpServletResponse response, SysUserBaseServiceImpl service) {
         super(request, response, service);
     }
 }

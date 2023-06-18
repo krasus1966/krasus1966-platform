@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import top.krasus1966.core.db.entity.AbstractPersistent;
-import top.krasus1966.core.db.service.IService2;
+import top.krasus1966.core.db.service.IBaseService;
 import top.krasus1966.core.web.entity.R;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @author Krasus1966
  * @date 2023/6/18 22:55
  **/
-public abstract class AbstractOptionFacade<Service extends IService2<Persistent>, Persistent extends AbstractPersistent> extends BaseController {
+public abstract class AbstractOptionFacade<Service extends IBaseService<Persistent>, Persistent extends AbstractPersistent> extends BaseController {
 
     private final Service service;
 

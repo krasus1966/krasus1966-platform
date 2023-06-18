@@ -11,7 +11,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import top.krasus1966.core.base.constant.Constants;
 import top.krasus1966.core.crypto.anno.Crypto;
 import top.krasus1966.core.db.entity.AbstractPersistent;
-import top.krasus1966.core.db.service.IService2;
+import top.krasus1966.core.db.service.IBaseService;
 import top.krasus1966.core.web.entity.R;
 import top.krasus1966.core.web.exception.NotFoundException;
 import top.krasus1966.valid.anno.group.Insert;
@@ -29,7 +29,7 @@ import java.util.Optional;
  * @author Krasus1966
  * @date 2022/1/3 17:00
  **/
-public abstract class AdminBaseController<Service extends IService2<Persistent>, Persistent extends AbstractPersistent> extends BaseController {
+public abstract class AdminBaseController<Service extends IBaseService<Persistent>, Persistent extends AbstractPersistent> extends BaseController {
 
     protected final Service service;
 

@@ -13,7 +13,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import top.krasus1966.core.db.entity.AbstractPersistent;
 import top.krasus1966.core.web.entity.R;
 import top.krasus1966.core.web.exception.NotFoundException;
-import top.krasus1966.core.db.service.IService2;
+import top.krasus1966.core.db.service.IBaseService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +28,7 @@ import java.util.Optional;
  * @date 2022/10/30 22:26
  **/
 @RestController
-public abstract class FrontBaseController<S extends IService2<T>, T extends AbstractPersistent> extends BaseController {
+public abstract class FrontBaseController<S extends IBaseService<T>, T extends AbstractPersistent> extends BaseController {
 
     protected final S service;
 

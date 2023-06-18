@@ -2,7 +2,7 @@ package top.krasus1966.system.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import top.krasus1966.core.db.service.IService2;
+import top.krasus1966.core.db.service.IBaseService;
 import top.krasus1966.system.domain.persistent.SysUser;
 import top.krasus1966.system.mapper.SysUserMapper;
 
@@ -11,5 +11,5 @@ import top.krasus1966.system.mapper.SysUserMapper;
  * @date 2023/5/3 14:43
  **/
 @Service
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements IService2<SysUser> {
+public class SysUserBaseServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements IBaseService<SysUser> {
 }

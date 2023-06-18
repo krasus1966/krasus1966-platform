@@ -14,7 +14,7 @@ import java.util.List;
  * @author Krasus1966
  * @date 2022/4/15 23:15
  **/
-public interface IService2<Persistent> extends IService<Persistent> {
+public interface IBaseService<Persistent> extends IService<Persistent> {
 
     /**
      * 检查新增数据合法性
