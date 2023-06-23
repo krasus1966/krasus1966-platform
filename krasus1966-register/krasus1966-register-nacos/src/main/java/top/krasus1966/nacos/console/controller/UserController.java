@@ -44,8 +44,8 @@ import top.krasus1966.nacos.console.security.nacos.users.NacosUser;
 import top.krasus1966.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl;
 import top.krasus1966.nacos.console.utils.PasswordEncoderUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;

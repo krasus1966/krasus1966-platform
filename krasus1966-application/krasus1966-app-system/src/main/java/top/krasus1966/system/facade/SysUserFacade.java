@@ -9,8 +9,8 @@ import top.krasus1966.system.domain.persistent.SysUser;
 import top.krasus1966.system.domain.response.SysUserResponse;
 import top.krasus1966.system.service.SysUserBaseServiceImpl;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Krasus1966

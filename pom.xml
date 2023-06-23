@@ -21,12 +21,12 @@
     <properties>
         <base.project.name>test</base.project.name>
         <project.version>0.0.1-SNAPSHOT</project.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <spring.boot.version>2.6.12</spring.boot.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <spring.boot.version>3.1.1</spring.boot.version>
         <spring.cloud.alibaba.version>2021.1</spring.cloud.alibaba.version>
-        <mybatis-plus-boot-starter.version>3.5.2</mybatis-plus-boot-starter.version>
-        <dynamic-datasource.version>3.5.0</dynamic-datasource.version>
+        <mybatis-plus-boot-starter.version>3.5.3.1</mybatis-plus-boot-starter.version>
+        <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
         <p6spy.version>3.9.1</p6spy.version>
         <kaptcha.version>0.0.9</kaptcha.version>
         <jwt.version>0.9.1</jwt.version>
@@ -47,6 +47,7 @@
         <itextpdf.version>5.5.13.3</itextpdf.version>
         <flowable.version>6.8.0</flowable.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <native.maven.plugin.version>0.9.23</native.maven.plugin.version>
     </properties>
 
     <dependencies>
@@ -265,7 +266,6 @@
                 <artifactId>flowable-spring-boot-starter</artifactId>
                 <version>${flowable.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 

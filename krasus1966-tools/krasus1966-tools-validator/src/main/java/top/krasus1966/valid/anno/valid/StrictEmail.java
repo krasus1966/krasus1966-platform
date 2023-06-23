@@ -1,9 +1,9 @@
 package top.krasus1966.valid.anno.valid;
 
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 import top.krasus1966.valid.validation.StrictEmailValidation;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**

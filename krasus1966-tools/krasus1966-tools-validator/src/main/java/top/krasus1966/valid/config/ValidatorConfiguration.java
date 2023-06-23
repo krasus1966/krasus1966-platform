@@ -1,13 +1,14 @@
 package top.krasus1966.valid.config;
 
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+
 
 /**
  * 参数校验配置
@@ -20,7 +21,7 @@ public class ValidatorConfiguration {
     /**
      * 注入validator
      *
-     * @return javax.validation.Validator
+     * @return jakarta.validation.Validator
      * @method validator
      * @author krasus1966
      * @date 2022/4/18 15:33

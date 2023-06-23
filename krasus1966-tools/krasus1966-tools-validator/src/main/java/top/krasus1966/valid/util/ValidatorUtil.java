@@ -1,13 +1,13 @@
 package top.krasus1966.valid.util;
 
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.util.List;
 
 /**
@@ -21,8 +21,8 @@ public class ValidatorUtil {
 
     static {
         try (ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
-            Validator javaxValidator = validatorFactory.getValidator();
-            validator = new SpringValidatorAdapter(javaxValidator);
+            Validator jakartaValidator = validatorFactory.getValidator();
+            validator = new SpringValidatorAdapter(jakartaValidator);
         }
     }
 

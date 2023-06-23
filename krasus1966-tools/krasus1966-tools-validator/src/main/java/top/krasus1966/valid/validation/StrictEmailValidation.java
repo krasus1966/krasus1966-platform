@@ -1,10 +1,10 @@
 package top.krasus1966.valid.validation;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.constraints.Email;
 import top.krasus1966.valid.anno.valid.StrictEmail;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.Email;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

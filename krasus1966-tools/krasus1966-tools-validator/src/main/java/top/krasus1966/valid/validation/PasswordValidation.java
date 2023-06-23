@@ -1,11 +1,11 @@
 package top.krasus1966.valid.validation;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.constraints.Size;
 import org.passay.*;
 import top.krasus1966.valid.anno.valid.Password;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

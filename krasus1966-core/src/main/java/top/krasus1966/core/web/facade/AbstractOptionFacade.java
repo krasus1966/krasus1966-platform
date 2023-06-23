@@ -10,8 +10,8 @@ import top.krasus1966.core.db.entity.AbstractPersistent;
 import top.krasus1966.core.db.service.IBaseService;
 import top.krasus1966.core.web.entity.R;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 

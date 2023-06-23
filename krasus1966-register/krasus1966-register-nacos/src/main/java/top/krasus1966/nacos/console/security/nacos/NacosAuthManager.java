@@ -36,7 +36,7 @@ import org.springframework.stereotype.Component;
 import top.krasus1966.nacos.console.security.nacos.roles.NacosRoleServiceImpl;
 import top.krasus1966.nacos.console.security.nacos.users.NacosUser;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**

@@ -1,9 +1,9 @@
 package top.krasus1966.core.web.util.servlet;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import top.krasus1966.core.base.constant.Constants;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 

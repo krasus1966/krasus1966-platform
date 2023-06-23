@@ -14,8 +14,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import top.krasus1966.core.oplog.OplogServiceImpl;
 import top.krasus1966.core.oplog.util.OplogUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.Objects;
 

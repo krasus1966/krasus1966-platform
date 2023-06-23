@@ -9,7 +9,7 @@ import top.krasus1966.quartz.entity.TaskInfo;
 import top.krasus1966.quartz.repository.ITaskInfoRepository;
 import top.krasus1966.quartz.service.TaskManageService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 /**
