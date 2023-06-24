@@ -1,4 +1,4 @@
-package top.krasus1966.core.db.service.mybatis;
+package top.krasus1966.core.db.mybatis_plus.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

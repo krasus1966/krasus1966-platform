@@ -1,4 +1,4 @@
-package top.krasus1966.core.db.config;
+package top.krasus1966.core.db.mybatis_plus.config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
