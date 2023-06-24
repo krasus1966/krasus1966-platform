@@ -13,7 +13,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-import top.krasus1966.core.base.constant.Constants;
 import top.krasus1966.core.crypto.anno.Crypto;
 import top.krasus1966.core.db.entity.AbstractPersistent;
 import top.krasus1966.core.db.service.IBaseService;
@@ -26,7 +25,6 @@ import top.krasus1966.core.web.exception.NotFoundException;
 import top.krasus1966.valid.anno.group.Insert;
 import top.krasus1966.valid.anno.group.Update;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,8 +62,7 @@ public abstract class AbstractCrudFacade<Service extends IBaseService<Persistent
     @PostMapping(value = "/insert")
     public R<Response> insert(@Validated(Insert.class) @RequestBody UpdateForm obj) {
         Persistent persistent = updateFormToPersistent(obj);
-        service.checkInsertValidity(persistent);
-        if (service.save(persistent)) {
+        if (service.insert(persistent)) {
             return R.success(toResponse(persistent));
         }
         return R.failed("新增失败，数据无改变");
@@ -86,8 +83,7 @@ public abstract class AbstractCrudFacade<Service extends IBaseService<Persistent
     @RequestMapping(value = "/update", method = {RequestMethod.POST, RequestMethod.PUT})
     public R<Response> update(@Validated(Update.class) @RequestBody UpdateForm obj) {
         Persistent persistent = updateFormToPersistent(obj);
-        service.checkUpdateValidity(persistent);
-        if (service.updateById(persistent)) {
+        if (service.update(persistent)) {
             return R.success(toResponse(persistent));
         }
         return R.failed("更新失败，数据无改变");
@@ -109,8 +105,7 @@ public abstract class AbstractCrudFacade<Service extends IBaseService<Persistent
         if (CharSequenceUtil.isBlank(ids)) {
             return R.failed("ids不能为空！");
         }
-        service.checkDeleteValidity(ids);
-        if (service.removeByIds(Arrays.asList(ids.split(Constants.Entity.SPLIT)))) {
+        if (service.delete(ids)) {
             return R.success();
         }
         throw new NotFoundException();
@@ -131,7 +126,7 @@ public abstract class AbstractCrudFacade<Service extends IBaseService<Persistent
     public R<List<Response>> query(SearchForm obj, List<OrderItem> orderItems) {
         Persistent persistent = searchFormToPersistent(obj);
         service.formatOrderItem(orderItems);
-        List<Persistent> persistentList = service.chainQuery(persistent,orderItems).list();
+        List<Persistent> persistentList = service.query(persistent,orderItems);
         return R.success(toResponseList(persistentList));
     }
 
@@ -155,7 +150,7 @@ public abstract class AbstractCrudFacade<Service extends IBaseService<Persistent
     public R<Page<Response>> queryPage(SearchForm obj, @ApiIgnore PageDTO<Persistent> page) {
         Persistent persistent = searchFormToPersistent(obj);
         service.formatOrderItem(page.orders());
-        Page<Persistent> persistentPage = service.chainQuery(persistent).page(page);
+        Page<Persistent> persistentPage = service.queryPage(persistent,page);
         Page<Response> responsePage = new Page<>();
         BeanUtils.copyProperties(persistentPage, responsePage);
         responsePage.setRecords(toResponseList(persistentPage.getRecords()));

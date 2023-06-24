@@ -58,12 +58,16 @@ public class OplogHandler {
     public void ignore() {
     }
 
+    @Pointcut("execution(* top.krasus1966.core.web.facade.BaseController.*(..))")
+    public void ignore2() {
+    }
+
     /**
      * 正常返回通知，拦截用户操作日志，连接点正常执行完成后执行， 如果连接点抛出异常，则不会执行
      *
      * @param joinPoint 切入点
      */
-    @Around(value = "(operLogPointCut() || operLogPointCutBase()) && !ignore()")
+    @Around(value = "(operLogPointCut() || operLogPointCutBase()) && (!ignore() && !ignore2())")
     public Object saveOperLog(ProceedingJoinPoint joinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch("log");
         stopWatch.start();

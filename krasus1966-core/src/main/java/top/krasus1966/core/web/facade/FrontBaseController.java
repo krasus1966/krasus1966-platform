@@ -2,21 +2,20 @@ package top.krasus1966.core.web.facade;
 
 
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import top.krasus1966.core.db.entity.AbstractPersistent;
+import top.krasus1966.core.db.service.IBaseService;
 import top.krasus1966.core.web.entity.R;
 import top.krasus1966.core.web.exception.NotFoundException;
-import top.krasus1966.core.db.service.IBaseService;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,12 +27,12 @@ import java.util.Optional;
  * @date 2022/10/30 22:26
  **/
 @RestController
-public abstract class FrontBaseController<S extends IBaseService<T>, T extends AbstractPersistent> extends BaseController {
+public abstract class FrontBaseController<Service extends IBaseService<Persistent>, Persistent extends AbstractPersistent> extends BaseController {
 
-    protected final S service;
+    protected final Service service;
 
     public FrontBaseController(HttpServletRequest request, HttpServletResponse response,
-                               S service) {
+                               Service service) {
         super(request, response);
         this.service = service;
     }
@@ -42,7 +41,7 @@ public abstract class FrontBaseController<S extends IBaseService<T>, T extends A
      * 列表查询接口
      *
      * @param obj 查询对象
-     * @return top.krasus1966.base.result.R<java.util.List < T>>
+     * @return top.krasus1966.base.result.R<java.util.List < Persistent>>
      * @method query
      * @author krasus1966
      * @date 2022/1/3 17:12
@@ -50,8 +49,8 @@ public abstract class FrontBaseController<S extends IBaseService<T>, T extends A
      */
     @ApiOperation(value = "列表查询", notes = "返回实体对应的列表", httpMethod = "GET")
     @GetMapping("/query")
-    public R<List<T>> query(T obj) {
-        return R.success(service.lambdaQuery().setEntity(obj).list());
+    public R<List<Persistent>> query(Persistent obj) {
+        return R.success(service.query(obj));
     }
 
     /**
@@ -59,7 +58,7 @@ public abstract class FrontBaseController<S extends IBaseService<T>, T extends A
      *
      * @param obj  查询对象
      * @param page 分页封装对象 包含current页码，size每页条数
-     * @return top.krasus1966.base.result.R<com.baomidou.mybatisplus.extension.plugins.pagination.PageResult < T>>
+     * @return top.krasus1966.base.result.R<com.baomidou.mybatisplus.extension.plugins.pagination.PageResult < Persistent>>
      * @method queryPage
      * @author krasus1966
      * @date 2022/1/3 17:13
@@ -73,15 +72,15 @@ public abstract class FrontBaseController<S extends IBaseService<T>, T extends A
                     Integer.class, defaultValue = "10", required = true)
     })
     @GetMapping("/queryPage")
-    public R<Page<T>> queryPage(T obj, @ApiIgnore Page<T> page) {
-        return R.success(service.lambdaQuery().setEntity(obj).page(page));
+    public R<Page<Persistent>> queryPage(Persistent obj, @ApiIgnore PageDTO<Persistent> page) {
+        return R.success(service.queryPage(obj, page));
     }
 
     /**
      * 单条查询接口
      *
      * @param id 数据id
-     * @return top.krasus1966.base.result.R<T>
+     * @return top.krasus1966.base.result.R<Persistent>
      * @method get
      * @author krasus1966
      * @date 2022/1/3 17:14
@@ -89,20 +88,18 @@ public abstract class FrontBaseController<S extends IBaseService<T>, T extends A
      */
     @ApiOperation(value = "通过id查询数据", notes = "通过id查询数据", httpMethod = "GET")
     @GetMapping("/get")
-    public R<T> get(@RequestParam("id") String id) {
+    public R<Persistent> get(@RequestParam("id") String id) {
         if (CharSequenceUtil.isBlank(id)) {
             return R.failed("id不能为空！");
         }
-        return R.success(Optional.ofNullable(service.getById(id)).<NotFoundException>orElseThrow(() -> {
-            throw new NotFoundException();
-        }));
+        return R.success(Optional.ofNullable(service.getById(id)).<NotFoundException>orElseThrow(NotFoundException::new));
     }
 
     /**
      * 单条查询接口
      *
      * @param id 数据id
-     * @return top.krasus1966.base.result.R<T>
+     * @return top.krasus1966.base.result.R<Persistent>
      * @method getByPathVariable
      * @author krasus1966
      * @date 2022/1/3 17:15
@@ -110,7 +107,7 @@ public abstract class FrontBaseController<S extends IBaseService<T>, T extends A
      */
     @ApiOperation(value = "通过id查询数据", notes = "通过id查询数据，参数id拼接在请求路径中", httpMethod = "GET")
     @GetMapping("/get/{id}")
-    public R<T> getByPathVariable(@PathVariable String id) {
+    public R<Persistent> getByPathVariable(@PathVariable String id) {
         return get(id);
     }
 
@@ -130,16 +127,12 @@ public abstract class FrontBaseController<S extends IBaseService<T>, T extends A
      * @description 查询特殊内容
      */
     @GetMapping("/option")
-    public R<List<Map<String, Object>>> option(@RequestBody(required = false) T obj,
+    public R<List<Map<String, Object>>> option(@RequestBody(required = false) Persistent obj,
                                                @RequestParam(defaultValue = "id") String key,
                                                @RequestParam(defaultValue = "value") String keyLabel,
                                                String label,
                                                @RequestParam(defaultValue = "label") String labelName) {
-        key = StrUtil.toSymbolCase(key, '_');
-        label = StrUtil.toSymbolCase(label, '_');
-        QueryWrapper<T> wrapper = new QueryWrapper<T>(obj);
-        wrapper.select(key + " AS " + keyLabel, label + " AS " + labelName).groupBy(key);
-        List<Map<String, Object>> maps = service.getBaseMapper().selectMaps(wrapper);
+        List<Map<String, Object>> maps = service.options(obj, key, keyLabel, label, labelName);
         return R.success(maps);
     }
 }

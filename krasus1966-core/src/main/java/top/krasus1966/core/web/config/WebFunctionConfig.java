@@ -20,15 +20,15 @@ import top.krasus1966.core.web.web_function.RequestHandler;
 public class WebFunctionConfig {
 
     @Bean
-    public RouterFunction<ServerResponse> usesRoute(RequestHandler<?> requestHandler){
+    public RouterFunction<ServerResponse> usesRoute(RequestHandler requestHandler){
         return RouterFunctions.route()
-                .GET("/{module}/base/{id}", RequestPredicates.all(),requestHandler::get)
-                .GET("/{module}/query", RequestPredicates.all(),requestHandler::query)
-                .GET("/{module}/queryPage", RequestPredicates.all(),requestHandler::queryPage)
-                .POST("/{module}/save", RequestPredicates.all(),requestHandler::save)
-                .PUT("/{module}/update", RequestPredicates.all(),requestHandler::update)
-                .DELETE("/{module}/{id}", RequestPredicates.all(),requestHandler::delete)
-                .OPTIONS("/{module}/options", RequestPredicates.all(),requestHandler::options)
+                .GET("/{module}/common/{id}", RequestPredicates.all(),requestHandler::get)
+                .GET("/{module}/common/query", RequestPredicates.all(),requestHandler::query)
+                .GET("/{module}/common/queryPage", RequestPredicates.all(),requestHandler::queryPage)
+                .POST("/{module}/common/save", RequestPredicates.all(),requestHandler::save)
+                .PUT("/{module}/common/update", RequestPredicates.all(),requestHandler::update)
+                .DELETE("/{module}/common/{id}", RequestPredicates.all(),requestHandler::delete)
+                .OPTIONS("/{module}/common/options", RequestPredicates.all(),requestHandler::options)
                 .build();
     }
 }

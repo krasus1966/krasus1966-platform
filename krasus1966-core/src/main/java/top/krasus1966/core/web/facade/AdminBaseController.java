@@ -2,13 +2,15 @@ package top.krasus1966.core.web.facade;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-import top.krasus1966.core.base.constant.Constants;
 import top.krasus1966.core.crypto.anno.Crypto;
 import top.krasus1966.core.db.entity.AbstractPersistent;
 import top.krasus1966.core.db.service.IBaseService;
@@ -17,9 +19,6 @@ import top.krasus1966.core.web.exception.NotFoundException;
 import top.krasus1966.valid.anno.group.Insert;
 import top.krasus1966.valid.anno.group.Update;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,8 +51,7 @@ public abstract class AdminBaseController<Service extends IBaseService<Persisten
     @ApiOperation(value = "新增", notes = "新增并返回对应的对象", httpMethod = "POST")
     @PostMapping(value = "/insert")
     public R<Persistent> insert(@Validated(Insert.class) @RequestBody Persistent obj) {
-        service.checkInsertValidity(obj);
-        if (service.save(obj)) {
+        if (service.insert(obj)) {
             return R.success(obj);
         }
         return R.failed("新增失败，数据无改变");
@@ -73,8 +71,7 @@ public abstract class AdminBaseController<Service extends IBaseService<Persisten
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "id", value = "id", paramType = "form", dataTypeClass = String.class, required = true),})
     @RequestMapping(value = "/update", method = {RequestMethod.POST, RequestMethod.PUT})
     public R<Persistent> update(@Validated(Update.class) @RequestBody Persistent obj) {
-        service.checkUpdateValidity(obj);
-        if (service.updateById(obj)) {
+        if (service.update(obj)) {
             return R.success(obj);
         }
         return R.failed("更新失败，数据无改变");
@@ -96,8 +93,7 @@ public abstract class AdminBaseController<Service extends IBaseService<Persisten
         if (CharSequenceUtil.isBlank(ids)) {
             return R.failed("ids不能为空！");
         }
-        service.checkDeleteValidity(ids);
-        if (service.removeByIds(Arrays.asList(ids.split(Constants.Entity.SPLIT)))) {
+        if (service.delete(ids)) {
             return R.success();
         }
         throw new NotFoundException();
@@ -116,7 +112,7 @@ public abstract class AdminBaseController<Service extends IBaseService<Persisten
     @ApiOperation(value = "列表查询", notes = "返回实体对应的列表", httpMethod = "GET")
     @GetMapping("/query")
     public R<List<Persistent>> query(Persistent obj) {
-        return R.success(service.lambdaQuery().setEntity(obj).list());
+        return R.success(service.query(obj));
     }
 
     /**
@@ -134,8 +130,8 @@ public abstract class AdminBaseController<Service extends IBaseService<Persisten
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current", value = "页码", paramType = "query", dataTypeClass = Integer.class, defaultValue = "1", required = true), @ApiImplicitParam(name = "size", value = "每页条数", paramType = "query", dataTypeClass = Integer.class, defaultValue = "10", required = true)})
     @GetMapping("/queryPage")
     @Crypto
-    public R<Page<Persistent>> queryPage(Persistent obj, @ApiIgnore Page<Persistent> page) {
-        return R.success(service.lambdaQuery().setEntity(obj).page(page));
+    public R<Page<Persistent>> queryPage(Persistent obj, @ApiIgnore PageDTO<Persistent> page) {
+        return R.success(service.queryPage(obj,page));
     }
 
     /**

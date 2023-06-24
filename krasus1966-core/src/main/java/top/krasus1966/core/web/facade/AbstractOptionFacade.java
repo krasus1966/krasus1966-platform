@@ -1,8 +1,8 @@
 package top.krasus1966.core.web.facade;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,8 +10,6 @@ import top.krasus1966.core.db.entity.AbstractPersistent;
 import top.krasus1966.core.db.service.IBaseService;
 import top.krasus1966.core.web.entity.R;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -53,11 +51,7 @@ public abstract class AbstractOptionFacade<Service extends IBaseService<Persiste
         if (!SqlInjectionUtils.check(key) || !SqlInjectionUtils.check(keyLabel) || SqlInjectionUtils.check(label) || SqlInjectionUtils.check(labelName)) {
             return R.failed("不可接受的传递参数");
         }
-        key = StrUtil.toSymbolCase(key, '_');
-        label = StrUtil.toSymbolCase(label, '_');
-        QueryWrapper<Persistent> wrapper = new QueryWrapper<Persistent>(obj);
-        wrapper.select(key + " AS " + keyLabel, label + " AS " + labelName).groupBy(key);
-        List<Map<String, Object>> maps = service.getBaseMapper().selectMaps(wrapper);
-        return R.success(maps);
+        List<Map<String, Object>> options = service.options(obj, key, keyLabel, label, labelName);
+        return R.success(options);
     }
 }

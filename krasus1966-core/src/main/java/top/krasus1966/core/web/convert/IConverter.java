@@ -23,6 +23,9 @@ public interface IConverter<Persistent extends AbstractPersistent, Response exte
         UpdateForm extends AbstractUpdateForm, SearchForm extends AbstractSearchForm> {
 
     default Persistent responseToPersistent(Response response) {
+        if (null == response) {
+            return null;
+        }
         Class<Persistent> clazz = CastUtils.cast(
                 ReflectionKit.getSuperClassGenericType(this.getClass(), IConverter.class, 0)
         );
@@ -39,6 +42,9 @@ public interface IConverter<Persistent extends AbstractPersistent, Response exte
     }
 
     default Persistent updateFormToPersistent(UpdateForm updateForm) {
+        if (null == updateForm) {
+            return null;
+        }
         Class<Persistent> clazz = CastUtils.cast(
                 ReflectionKit.getSuperClassGenericType(this.getClass(), IConverter.class, 0)
         );
@@ -55,6 +61,9 @@ public interface IConverter<Persistent extends AbstractPersistent, Response exte
     }
 
     default Persistent searchFormToPersistent(SearchForm searchForm) {
+        if (null == searchForm) {
+            return null;
+        }
         Class<Persistent> clazz = CastUtils.cast(
                 ReflectionKit.getSuperClassGenericType(this.getClass(), IConverter.class, 0)
         );
@@ -71,6 +80,9 @@ public interface IConverter<Persistent extends AbstractPersistent, Response exte
     }
 
     default Response toResponse(Persistent persistent) {
+        if (null == persistent) {
+            return null;
+        }
         Class<Response> clazz = CastUtils.cast(
                 ReflectionKit.getSuperClassGenericType(this.getClass(), IConverter.class, 1)
         );
