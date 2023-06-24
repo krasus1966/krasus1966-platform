@@ -19,7 +19,7 @@ import java.util.Map;
  **/
 public abstract class AbstractOptionFacade<Service extends IBaseService<Persistent>, Persistent extends AbstractPersistent> extends BaseController {
 
-    private final Service service;
+    protected final Service service;
 
     public AbstractOptionFacade(HttpServletRequest request, HttpServletResponse response, Service service) {
         super(request, response);

@@ -28,13 +28,11 @@ import java.util.Optional;
  * @author Krasus1966
  * @date 2022/1/3 17:00
  **/
-public abstract class AdminBaseController<Service extends IBaseService<Persistent>, Persistent extends AbstractPersistent> extends BaseController {
+public abstract class AdminBaseController<Service extends IBaseService<Persistent>, Persistent extends AbstractPersistent> extends AbstractOptionFacade<Service,Persistent> {
 
-    protected final Service service;
 
     public AdminBaseController(HttpServletRequest request, HttpServletResponse response, Service service) {
-        super(request, response);
-        this.service = service;
+        super(request, response,service);
     }
 
     /**

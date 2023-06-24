@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>krasus1966-tools-fastdfs</module>
+        <module>krasus1966-tools-gridfs</module>
     </modules>
 
 

@@ -11,10 +11,8 @@
     <modules>
         <module>krasus1966-tools</module>
         <module>krasus1966-register</module>
-        <module>krasus1966-tools/krasus1966-tools-db-router</module>
         <module>krasus1966-core</module>
         <module>krasus1966-common</module>
-        <module>krasus1966-tools/krasus1966-tools-fs/krasus1966-tools-gridfs</module>
         <module>krasus1966-application</module>
     </modules>
 

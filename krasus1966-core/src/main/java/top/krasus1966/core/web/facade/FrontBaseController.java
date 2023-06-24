@@ -9,7 +9,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 import top.krasus1966.core.db.entity.AbstractPersistent;
 import top.krasus1966.core.db.service.IBaseService;
@@ -17,7 +20,6 @@ import top.krasus1966.core.web.entity.R;
 import top.krasus1966.core.web.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -27,14 +29,11 @@ import java.util.Optional;
  * @date 2022/10/30 22:26
  **/
 @RestController
-public abstract class FrontBaseController<Service extends IBaseService<Persistent>, Persistent extends AbstractPersistent> extends BaseController {
-
-    protected final Service service;
+public abstract class FrontBaseController<Service extends IBaseService<Persistent>, Persistent extends AbstractPersistent> extends AbstractOptionFacade<Service,Persistent> {
 
     public FrontBaseController(HttpServletRequest request, HttpServletResponse response,
                                Service service) {
-        super(request, response);
-        this.service = service;
+        super(request, response,service);
     }
 
     /**
@@ -109,30 +108,5 @@ public abstract class FrontBaseController<Service extends IBaseService<Persisten
     @GetMapping("/get/{id}")
     public R<Persistent> getByPathVariable(@PathVariable String id) {
         return get(id);
-    }
-
-    /**
-     * 查询特殊内容
-     *
-     * @param obj       查询条件对象
-     * @param key       key字段
-     * @param keyLabel  key名称
-     * @param label     标签字段
-     * @param labelName 标签名称
-     * @return top.krasus1966.core.web.entity.R<java.util.List < java.util.Map < java.lang.String, java.lang.Object>>>
-     * @throws
-     * @method option
-     * @author krasus1966
-     * @date 2023/5/3 15:47
-     * @description 查询特殊内容
-     */
-    @GetMapping("/option")
-    public R<List<Map<String, Object>>> option(@RequestBody(required = false) Persistent obj,
-                                               @RequestParam(defaultValue = "id") String key,
-                                               @RequestParam(defaultValue = "value") String keyLabel,
-                                               String label,
-                                               @RequestParam(defaultValue = "label") String labelName) {
-        List<Map<String, Object>> maps = service.options(obj, key, keyLabel, label, labelName);
-        return R.success(maps);
     }
 }

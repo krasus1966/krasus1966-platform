@@ -3,7 +3,7 @@ package top.krasus1966.core.db.service;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import top.krasus1966.core.db.IServiceHook;
+import top.krasus1966.core.db.hook.IServiceHook;
 import top.krasus1966.core.db.entity.AbstractPersistent;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package top.krasus1966.core.db;
+package top.krasus1966.core.db.hook;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import top.krasus1966.core.db.entity.AbstractPersistent;
