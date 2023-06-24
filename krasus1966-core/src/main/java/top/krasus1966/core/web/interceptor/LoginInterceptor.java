@@ -13,8 +13,8 @@ import top.krasus1966.core.cache.redis_util.CacheUtil;
 import top.krasus1966.core.web.util.servlet.ServletUtils;
 import top.krasus1966.core.crypto.sign.SignUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 /**

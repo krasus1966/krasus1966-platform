@@ -6,8 +6,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import top.krasus1966.core.base.constant.LoginConstants;
 import top.krasus1966.core.web.auth.entity.UserLoginInfo;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;

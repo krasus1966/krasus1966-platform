@@ -1,7 +1,8 @@
 package top.krasus1966.core.web.facade;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Krasus1966
@@ -14,9 +15,5 @@ public abstract class BaseController {
     public BaseController(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
-    }
-
-    public String getParam(String param){
-        return request.getParameter(param);
     }
 }

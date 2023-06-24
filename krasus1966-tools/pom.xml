@@ -11,6 +11,7 @@
     <modules>
         <module>krasus1966-tools-swagger</module>
         <module>krasus1966-tools-dozer</module>
+        <module>krasus1966-tools-db-router</module>
         <module>krasus1966-tools-validator</module>
         <module>krasus1966-tools-xss</module>
         <module>krasus1966-tools-jwt</module>
@@ -22,6 +23,7 @@
         <module>krasus1966-tools-swagger3</module>
         <module>krasus1966-tools-quartz</module>
         <module>krasus1966-tools-schedule</module>
+        <module>krasus1966-tools-flowable</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 

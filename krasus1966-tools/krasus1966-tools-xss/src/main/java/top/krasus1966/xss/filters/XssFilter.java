@@ -3,8 +3,8 @@ package top.krasus1966.xss.filters;
 
 import top.krasus1966.xss.wrapper.XssRequestWrapper;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**

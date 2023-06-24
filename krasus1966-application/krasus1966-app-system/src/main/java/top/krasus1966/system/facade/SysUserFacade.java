@@ -2,12 +2,15 @@ package top.krasus1966.system.facade;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.krasus1966.core.web.facade.AdminBaseController;
-import top.krasus1966.system.domain.SysUser;
-import top.krasus1966.system.service.SysUserServiceImpl;
+import top.krasus1966.core.web.facade.AbstractCrudFacade;
+import top.krasus1966.system.domain.form.SysUserSearchForm;
+import top.krasus1966.system.domain.form.SysUserUpdateForm;
+import top.krasus1966.system.domain.persistent.SysUser;
+import top.krasus1966.system.domain.response.SysUserResponse;
+import top.krasus1966.system.service.SysUserBaseServiceImpl;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Krasus1966
@@ -15,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  **/
 @RestController
 @RequestMapping("/admin/sys-user")
-public class SysUserFacade extends AdminBaseController<SysUserServiceImpl, SysUser> {
-    public SysUserFacade(HttpServletRequest request, HttpServletResponse response, SysUserServiceImpl service) {
+public class SysUserFacade extends AbstractCrudFacade<SysUserBaseServiceImpl, SysUser, SysUserResponse, SysUserUpdateForm, SysUserSearchForm> {
+    public SysUserFacade(HttpServletRequest request, HttpServletResponse response, SysUserBaseServiceImpl service) {
         super(request, response, service);
     }
 }

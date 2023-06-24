@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import top.krasus1966.core.db.entity.BaseEntity;
+import top.krasus1966.core.db.entity.AbstractPersistent;
 import top.krasus1966.core.event.enums.BaseEventEnum;
 import top.krasus1966.core.event.enums.EventStatusEnum;
 import top.krasus1966.core.event.entity.BaseEvent;
@@ -25,7 +25,7 @@ import top.krasus1966.core.json.util.JsonUtils;
 @TableName("sys_event_log")
 @ApiModel(value = "EventPO对象", description = "记录事件信息")
 @Slf4j
-public class EventPO extends BaseEntity {
+public class EventPO extends AbstractPersistent {
 
     @ApiModelProperty("事件内容")
     @TableField("data")

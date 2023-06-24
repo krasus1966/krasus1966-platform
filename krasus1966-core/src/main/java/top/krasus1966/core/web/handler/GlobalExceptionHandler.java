@@ -1,6 +1,7 @@
 package top.krasus1966.core.web.handler;
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -18,7 +19,7 @@ import top.krasus1966.core.web.exception.InvalidException;
 import top.krasus1966.core.web.exception.NotFoundException;
 import top.krasus1966.core.web.exception.UnAuthorizedException;
 
-import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * 通用自定义异常处理
