@@ -1,7 +1,7 @@
 package top.krasus1966.core.event.impl;
 
 import org.springframework.stereotype.Service;
-import top.krasus1966.core.db.service.mybatis.AbstractMybatisBaseService;
+import top.krasus1966.core.db.mybatis_plus.service.AbstractMybatisBaseService;
 import top.krasus1966.core.event.IEventRepository;
 import top.krasus1966.core.event.entity.BaseEvent;
 import top.krasus1966.core.event.entity.db.EventPO;

@@ -1,4 +1,4 @@
-package top.krasus1966.core.db.handler;
+package top.krasus1966.core.db.mybatis_plus.handler;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
