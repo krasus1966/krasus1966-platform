@@ -24,6 +24,11 @@ import java.util.Map;
 public abstract class AbstractMybatisBaseService<Mapper extends BaseMapper<Persistent>, Persistent extends AbstractPersistent> extends ServiceImpl<Mapper, Persistent> implements IBaseService<Persistent> {
 
     @Override
+    public Class<Persistent> entityClass() {
+        return getEntityClass();
+    }
+
+    @Override
     public Boolean insert(Persistent persistent) {
         beforeSave(persistent);
         boolean isSave = super.save(persistent);
@@ -71,6 +76,7 @@ public abstract class AbstractMybatisBaseService<Mapper extends BaseMapper<Persi
 
     @Override
     public Page<Persistent> queryPage(Persistent persistent, PageDTO<Persistent> page) {
+        this.formatOrderItem(page.orders());
         beforeQueryPage(persistent, page);
         PageDTO<Persistent> pageDTO = super.lambdaQuery(persistent).page(page);
         afterQueryPage(pageDTO);

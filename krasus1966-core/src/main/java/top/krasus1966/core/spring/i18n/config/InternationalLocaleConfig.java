@@ -10,7 +10,7 @@ import top.krasus1966.core.spring.i18n.handler.InternationalLocaleResolve;
  * {@code @date} 2023/4/3 23:24
  **/
 @Configuration
-public class InternationalLocaleConfig{
+public class InternationalLocaleConfig {
 
     @Bean
     public LocaleResolver localeResolver() {

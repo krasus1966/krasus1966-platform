@@ -2,6 +2,7 @@ package top.krasus1966.system.facade;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.krasus1966.core.rule_engine.IRuleExecuteService;
 import top.krasus1966.core.web.facade.AbstractCrudFacade;
 import top.krasus1966.system.domain.form.SysUserSearchForm;
 import top.krasus1966.system.domain.form.SysUserUpdateForm;
@@ -19,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/admin/sys-user")
 public class SysUserFacade extends AbstractCrudFacade<SysUserBaseServiceImpl, SysUser, SysUserResponse, SysUserUpdateForm, SysUserSearchForm> {
-    public SysUserFacade(HttpServletRequest request, HttpServletResponse response, SysUserBaseServiceImpl service) {
-        super(request, response, service);
+    public SysUserFacade(HttpServletRequest request, HttpServletResponse response, SysUserBaseServiceImpl service, IRuleExecuteService ruleExecuteService) {
+        super(request, response, service,ruleExecuteService);
     }
 }

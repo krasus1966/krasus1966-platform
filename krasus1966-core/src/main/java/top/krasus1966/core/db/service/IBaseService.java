@@ -17,6 +17,8 @@ import java.util.Map;
  **/
 public interface IBaseService<Persistent extends AbstractPersistent> extends IServiceHook<Persistent> {
 
+    Class<Persistent> entityClass();
+
     Boolean insert(Persistent persistent);
 
     Boolean update(Persistent persistent);

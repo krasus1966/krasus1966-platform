@@ -7,5 +7,7 @@ import lombok.Data;
  * @date 2023/6/16 23:41
  **/
 @Data
-public class AbstractSearchForm {
+public abstract class AbstractSearchForm {
+
+
 }

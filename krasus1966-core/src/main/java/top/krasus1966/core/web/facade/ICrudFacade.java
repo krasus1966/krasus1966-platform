@@ -18,18 +18,18 @@ import java.util.List;
 public interface ICrudFacade<Persistent extends AbstractPersistent, Response extends AbstractResponse,
         UpdateForm extends AbstractUpdateForm, SearchForm extends AbstractSearchForm> {
 
-    R<Response> insert(UpdateForm obj);
+    R<Response> insert(UpdateForm obj) throws Exception;
 
-    R<Response> update(UpdateForm obj);
+    R<Response> update(UpdateForm obj) throws Exception;
 
-    R<Boolean> deleteByIds(String ids);
-
-
-    R<List<Response>> query(SearchForm obj, List<OrderItem> orderItems);
+    R<Boolean> deleteByIds(String ids) throws Exception;
 
 
-    R<Page<Response>> queryPage(SearchForm obj,  PageDTO<Persistent> page);
+    R<List<Response>> query(SearchForm obj, List<OrderItem> orderItems) throws Exception;
 
 
-    R<Response> get(String id);
+    R<Page<Response>> queryPage(SearchForm obj,  PageDTO<Persistent> page) throws Exception;
+
+
+    R<Response> get(String id) throws Exception;
 }

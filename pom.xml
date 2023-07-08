@@ -44,6 +44,7 @@
         <pdfbox.version>2.0.27</pdfbox.version>
         <itextpdf.version>5.5.13.3</itextpdf.version>
         <flowable.version>6.8.0</flowable.version>
+        <liteflow.version>2.10.5</liteflow.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <native.maven.plugin.version>0.9.23</native.maven.plugin.version>
     </properties>
@@ -263,6 +264,31 @@
                 <groupId>org.flowable</groupId>
                 <artifactId>flowable-spring-boot-starter</artifactId>
                 <version>${flowable.version}</version>
+            </dependency>
+
+            <!-- liteflow -->
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>liteflow-spring-boot-starter</artifactId>
+                <version>${liteflow.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>liteflow-rule-sql</artifactId>
+                <version>${liteflow.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>liteflow-script-groovy</artifactId>
+                <version>${liteflow.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>liteflow-script-graaljs</artifactId>
+                <version>${liteflow.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

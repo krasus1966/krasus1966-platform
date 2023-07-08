@@ -14,7 +14,7 @@ import java.util.Locale;
 public class InternationalLocaleResolve implements LocaleResolver {
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
-        String localeLanguage = request.getHeader("locale_language");
+        String localeLanguage = request.getHeader("Accept-Language");
         if (null == localeLanguage || "".equals(localeLanguage.trim())) {
             localeLanguage = "zh_CN";
         }
@@ -37,6 +37,6 @@ public class InternationalLocaleResolve implements LocaleResolver {
         LocaleContextHolder.setLocale(locale);
         String language = locale.getLanguage();
         String country = locale.getCountry();
-        response.setHeader("locale_language", language + "_" + country);
+        response.setHeader("Accept-Language", language + "_" + country);
     }
 }
