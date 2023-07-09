@@ -4,6 +4,7 @@ package top.krasus1966.core.web.handler;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -115,6 +116,22 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R<String> errorHandler(MissingServletRequestParameterException e) {
         return R.failed(ResultsEnum.PARAM_NOT_VALID);
+    }
+
+    /**
+     * 请求格式异常-针对@RequestBody
+     *
+     * @param e 资源不存在异常
+     * @return top.krasus1966.base.result.R
+     * @method errorHandler
+     * @author krasus1966
+     * @date 2022/1/9 05:35
+     * @description 请求格式异常-针对@ResponseBody
+     */
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public R<String> errorHandler(HttpMessageNotReadableException e) {
+        return R.failed(ResultsEnum.PARAM_NOT_FOUND);
     }
 
     /**

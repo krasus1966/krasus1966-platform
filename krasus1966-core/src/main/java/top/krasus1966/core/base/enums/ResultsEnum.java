@@ -23,6 +23,7 @@ public enum ResultsEnum implements IResultsEnum {
     NO_UPLOAD_FILE(404, "请选择上传的文件!"),
     PATH_NOT_EXIST(404, "请求地址不存在"),
     PARAM_NOT_VALID(412, "参数信息不合法！"),
+    PARAM_NOT_FOUND(412, "未获取到参数，请确认请求格式正确！"),
     SERVER_UNEXCEPTION_ERROR(500, "服务器内部错误，请联系管理员"),
     FAILED(500, "操作失败！"),
     LOG_OUT_FAIL(500, "退出登陆失败！"),
