@@ -12,7 +12,7 @@ import top.krasus1966.liteflow.script.StringUtil;
  * @author Krasus1966
  * @date 2023/5/3 16:27
  **/
-@ComponentScan("top.krasus1966.core")
+@ComponentScan("top.krasus1966")
 @MapperScan("top.krasus1966.liteflow")
 @Component
 public class AppInit implements ApplicationRunner {
@@ -25,6 +25,4 @@ public class AppInit implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         ruleExecuteService.addScriptBean("StringUtil",new StringUtil());
     }
-
-
 }

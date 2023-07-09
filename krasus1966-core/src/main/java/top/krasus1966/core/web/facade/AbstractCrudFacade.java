@@ -36,19 +36,17 @@ import java.util.Optional;
 public abstract class AbstractCrudFacade<Service extends IBaseService<Persistent>,
         Persistent extends AbstractPersistent,
         Response extends AbstractResponse,
-        UpdateForm extends AbstractUpdateForm, SearchForm extends AbstractSearchForm> extends BaseController
+        UpdateForm extends AbstractUpdateForm, SearchForm extends AbstractSearchForm> extends AbstractOptionFacade<Service, Persistent>
         implements ICrudFacade<Persistent, Response, UpdateForm, SearchForm>,
         IConverter<Persistent, Response, UpdateForm, SearchForm> {
 
-    protected final Service service;
     protected final IRuleExecuteService ruleExecuteService;
 
     public AbstractCrudFacade(
             HttpServletRequest request, HttpServletResponse response,
             Service service,
             IRuleExecuteService ruleExecuteService) {
-        super(request, response);
-        this.service = service;
+        super(request, response,service);
         this.ruleExecuteService = ruleExecuteService;
     }
 
@@ -137,7 +135,7 @@ public abstract class AbstractCrudFacade<Service extends IBaseService<Persistent
      */
     @ApiOperation(value = "列表查询", notes = "返回实体对应的列表", httpMethod = "GET")
     @GetMapping("/query")
-    public R<List<Response>> query(SearchForm obj,@RequestBody(required = false) List<OrderItem> orderItems) throws Exception {
+    public R<List<Response>> query(SearchForm obj, @RequestBody(required = false) List<OrderItem> orderItems) throws Exception {
         Persistent persistent = searchFormToPersistent(obj);
         Class<Persistent> persistentClass = service.entityClass();
         String ruleKey = "QUERY-" + persistentClass.getSimpleName().replace("Persistent", "");

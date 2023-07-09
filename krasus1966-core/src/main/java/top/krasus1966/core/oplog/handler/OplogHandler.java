@@ -54,6 +54,10 @@ public class OplogHandler {
     public void operLogPointCutBase() {
     }
 
+    @Pointcut("execution(* top.krasus1966.core.web.facade.*Facade.*(..))")
+    public void operLogPointCutBase2() {
+    }
+
     @Pointcut("execution(* top.krasus1966.common.file.facade.*Controller.*(..))")
     public void ignore() {
     }
@@ -67,7 +71,7 @@ public class OplogHandler {
      *
      * @param joinPoint 切入点
      */
-    @Around(value = "(operLogPointCut() || operLogPointCutBase()) && (!ignore() && !ignore2())")
+    @Around(value = "(operLogPointCut() || operLogPointCutBase() || operLogPointCutBase2()) && (!ignore() && !ignore2())")
     public Object saveOperLog(ProceedingJoinPoint joinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch("log");
         stopWatch.start();

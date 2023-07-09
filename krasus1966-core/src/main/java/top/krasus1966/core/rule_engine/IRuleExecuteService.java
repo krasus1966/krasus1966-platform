@@ -149,6 +149,19 @@ public interface IRuleExecuteService {
     }
 
     /**
+     * 刷新所有规则和脚本
+     *
+     * @return void
+     * @method reloadRule
+     * @author krasus1966
+     * @date 2023/7/8 22:06
+     * @description 刷新所有规则和脚本
+     */
+    default void reloadScript() {
+
+    }
+
+    /**
      * 重新刷新脚本
      *
      * @param language 语言

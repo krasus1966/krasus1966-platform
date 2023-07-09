@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>top.krasus1966.platform</groupId>
-            <artifactId>krasus1966-core</artifactId>
+            <artifactId>krasus1966-common-rule-engine</artifactId>
             <version>${project.version}</version>
         </dependency>
 

@@ -1,4 +1,7 @@
 version: 1.0
+rule:
+  facade:
+    enabled: true
 liteflow:
   enable: true
   rule-source-ext-data-map:

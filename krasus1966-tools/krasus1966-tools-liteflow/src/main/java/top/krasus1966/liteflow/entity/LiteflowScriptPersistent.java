@@ -1,9 +1,11 @@
-package top.krasus1966.liteflow.entity.persistent;
+package top.krasus1966.liteflow.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import top.krasus1966.common.rule_engine.entity.RuleScript;
 import top.krasus1966.core.db.entity.AbstractPersistent;
 
 /**
@@ -12,6 +14,7 @@ import top.krasus1966.core.db.entity.AbstractPersistent;
  **/
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @TableName("liteflow_script")
 public class LiteflowScriptPersistent extends AbstractPersistent {
 
@@ -32,4 +35,14 @@ public class LiteflowScriptPersistent extends AbstractPersistent {
 
     @TableField
     private String scriptLanguage;
+
+    public LiteflowScriptPersistent(RuleScript script) {
+        super.setId(script.getId());
+        this.applicationName = script.getAppName();
+        this.scriptId = script.getScriptKey();
+        this.scriptName = script.getScriptName();
+        this.scriptData = script.getScriptData();
+        this.scriptType = script.getScriptType();
+        this.scriptLanguage = script.getScriptLanguage();
+    }
 }

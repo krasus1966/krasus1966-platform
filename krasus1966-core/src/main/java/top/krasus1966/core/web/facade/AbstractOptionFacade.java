@@ -17,7 +17,8 @@ import java.util.Map;
  * @author Krasus1966
  * @date 2023/6/18 22:55
  **/
-public abstract class AbstractOptionFacade<Service extends IBaseService<Persistent>, Persistent extends AbstractPersistent> extends BaseController {
+public abstract class AbstractOptionFacade<Service extends IBaseService<Persistent>,
+        Persistent extends AbstractPersistent> extends BaseController {
 
     protected final Service service;
 

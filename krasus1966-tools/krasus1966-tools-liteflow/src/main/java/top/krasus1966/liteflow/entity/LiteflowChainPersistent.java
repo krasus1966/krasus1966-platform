@@ -1,9 +1,11 @@
-package top.krasus1966.liteflow.entity.persistent;
+package top.krasus1966.liteflow.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import top.krasus1966.common.rule_engine.entity.Rule;
 import top.krasus1966.core.db.entity.AbstractPersistent;
 
 /**
@@ -12,6 +14,7 @@ import top.krasus1966.core.db.entity.AbstractPersistent;
  **/
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @TableName("liteflow_chain")
 public class LiteflowChainPersistent extends AbstractPersistent {
 
@@ -26,4 +29,12 @@ public class LiteflowChainPersistent extends AbstractPersistent {
 
     @TableField
     private String elData;
+
+    public LiteflowChainPersistent(Rule rule) {
+        super.setId(rule.getId());
+        this.applicationName = rule.getAppName();
+        this.chainKey = rule.getRuleKey();
+        this.chainName = rule.getRuleName();
+        this.elData = rule.getRuleData();
+    }
 }

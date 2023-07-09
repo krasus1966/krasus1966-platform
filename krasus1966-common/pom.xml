@@ -14,6 +14,7 @@
     <modules>
         <module>krasus1966-common-file</module>
         <module>krasus1966-common-preview</module>
+        <module>krasus1966-common-rule-engine</module>
     </modules>
 
 

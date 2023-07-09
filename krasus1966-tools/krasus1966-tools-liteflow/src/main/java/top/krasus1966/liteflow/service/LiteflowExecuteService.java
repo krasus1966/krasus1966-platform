@@ -5,10 +5,9 @@ import com.yomahub.liteflow.core.FlowExecutor;
 import com.yomahub.liteflow.flow.LiteflowResponse;
 import com.yomahub.liteflow.script.ScriptBeanManager;
 import com.yomahub.liteflow.script.ScriptExecutorFactory;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import top.krasus1966.core.rule_engine.IRuleExecuteService;
-import top.krasus1966.liteflow.entity.persistent.LiteflowChainPersistent;
+import top.krasus1966.liteflow.entity.LiteflowChainPersistent;
 import top.krasus1966.liteflow.mybatis.service.LiteflowChainServiceImpl;
 
 /**
@@ -21,7 +20,7 @@ public class LiteflowExecuteService implements IRuleExecuteService {
     private final FlowExecutor flowExecutor;
     private final LiteflowChainServiceImpl liteflowChainService;
 
-    public LiteflowExecuteService(FlowExecutor flowExecutor,@Lazy LiteflowChainServiceImpl liteflowChainService) {
+    public LiteflowExecuteService(FlowExecutor flowExecutor, LiteflowChainServiceImpl liteflowChainService) {
         this.flowExecutor = flowExecutor;
         this.liteflowChainService = liteflowChainService;
     }
