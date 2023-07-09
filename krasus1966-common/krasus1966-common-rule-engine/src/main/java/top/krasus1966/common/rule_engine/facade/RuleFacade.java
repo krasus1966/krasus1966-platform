@@ -2,6 +2,7 @@ package top.krasus1966.common.rule_engine.facade;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.krasus1966.common.rule_engine.entity.PageResultDTO;
@@ -20,6 +21,8 @@ import java.util.List;
  **/
 @ResponseBody
 @RequestMapping("/rule")
+@RestController
+@ConditionalOnProperty(prefix = "rule.facade", name = "enabled", havingValue = "true")
 public class RuleFacade extends BaseController {
     private final IRuleStoreService ruleStoreService;
     private final IRuleExecuteService ruleExecuteService;

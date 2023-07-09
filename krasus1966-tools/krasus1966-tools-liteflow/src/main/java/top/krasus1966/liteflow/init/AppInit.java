@@ -4,7 +4,6 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 import top.krasus1966.core.rule_engine.IRuleExecuteService;
 import top.krasus1966.liteflow.script.StringUtil;
 
@@ -14,7 +13,7 @@ import top.krasus1966.liteflow.script.StringUtil;
  **/
 @ComponentScan("top.krasus1966")
 @MapperScan("top.krasus1966.liteflow")
-@Component
+//@Component
 public class AppInit implements ApplicationRunner {
     private final IRuleExecuteService ruleExecuteService;
 

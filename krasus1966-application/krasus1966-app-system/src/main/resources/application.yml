@@ -135,3 +135,30 @@ logging:
       clean-history-on-start: @logging.clean-history-on-start@
       max-history: @logging.max-history@
       max-file-size: @logging.max-file-size@
+file:
+  facade:
+    enabled: false
+rule:
+  facade:
+    enabled: true
+liteflow:
+  enable: true
+  rule-source-ext-data-map:
+    url: jdbc:mysql://localhost:3306/base_backend?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&serverTimezone=Asia/Shanghai
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 196610121
+    applicationName: demo
+    #以下是chain表的配置，这个一定得有
+    chainTableName: liteflow_chain
+    chainApplicationNameField: application_name
+    chainNameField: chain_key
+    elDataField: el_data
+    #以下是script表的配置，如果你没使用到脚本，下面可以不配置
+    scriptTableName: liteflow_script
+    scriptApplicationNameField: application_name
+    scriptIdField: script_id
+    scriptNameField: script_name
+    scriptDataField: script_data
+    scriptTypeField: script_type
+    scriptLanguageField: script_language

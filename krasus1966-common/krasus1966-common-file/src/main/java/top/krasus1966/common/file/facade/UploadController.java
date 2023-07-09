@@ -1,5 +1,6 @@
 package top.krasus1966.common.file.facade;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
 import top.krasus1966.common.file.entity.dto.FileChunkDTO;
 import top.krasus1966.common.file.entity.dto.FileChunkResultDTO;
@@ -20,6 +21,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/file/upload")
+@ConditionalOnProperty(prefix = "file.facade", name = "enabled", havingValue = "true")
 public class UploadController extends BaseController {
 
     private final IFileService fileService;

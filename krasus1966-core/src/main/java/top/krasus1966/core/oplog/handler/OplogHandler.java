@@ -8,7 +8,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import top.krasus1966.core.oplog.OplogServiceImpl;
@@ -46,6 +48,15 @@ public class OplogHandler {
     /**
      * 设置操作日志切入点 记录操作日志 在注解的位置切入代码
      */
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
+            "|| @annotation(org.springframework.web.bind.annotation.GetMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PutMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PatchMapping)")
+    public void all() {
+    }
+
     @Pointcut("execution(public * top.krasus1966.*.facade..*(..))")
     public void operLogPointCut() {
     }
@@ -71,7 +82,8 @@ public class OplogHandler {
      *
      * @param joinPoint 切入点
      */
-    @Around(value = "(operLogPointCut() || operLogPointCutBase() || operLogPointCutBase2()) && (!ignore() && !ignore2())")
+//    @Around(value = "(operLogPointCut() || operLogPointCutBase() || operLogPointCutBase2()) && (!ignore() && !ignore2())")
+    @Around(value = "all()")
     public Object saveOperLog(ProceedingJoinPoint joinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch("log");
         stopWatch.start();

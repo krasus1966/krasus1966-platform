@@ -12,7 +12,7 @@
     <artifactId>krasus1966-register</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>krasus1966-register-nacos</module>
+<!--        <module>krasus1966-register-nacos</module>-->
     </modules>
 
 </project>

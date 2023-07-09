@@ -1,7 +1,7 @@
 package top.krasus1966.common.preview.service;
 
 import cn.hutool.core.util.IdUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import top.krasus1966.common.file.entity.dto.FileChunkDTO;
 import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.file.service.IFileService;

@@ -4,6 +4,7 @@ import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.ZipUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
 import top.krasus1966.common.file.entity.dto.FileChunkDTO;
 import top.krasus1966.common.file.entity.dto.FileInfoDTO;
@@ -33,6 +34,7 @@ import java.util.UUID;
 @RestController
 @Slf4j
 @RequestMapping("/file/download")
+@ConditionalOnProperty(prefix = "file.facade", name = "enabled", havingValue = "true")
 public class DownloadController extends BaseController {
 
 

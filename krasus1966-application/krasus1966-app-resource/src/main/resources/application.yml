@@ -13,7 +13,6 @@ project:
     extra-file-path: @project.convert.extra-file-path@
 server:
   port: @resource.port@
-
 spring:
   profiles:
     active: @env@
