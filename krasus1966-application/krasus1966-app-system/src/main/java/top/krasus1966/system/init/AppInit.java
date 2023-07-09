@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2023/5/3 16:27
  **/
 @ComponentScans({@ComponentScan("top.krasus1966")})
-@MapperScans({@MapperScan("top.krasus1966.system"),@MapperScan("top.krasus1966.liteflow")})
+@MapperScans({@MapperScan("top.krasus1966.system")})
 @Component
 public class AppInit implements ApplicationRunner {
     @Override
