@@ -11,6 +11,9 @@ project:
     temp-file-path: @project.convert.temp-file-path@
     video-trans-path: @project.convert.video-trans-path@
     extra-file-path: @project.convert.extra-file-path@
+file:
+  facade:
+    enabled: true
 server:
   port: @resource.port@
 spring:

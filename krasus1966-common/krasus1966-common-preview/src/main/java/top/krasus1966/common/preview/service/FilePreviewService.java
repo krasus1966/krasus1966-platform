@@ -2,6 +2,7 @@ package top.krasus1966.common.preview.service;
 
 import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.preview.entity.FileAttribute;
+import top.krasus1966.common.preview.entity.PreviewResult;
 
 import java.io.IOException;
 
@@ -11,5 +12,5 @@ import java.io.IOException;
  **/
 public interface FilePreviewService {
 
-    Object filePreviewHandle(FileAttribute fileAttribute, FileInfoDTO fileInfoDTO) throws IOException;
+    PreviewResult filePreviewHandle(FileAttribute fileAttribute, FileInfoDTO fileInfoDTO) throws IOException;
 }

@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public enum FileType {
 
-    PICTURE("pictureFilePreviewImpl"),
+    PICTURE("pictureFilePreviewService"),
     COMPRESS("compressFilePreviewImpl"),
     OFFICE("officeFilePreviewServiceImpl"),
     SIMTEXT("simTextFilePreviewImpl"),

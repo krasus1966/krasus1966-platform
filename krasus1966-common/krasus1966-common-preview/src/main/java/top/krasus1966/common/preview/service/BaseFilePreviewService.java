@@ -18,11 +18,24 @@ import java.util.stream.Collectors;
  * @author Krasus1966
  * @date 2023/5/7 16:51
  **/
-public class BaseFilePreviewService {
+public abstract class BaseFilePreviewService {
     protected final IFileService fileService;
+
+    private final List<String> allowPreviewTypes = new ArrayList<>();
 
     public BaseFilePreviewService(IFileService fileService) {
         this.fileService = fileService;
+        allowPreviewTypes();
+    }
+
+    public abstract void allowPreviewTypes();
+
+    public void addAllowPreviewTypes(String type) {
+        allowPreviewTypes.add(type);
+    }
+
+    public List<String> getAllowPreviewType() {
+        return allowPreviewTypes;
     }
 
     protected List<FileInfoDTO> queryExistFile(FileAttribute fileAttribute,String previewType) throws IOException {
@@ -32,7 +45,7 @@ public class BaseFilePreviewService {
         fileChunkDTO.setPreviewType(previewType);
         List<FileInfoDTO> query = fileService.query(fileChunkDTO);
         if (null != query && !query.isEmpty()) {
-            return query.stream().sorted(Comparator.comparing(FileInfoDTO::getSort)).collect(Collectors.toList());
+            return query.stream().sorted(Comparator.comparing(FileInfoDTO::getSort)).peek(item -> item.setPreviewType(previewType)).collect(Collectors.toList());
         }
         return new ArrayList<>();
     }

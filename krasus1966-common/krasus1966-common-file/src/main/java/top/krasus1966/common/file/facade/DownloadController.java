@@ -34,6 +34,7 @@ import java.util.UUID;
 @RestController
 @Slf4j
 @RequestMapping("/file/download")
+@CrossOrigin(origins = "*")
 @ConditionalOnProperty(prefix = "file.facade", name = "enabled", havingValue = "true")
 public class DownloadController extends BaseController {
 
@@ -47,7 +48,7 @@ public class DownloadController extends BaseController {
     }
 
 
-    @PostMapping("/queryPage")
+    @RequestMapping("/queryPage")
     public R<PageResultDTO<FileInfoDTO>> queryPage(FileChunkDTO fileChunkDTO, Integer page,
                                                    Integer pageSize) throws IOException {
         return R.success(fileService.queryPage(fileChunkDTO, page, pageSize));

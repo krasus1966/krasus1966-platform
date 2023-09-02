@@ -10,6 +10,7 @@ import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.file.service.IFileService;
 import top.krasus1966.common.preview.entity.FileAttribute;
 import top.krasus1966.common.preview.entity.FilePreviewType;
+import top.krasus1966.common.preview.entity.PreviewResult;
 import top.krasus1966.common.preview.exception.ConvertException;
 import top.krasus1966.common.preview.service.BaseFilePreviewService;
 import top.krasus1966.common.preview.service.FilePreviewService;
@@ -33,22 +34,28 @@ public class PdfFilePreviewServiceImpl extends BaseFilePreviewService implements
     }
 
     @Override
-    public Object filePreviewHandle(FileAttribute fileAttribute,FileInfoDTO fileInfoDTO) throws IOException {
-        String previewType = StrUtil.isBlank(fileAttribute.getPreviewType()) ? FilePreviewType.IMAGE : fileAttribute.getPreviewType();
+    public void allowPreviewTypes() {
+        addAllowPreviewTypes(FilePreviewType.PDF);
+        addAllowPreviewTypes(FilePreviewType.IMAGE);
+    }
+
+    @Override
+    public PreviewResult filePreviewHandle(FileAttribute fileAttribute, FileInfoDTO fileInfoDTO) throws IOException {
+        String previewType = StrUtil.isBlank(fileAttribute.getPreviewType()) ? getAllowPreviewType().get(0) : fileAttribute.getPreviewType();
         if (FilePreviewType.PDF.equals(previewType)) {
             // 直接返回文件
-            return Collections.singletonList(fileInfoDTO);
+            return new PreviewResult(getAllowPreviewType(),Collections.singletonList(fileInfoDTO));
         }
         List<FileInfoDTO> fileInfoDTOS = queryExistFile(fileAttribute, previewType);
         if (null != fileInfoDTOS && !fileInfoDTOS.isEmpty()) {
-            return fileInfoDTOS;
+            return new PreviewResult(getAllowPreviewType(),fileInfoDTOS);
         }
         String url = fileAttribute.getFileUrl();
         File tempOutputFolder = new File(getTempPathName(fileAttribute,"download"));
         File tempFile = FileUtil.createTempFile(fileAttribute.getFileName(), "." + fileAttribute.getSuffix(), tempOutputFolder, true);
         try {
             HttpUtil.downloadFile(url, tempFile);
-            return OfficeConvertUtil.getPreviewType(fileAttribute, tempFile.getPath(), fileService);
+            return new PreviewResult(getAllowPreviewType(),OfficeConvertUtil.getPreviewType(fileAttribute, tempFile.getPath(), fileService));
         } catch (HttpException e) {
             throw new ConvertException("获取源文件失败");
         } finally {

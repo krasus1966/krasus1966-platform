@@ -2,10 +2,7 @@ package top.krasus1966.common.preview.facade;
 
 import cn.hutool.core.io.FileUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.file.service.IFileService;
 import top.krasus1966.common.preview.entity.FileAttribute;
@@ -31,6 +28,7 @@ import java.util.Locale;
 @RestController
 @RequestMapping("/file/preview")
 @Slf4j
+@CrossOrigin(origins = "*")
 public class PreviewFacade extends BaseController {
 
     private static final String TEMP_PATH_NAME = "preview";

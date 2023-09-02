@@ -11,6 +11,7 @@ import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.file.service.IFileService;
 import top.krasus1966.common.preview.entity.FileAttribute;
 import top.krasus1966.common.preview.entity.FilePreviewType;
+import top.krasus1966.common.preview.entity.PreviewResult;
 import top.krasus1966.common.preview.entity.ResultMsg;
 import top.krasus1966.common.preview.exception.ConvertException;
 import top.krasus1966.common.preview.service.BaseFilePreviewService;
@@ -34,12 +35,18 @@ public class OfficeFilePreviewServiceImpl extends BaseFilePreviewService impleme
     }
 
     @Override
-    public List<FileInfoDTO> filePreviewHandle(FileAttribute fileAttribute, FileInfoDTO fileInfoDTO) throws IOException {
-        String previewType = StrUtil.isBlank(fileAttribute.getPreviewType()) ? FilePreviewType.IMAGE : fileAttribute.getPreviewType();
+    public void allowPreviewTypes() {
+        addAllowPreviewTypes(FilePreviewType.PDF);
+        addAllowPreviewTypes(FilePreviewType.IMAGE);
+    }
+
+    @Override
+    public PreviewResult filePreviewHandle(FileAttribute fileAttribute, FileInfoDTO fileInfoDTO) throws IOException {
+        String previewType = StrUtil.isBlank(fileAttribute.getPreviewType()) ? getAllowPreviewType().get(0) : fileAttribute.getPreviewType();
         // 通过fileId查询是否已经有对应类型的预览文件
         List<FileInfoDTO> fileInfoDTOS = queryExistFile(fileAttribute, previewType);
         if (null != fileInfoDTOS && !fileInfoDTOS.isEmpty()) {
-            return fileInfoDTOS;
+            return new PreviewResult(getAllowPreviewType(),fileInfoDTOS);
         }
         boolean needCreatePDF = true;
         String url = fileAttribute.getFileUrl();
@@ -54,13 +61,13 @@ public class OfficeFilePreviewServiceImpl extends BaseFilePreviewService impleme
         File tempFile = FileUtil.createTempFile(fileAttribute.getFileName(), "." + fileAttribute.getSuffix(), tempOutputFolder, true);
         try {
             HttpUtil.downloadFile(url, tempFile);
-            String tempPDFPath = getTempPathName(fileAttribute, "pdf") + fileAttribute.getFileName() + ".pdf";
             if (!needCreatePDF) {
-                return OfficeConvertUtil.getPreviewType(fileAttribute, tempFile.getPath(), fileService);
+                return new PreviewResult(getAllowPreviewType(),OfficeConvertUtil.getPreviewType(fileAttribute, tempFile.getPath(), fileService));
             }
+            String tempPDFPath = getTempPathName(fileAttribute, "pdf") + fileAttribute.getFileName() + ".pdf";
             ResultMsg resultMsg = OfficeConvertUtil.officeConvert2PDF(tempFile, tempPDFPath);
             if (ResultMsg.SUCCESS.equals(resultMsg.getCode())) {
-                return OfficeConvertUtil.getPreviewType(fileAttribute, tempPDFPath, fileService);
+                return new PreviewResult(getAllowPreviewType(),OfficeConvertUtil.getPreviewType(fileAttribute, tempPDFPath, fileService));
             }
             throw new ConvertException(resultMsg.getMsg());
         } catch (OfficeException e) {

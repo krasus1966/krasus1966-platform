@@ -7,6 +7,7 @@ import top.krasus1966.common.file.entity.dto.FileInfoDTO;
 import top.krasus1966.common.file.service.IFileService;
 import top.krasus1966.common.preview.entity.FileAttribute;
 import top.krasus1966.common.preview.entity.FilePreviewType;
+import top.krasus1966.common.preview.entity.PreviewResult;
 
 import java.util.Arrays;
 
@@ -22,9 +23,14 @@ public class TextFilePreviewService extends BaseFilePreviewService implements Fi
     }
 
     @Override
-    public Object filePreviewHandle(FileAttribute fileAttribute, FileInfoDTO fileInfoDTO) {
-        String previewType = StrUtil.isBlank(fileAttribute.getPreviewType()) ? FilePreviewType.HTML : fileAttribute.getPreviewType();
-        return Arrays.asList(fileInfoDTO);
+    public void allowPreviewTypes() {
+        addAllowPreviewTypes(FilePreviewType.HTML);
+    }
+
+    @Override
+    public PreviewResult filePreviewHandle(FileAttribute fileAttribute, FileInfoDTO fileInfoDTO) {
+        String previewType = StrUtil.isBlank(fileAttribute.getPreviewType()) ? getAllowPreviewType().get(0) : fileAttribute.getPreviewType();
+        return new PreviewResult(getAllowPreviewType(),Arrays.asList(fileInfoDTO));
         /*
         // 通过fileId查询是否已经有对应类型的预览文件
         FileChunkDTO fileChunkDTO = new FileChunkDTO();

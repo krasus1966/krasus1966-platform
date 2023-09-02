@@ -24,6 +24,8 @@ public class FileInfoDTO {
 
     private InputStream inputStream;
 
+    private String previewType;
+
     public String getFileId() {
         return fileId;
     }
@@ -93,6 +95,15 @@ public class FileInfoDTO {
 
     public FileInfoDTO setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
+        return this;
+    }
+
+    public String getPreviewType() {
+        return previewType;
+    }
+
+    public FileInfoDTO setPreviewType(String previewType) {
+        this.previewType = previewType;
         return this;
     }
 }
