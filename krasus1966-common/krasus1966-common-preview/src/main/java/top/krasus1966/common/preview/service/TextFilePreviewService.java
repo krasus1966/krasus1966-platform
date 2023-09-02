@@ -24,6 +24,7 @@ public class TextFilePreviewService extends BaseFilePreviewService implements Fi
 
     @Override
     public void allowPreviewTypes() {
+        addAllowPreviewTypes(FilePreviewType.TXT);
         addAllowPreviewTypes(FilePreviewType.HTML);
     }
 

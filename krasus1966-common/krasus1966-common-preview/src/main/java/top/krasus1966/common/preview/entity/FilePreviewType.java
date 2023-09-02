@@ -11,6 +11,7 @@ import java.util.List;
 public class FilePreviewType {
     public static final String IMAGE = "image";
     public static final String PDF = "pdf";
+    public static final String TXT = "txt";
     public static final String HTML = "html";
 
     /**
@@ -29,7 +30,7 @@ public class FilePreviewType {
     private static final List<String> PREVIEW_SUFFIX_WORD = Arrays.asList(PDF, IMAGE);
     private static final List<String> PREVIEW_SUFFIX_EXCEL = Arrays.asList(IMAGE, HTML);
     private static final List<String> PREVIEW_SUFFIX_IMAGE = Arrays.asList(IMAGE);
-    private static final List<String> PREVIEW_SUFFIX_TEXT = Arrays.asList(HTML);
+    private static final List<String> PREVIEW_SUFFIX_TEXT = Arrays.asList(HTML,TXT);
 
     public enum Suffix {
         WORD(SUFFIX_WORD,PREVIEW_SUFFIX_WORD),
