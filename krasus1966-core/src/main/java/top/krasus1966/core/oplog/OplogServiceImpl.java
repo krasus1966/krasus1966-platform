@@ -9,28 +9,29 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.RenameCollectionOptions;
 import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import top.krasus1966.core.base.constant.LoginConstants;
 import top.krasus1966.core.oplog.anno.OplogInfo;
 import top.krasus1966.core.oplog.entity.OpLogInfo;
-import top.krasus1966.core.oplog.util.OplogUtil;
 import top.krasus1966.core.web.auth.entity.UserLoginInfo;
 import top.krasus1966.core.web.entity.R;
 import top.krasus1966.core.web.util.login.LoginUtils;
 import top.krasus1966.core.web.util.servlet.IPUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 
 /**
  * @author Krasus1966
@@ -63,7 +64,7 @@ public class OplogServiceImpl {
                                 Object result,
                                 boolean isSuccess,
                                 String exceptInfo,
-                                long costTime) {
+                                long costTime) throws IOException {
         OpLogInfo oplogs = new OpLogInfo();
         // 从切面织入点处通过反射机制获取织入点处的方法
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -95,11 +96,13 @@ public class OplogServiceImpl {
         // 请求方法
         oplogs.setMethod(methodName);
         // 请求的参数
-        Map<String, String> rtnMap = OplogUtil.converMap(request.getParameterMap());
+        // Map<String, String> rtnMap = OplogUtil.converMap(request.getParameterMap());
         // 将参数所在的数组转换成json
-        String params = JSONUtil.toJsonStr(rtnMap);
-        // 请求参数
-        oplogs.setParams(CharSequenceUtil.sub(params, 0, 65535));
+        if (null != joinPoint.getArgs() && !(joinPoint.getTarget() instanceof BasicErrorController)) {
+            String params = JSONUtil.toJsonStr(joinPoint.getArgs());
+            // 请求参数
+            oplogs.setParams(CharSequenceUtil.sub(params, 0, 65535));
+        }
         // 返回结果
         String realResult = JSONUtil.toJsonStr(result);
         oplogs.setResult(CharSequenceUtil.sub(realResult, 0, 65535));
@@ -172,5 +175,17 @@ public class OplogServiceImpl {
         dbCollection.renameCollection(new MongoNamespace("oplog_info_" + suffix),
                 new RenameCollectionOptions().dropTarget(true));
         dbCollection.insertOne(oplog);
+    }
+
+    public String getRequestJson(HttpServletRequest request) throws IOException {
+        StringBuilder buffer = new StringBuilder();
+        BufferedReader reader = request.getReader();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            buffer.append(line);
+        }
+        String requestBody = buffer.toString();
+        System.out.println("--------> get request json is :" + requestBody);
+        return requestBody;
     }
 }

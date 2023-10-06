@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.krasus1966.system.mapper.user.ISysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.krasus1966.system.domain.sys_user.SysUser">
+        <result column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="real_name" property="realName"/>
+        <result column="mobile" property="mobile"/>
+        <result column="email" property="email"/>
+        <result column="sex" property="sex"/>
+        <result column="birthday" property="birthday"/>
+        <result column="org_id" property="orgId"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="auth_type" property="authType"/>
+        <result column="version" property="version"/>
+        <result column="deleted" property="deleted"/>
+        <result column="crt_time" property="crtTime"/>
+        <result column="crt_id" property="crtId"/>
+        <result column="crt_ip" property="crtIp"/>
+        <result column="upd_time" property="updTime"/>
+        <result column="upd_id" property="updId"/>
+        <result column="upd_ip" property="updIp"/>
+        <collection property="roleList"
+                    column="{user_id = id}"
+                    javaType="java.util.ArrayList"
+                    select="top.krasus1966.base.mapper.SysRoleMapper.selectList"
+                    ofType="top.krasus1966.system.domain.sys_user.SysUserRole"
+                    fetchType="eager"
+        ></collection>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,
+        crt_time,
+        crt_id,
+        crt_ip,
+        upd_time,
+        upd_id,
+        upd_ip,
+        user_name, password, nick_name, real_name, mobile, email, sex, birthday, com_id, org_id, dept_id, union_id, auth_type, version, deleted
+    </sql>
+
+    <sql id="User_Join_Role">
+        su.id,
+        su.crt_time,
+        su.crt_id,
+        su.crt_ip,
+        su.upd_time,
+        su.upd_id,
+        su.upd_id,
+        su.user_name, su.nick_name, su.real_name, su.mobile, su.email, su.sex, su.birthday, su.com_id, su.org_id, su.dept_id, su.union_id, su.auth_type, su.version, su.deleted
+    </sql>
+
+    <select id="queryPageRoleUser">
+        SELECT
+        <include refid="User_Join_Role"/>
+        FROM sys_user AS su
+        LEFT JOIN sys_user_role AS sur ON su.id = sur.user_id
+        ${ew.customSqlSegment}
+    </select>
+
+</mapper>

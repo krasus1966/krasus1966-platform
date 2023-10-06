@@ -1,6 +1,8 @@
 package top.krasus1966.core.web.config;
 
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -19,8 +21,8 @@ import java.util.List;
  * @author Krasus1966
  * @date 2021/5/5 13:54
  **/
-//@Configuration
-//@EnableConfigurationProperties(LoginConstants.class)
+@Configuration
+@EnableConfigurationProperties(LoginConstants.class)
 public class WebMVCConfig implements WebMvcConfigurer {
 
     private final StringRedisTemplate stringRedisTemplate;
@@ -50,7 +52,8 @@ public class WebMVCConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("*")
-                .allowedOrigins("http://www.krasus1966.top", "http://127.0.0.1:8889")
+//                .allowedOrigins("http://www.krasus1966.top", "http://127.0.0.1:8889")
+                .allowedOrigins("*")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true)
@@ -62,15 +65,11 @@ public class WebMVCConfig implements WebMvcConfigurer {
         String env = SpringUtil.getProperty("spring.profiles.active");
         if (!"prod".equals(env)) {
             registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
-            registry.addResourceHandler("/service-worker.js").addResourceLocations("classpath" +
-                    ":/META-INF/service-worker.js");
+            registry.addResourceHandler("/service-worker.js").addResourceLocations("classpath:/META-INF/service-worker.js");
             // 解决 SWAGGER 404报错
-            registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META" +
-                    "-INF/resources/");
-            registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF" +
-                    "/resources/");
-            registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF" +
-                    "/resources/webjars/");
+            registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+            registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
+            registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         }
     }
 }

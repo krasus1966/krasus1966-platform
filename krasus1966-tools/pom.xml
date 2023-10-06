@@ -25,6 +25,7 @@
         <module>krasus1966-tools-schedule</module>
         <module>krasus1966-tools-flowable</module>
         <module>krasus1966-tools-liteflow</module>
+        <module>krasus1966-tools-generator</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 

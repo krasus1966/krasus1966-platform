@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.krasus1966.system.mapper.menu.ISysMenuMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.krasus1966.system.domain.menu.SysMenu">
+        <result column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="menu_code" property="menuCode"/>
+        <result column="menu_title" property="menuTitle"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_route" property="menuRoute"/>
+        <result column="menu_icon" property="menuIcon"/>
+        <result column="menu_type" property="menuType"/>
+        <result column="is_hidden" property="isHidden"/>
+        <result column="no_cache" property="noCache"/>
+        <result column="sort" property="sort"/>
+        <result column="deleted" property="deleted"/>
+
+        <result column="crt_time" property="crtTime" />
+        <result column="crt_id" property="crtId" />
+        <result column="crt_ip" property="crtIp" />
+        <result column="upd_time" property="updTime" />
+        <result column="upd_id" property="updId" />
+        <result column="upd_ip" property="updIp" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        crt_time,
+        crt_id,
+        crt_ip,
+        upd_time,
+        upd_id,
+        upd_ip,
+        menu_code, menu_icon, menu_name, menu_type,parent_id,
+        menu_title, menu_route, is_hidden, no_cache,sort,deleted
+    </sql>
+
+    <!-- 联合查询结果列 -->
+    <sql id="Union_Column_List">
+        sm.id,
+        sm.crt_time,
+        sm.crt_id,
+        sm.crt_ip,
+        sm.upd_time,
+        sm.upd_id,
+        sm.upd_ip,
+        sm.menu_code, sm.menu_icon, sm.menu_name, sm.menu_type,sm.parent_id,
+        sm.menu_title, sm.menu_route, sm.is_hidden, sm.no_cache,sm.sort,sm.deleted
+    </sql>
+
+    <select id="queryMenuByUserId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Union_Column_List"/>
+        FROM
+        sys_menu AS sm
+        LEFT JOIN sys_role_menu AS srm ON sm.id = srm.menu_id
+        LEFT JOIN sys_user_role AS sur ON srm.role_id = sur.role_id
+        <where>
+            sur.user_id = #{userId}
+        </where>
+    </select>
+
+    <select id="queryMenuByUserIdAndRoleId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Union_Column_List"/>
+        FROM
+        sys_menu AS sm
+        LEFT JOIN sys_role_menu AS srm ON sm.id = srm.menu_id
+        LEFT JOIN sys_user_role AS sur ON srm.role_id = sur.role_id
+        <where>
+            sur.user_id = #{userId}
+            <if test="null != roleId and '' != roleId">
+                AND sur.role_id = #{roleId}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPageMenu" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Union_Column_List"/>
+        FROM
+        sys_menu AS sm
+        LEFT JOIN sys_role_menu AS srm ON sm.id = srm.menu_id
+        LEFT JOIN sys_user_role AS sur ON srm.role_id = sur.role_id
+        ${ew.customSqlSegment}
+    </select>
+</mapper>

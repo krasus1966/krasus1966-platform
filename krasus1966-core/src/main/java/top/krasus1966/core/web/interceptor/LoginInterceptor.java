@@ -8,6 +8,7 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 import top.krasus1966.core.web.auth.anno.Auth;
 import top.krasus1966.core.base.constant.LoginConstants;
 import top.krasus1966.core.web.auth.entity.UserLoginInfo;
+import top.krasus1966.core.web.constant.LoginConst;
 import top.krasus1966.core.web.util.login.LoginUtils;
 import top.krasus1966.core.cache.redis_util.CacheUtil;
 import top.krasus1966.core.web.util.servlet.ServletUtils;
@@ -52,10 +53,10 @@ public class LoginInterceptor implements HandlerInterceptor {
                     return false;
                 }
                 String redisToken =
-                        CacheUtil.get(top.krasus1966.core.web.constant.LoginConstants.USER_TOKEN + info.getTenantId() + ":" + info.getId());
+                        CacheUtil.get(LoginConst.USER_TOKEN + info.getTenantId() + ":" + info.getId());
                 // 当前用户登录缓存token和缓存用户信息中的token不一致，应删除缓存用户信息
                 if (!redisToken.equals(info.getToken())) {
-                    CacheUtil.del(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + info.getToken());
+                    CacheUtil.del(LoginConst.USER_INFO + info.getToken());
                     ServletUtils.setRepeatLoginResponse(response);
                     return false;
                 }

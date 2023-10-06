@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.krasus1966.system.mapper.sys.ISysDictMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.krasus1966.system.domain.sys.SysDict">
+        <result column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="dict_code" property="dictCode"/>
+        <result column="dict_name" property="dictName"/>
+        <result column="dict_value" property="dictValue"/>
+        <result column="deleted" property="deleted"/>
+
+        <result column="crt_time" property="crtTime" />
+        <result column="crt_id" property="crtId" />
+        <result column="crt_ip" property="crtIp" />
+        <result column="upd_time" property="updTime" />
+        <result column="upd_id" property="updId" />
+        <result column="upd_ip" property="updIp" />
+
+        <collection property="children"
+                    javaType="java.util.ArrayList"
+                    ofType="top.krasus1966.system.domain.sys.SysDict"
+                    select="com.ttsx.base.service.backend.mapper.sys.ISysDictMapper.getChild"
+                    column="{parentId=id}"
+                    fetchType="eager"
+        />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        crt_time,
+        crt_id,
+        crt_ip,
+        upd_time,
+        upd_user,
+        upd_ip,
+        parent_id, dict_code, dict_name, dict_value, deleted
+    </sql>
+
+    <!--  查询字典树  -->
+    <select id="getTree" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_dict
+        ${ew.customSqlSegment}
+    </select>
+
+    <!--  查询子字典项，用于构建树  -->
+    <select id="getChild" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_dict
+        WHERE parent_id = #{parentId} AND deleted = 0
+    </select>
+</mapper>

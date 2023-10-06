@@ -3,6 +3,8 @@ package top.krasus1966.common.file.facade;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.ZipUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +17,12 @@ import top.krasus1966.core.web.entity.R;
 import top.krasus1966.core.web.facade.BaseController;
 import top.krasus1966.core.web.util.servlet.StreamUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Krasus1966
@@ -34,7 +31,7 @@ import java.util.UUID;
 @RestController
 @Slf4j
 @RequestMapping("/file/download")
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @ConditionalOnProperty(prefix = "file.facade", name = "enabled", havingValue = "true")
 public class DownloadController extends BaseController {
 
@@ -64,7 +61,7 @@ public class DownloadController extends BaseController {
      * {@code @date} 2022/1/19 09:53
      * @description 通用文件下载
      */
-    @GetMapping("/{fileId}")
+    @RequestMapping("/{fileId}")
     public void download(@PathVariable("fileId") String fileId) {
         if (CharSequenceUtil.isBlank(fileId)) {
             throw new BizException("文件id不能为空");
@@ -79,6 +76,13 @@ public class DownloadController extends BaseController {
         } catch (IOException e) {
             log.error("/file/download/download ERROR", e);
         }
+    }
+
+    @RequestMapping("/test2")
+    public Map<String,Object> test2(@RequestBody Map<String,Object> map) {
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("error",0);
+        return resultMap;
     }
 
     /**

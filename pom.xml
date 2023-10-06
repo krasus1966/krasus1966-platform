@@ -24,6 +24,7 @@
         <spring.boot.version>3.1.1</spring.boot.version>
         <spring.cloud.alibaba.version>2021.1</spring.cloud.alibaba.version>
         <mybatis-plus-boot-starter.version>3.5.3.1</mybatis-plus-boot-starter.version>
+        <mybatis-plus-boot-starter.version>3.5.3.1</mybatis-plus-boot-starter.version>
         <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
         <p6spy.version>3.9.1</p6spy.version>
         <kaptcha.version>0.0.9</kaptcha.version>
@@ -86,6 +87,12 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-boot-starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatis-plus-boot-starter.version}</version>
             </dependency>
 

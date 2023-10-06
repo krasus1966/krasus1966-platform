@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.krasus1966.system.mapper.sys.ISysAppVersionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.krasus1966.system.domain.sys.SysAppVersion">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="client_type" property="clientType"/>
+        <result column="version" property="version"/>
+        <result column="link" property="link"/>
+        <result column="remark" property="remark"/>
+        <result column="status" property="status"/>
+        <result column="deleted" property="deleted"/>
+
+        <result column="crt_time" property="crtTime"/>
+        <result column="crt_id" property="crtId"/>
+        <result column="crt_ip" property="crtIp"/>
+        <result column="upd_time" property="updTime"/>
+        <result column="upd_id" property="updId"/>
+        <result column="upd_ip" property="updIp"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,
+        crt_time,
+        crt_id,
+        crt_ip,
+        upd_time,
+        upd_user,
+        upd_ip,
+        name, client_type, version, link, apk_id, status, deleted,remark
+    </sql>
+
+</mapper>

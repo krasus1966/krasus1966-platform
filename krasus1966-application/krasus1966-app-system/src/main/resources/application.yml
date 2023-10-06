@@ -13,7 +13,6 @@ project:
     download-url: 1
 server:
   port: @system.port@
-
 spring:
   profiles:
     active: @env@
@@ -65,18 +64,6 @@ spring:
             # 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认：30分钟
             max-lifetime: @log.datasource.max-lifetime@
             connection-test-query: @log.datasource.connection-test-query@
-  redis:
-    host: @redis.host@
-    port: @redis.port@
-    password: @redis.password@
-    database: 0
-    lettuce:
-      pool:
-        max-idle: @redis.max-idle@
-        min-idle: @redis.min-idle@
-        max-active: @redis.max-active@
-        max-wait: @redis.max-wait@
-      shutdown-timeout: @redis.shutdown-timeout@
   data:
     mongodb:
       database: @mongodb.database@
@@ -87,6 +74,18 @@ spring:
       authentication-database: @mongodb.authentication-database@
       gridfs:
         bucket: @mongodb.gridfs.bucket@
+    redis:
+      host: @redis.host@
+      port: @redis.port@
+      password: @redis.password@
+      database: 15
+      lettuce:
+        pool:
+          max-idle: @redis.max-idle@
+          min-idle: @redis.min-idle@
+          max-active: @redis.max-active@
+          max-wait: @redis.max-wait@
+        shutdown-timeout: @redis.shutdown-timeout@
   mvc:
     throw-exception-if-no-handler-found: true
     path-match:

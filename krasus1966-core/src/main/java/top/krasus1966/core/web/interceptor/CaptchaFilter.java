@@ -5,7 +5,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import top.krasus1966.core.cache.redis_util.CacheUtil;
-import top.krasus1966.core.web.constant.LoginConstants;
+import top.krasus1966.core.web.constant.LoginConst;
 import top.krasus1966.core.web.exception.CaptchaException;
 import top.krasus1966.core.web.util.servlet.ServletUtils;
 
@@ -44,7 +44,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
         if (CharSequenceUtil.isBlank(code) || CharSequenceUtil.isBlank(captchaToken)) {
             throw new CaptchaException("验证码不能为空");
         }
-        String cacheCode = CacheUtil.hget(LoginConstants.CAPTCHA_KEY, captchaToken);
+        String cacheCode = CacheUtil.hget(LoginConst.CAPTCHA_KEY, captchaToken);
         if (CharSequenceUtil.isBlank(cacheCode)) {
             throw new CaptchaException("验证码已过期");
         }
@@ -52,6 +52,6 @@ public class CaptchaFilter extends OncePerRequestFilter {
             throw new CaptchaException("验证码不正确");
         }
         // 使用后删除图片缓存
-        CacheUtil.hdel(LoginConstants.CAPTCHA_KEY, captchaToken);
+        CacheUtil.hdel(LoginConst.CAPTCHA_KEY, captchaToken);
     }
 }

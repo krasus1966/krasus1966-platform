@@ -92,6 +92,10 @@ public abstract class AbstractMybatisBaseService<Mapper extends BaseMapper<Persi
         return getBaseMapper().selectMaps(wrapper);
     }
 
+    public void check(Persistent obj) {
+
+    }
+
     public void formatOrderItem(List<OrderItem> orders) {
         if (null != orders && !orders.isEmpty()) {
             orders.forEach(orderItem -> orderItem.setColumn(StrUtil.toSymbolCase(orderItem.getColumn(), '_')));

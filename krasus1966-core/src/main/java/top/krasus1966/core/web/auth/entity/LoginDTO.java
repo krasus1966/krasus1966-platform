@@ -11,6 +11,10 @@ import java.io.Serializable;
 @Data
 public class LoginDTO implements Serializable {
 
+    public static final String USER_NAME = "username";
+    public static final String MOBILE = "mobile";
+    public static final String EMAIL = "email";
+
     /**
      * 账户 用户名/手机号码/邮箱
      */
@@ -30,4 +34,9 @@ public class LoginDTO implements Serializable {
      * 验证码
      */
     private String code;
+
+    /**
+     * 登录方式
+     */
+    private String loginType;
 }

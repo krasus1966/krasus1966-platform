@@ -5,7 +5,7 @@ import cn.hutool.core.util.HexUtil;
 import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.symmetric.AES;
-import top.krasus1966.core.web.constant.LoginConstants;
+import top.krasus1966.core.web.constant.LoginConst;
 import top.krasus1966.core.web.constant.SecurityConst;
 import top.krasus1966.core.web.util.login.LoginUtils;
 
@@ -85,7 +85,7 @@ public class AESUtil {
         if (CharSequenceUtil.isBlank(content)) {
             return null;
         }
-        String aesKey = LoginUtils.getOneInfo(LoginConstants.INFO_USER_AES_KEY);
+        String aesKey = LoginUtils.getOneInfo(LoginConst.INFO_USER_AES_KEY);
         if (CharSequenceUtil.isBlank(aesKey)) {
             return null;
         }
@@ -110,7 +110,7 @@ public class AESUtil {
         if (CharSequenceUtil.isBlank(content)) {
             return null;
         }
-        String aesKey = LoginUtils.getOneInfo(LoginConstants.INFO_USER_AES_KEY);
+        String aesKey = LoginUtils.getOneInfo(LoginConst.INFO_USER_AES_KEY);
         if (CharSequenceUtil.isBlank(aesKey)) {
             return null;
         }

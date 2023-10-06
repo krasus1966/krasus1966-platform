@@ -19,6 +19,8 @@ server:
 spring:
   profiles:
     active: @env@
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: @base.project.name@-@resource.name@
   messages:

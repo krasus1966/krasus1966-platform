@@ -6,6 +6,7 @@ import top.krasus1966.core.base.constant.LoginConstants;
 import top.krasus1966.core.cache.redis_util.CacheUtil;
 import top.krasus1966.core.spring.util.SpringUtil;
 import top.krasus1966.core.web.auth.entity.UserLoginInfo;
+import top.krasus1966.core.web.constant.LoginConst;
 import top.krasus1966.core.web.util.servlet.ServletUtils;
 
 import java.util.Map;
@@ -52,10 +53,10 @@ public class LoginUtils {
             return false;
         }
         String redisToken =
-                CacheUtil.get(top.krasus1966.core.web.constant.LoginConstants.USER_TOKEN + info.getTenantId() + ":" + info.getId());
+                CacheUtil.get(LoginConst.USER_TOKEN + info.getTenantId() + ":" + info.getId());
         // 当前用户登录缓存token和缓存用户信息中的token不一致，应删除缓存用户信息
         if (!redisToken.equals(info.getToken())) {
-            CacheUtil.del(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + info.getToken());
+            CacheUtil.del(LoginConst.USER_INFO + info.getToken());
             return false;
         }
         return true;
@@ -74,16 +75,16 @@ public class LoginUtils {
     public static void setLoginUserInfo(UserLoginInfo userInfo) {
         // 如果当前用户存在登录信息，删除
         String oldToken =
-                CacheUtil.get(top.krasus1966.core.web.constant.LoginConstants.USER_TOKEN + userInfo.getTenantId() + ":" + userInfo.getId());
+                CacheUtil.get(LoginConst.USER_TOKEN + userInfo.getTenantId() + ":" + userInfo.getId());
         if (null != oldToken && oldToken.length() > 0) {
-            CacheUtil.del(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + oldToken);
-            CacheUtil.del(top.krasus1966.core.web.constant.LoginConstants.USER_TOKEN + userInfo.getTenantId() + ":" + userInfo.getId());
+            CacheUtil.del(LoginConst.USER_INFO + oldToken);
+            CacheUtil.del(LoginConst.USER_TOKEN + userInfo.getTenantId() + ":" + userInfo.getId());
         }
 
         // 重新保存新的token和用户信息
-        CacheUtil.hset(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + userInfo.getToken(), userInfo.toMap(),
+        CacheUtil.hset(LoginConst.USER_INFO + userInfo.getToken(), userInfo.toMap(),
                 LOGIN_CONSTANTS.getExpireTimeLogin());
-        CacheUtil.set(top.krasus1966.core.web.constant.LoginConstants.USER_TOKEN + userInfo.getTenantId() + ":" + userInfo.getId()
+        CacheUtil.set(LoginConst.USER_TOKEN + userInfo.getTenantId() + ":" + userInfo.getId()
                 , userInfo.getToken(), LOGIN_CONSTANTS.getExpireTimeLogin());
     }
 
@@ -101,7 +102,7 @@ public class LoginUtils {
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }
-        Map<String, String> infoMap = CacheUtil.hget(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + token.trim());
+        Map<String, String> infoMap = CacheUtil.hget(LoginConst.USER_INFO + token.trim());
         if (null == infoMap || infoMap.isEmpty()) {
             return null;
         }
@@ -121,7 +122,7 @@ public class LoginUtils {
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }
-        Map<String, String> infoMap = CacheUtil.hget(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + token.trim());
+        Map<String, String> infoMap = CacheUtil.hget(LoginConst.USER_INFO + token.trim());
         if (null == infoMap || infoMap.isEmpty()) {
             return null;
         }
@@ -142,7 +143,7 @@ public class LoginUtils {
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }
-        return CacheUtil.hget(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + token.trim(), "id");
+        return CacheUtil.hget(LoginConst.USER_INFO + token.trim(), "id");
     }
 
     /**
@@ -159,7 +160,7 @@ public class LoginUtils {
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }
-        return CacheUtil.hget(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + token.trim(), "loginIp");
+        return CacheUtil.hget(LoginConst.USER_INFO + token.trim(), "loginIp");
     }
 
     /**
@@ -176,7 +177,7 @@ public class LoginUtils {
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }
-        return CacheUtil.hget(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + token.trim(), field);
+        return CacheUtil.hget(LoginConst.USER_INFO + token.trim(), field);
     }
 
     /**
@@ -192,7 +193,7 @@ public class LoginUtils {
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }
-        return CacheUtil.hget(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + token.trim(), field);
+        return CacheUtil.hget(LoginConst.USER_INFO + token.trim(), field);
     }
 
     /**
@@ -223,9 +224,9 @@ public class LoginUtils {
         UserLoginInfo info = getUserLoginInfo(token);
         if (null != info) {
             // 删除缓存用户信息
-            CacheUtil.del(top.krasus1966.core.web.constant.LoginConstants.USER_INFO + token);
+            CacheUtil.del(LoginConst.USER_INFO + token);
             // 删除token信息
-            CacheUtil.del(top.krasus1966.core.web.constant.LoginConstants.USER_TOKEN + info.getTenantId() + ":" + info.getId());
+            CacheUtil.del(LoginConst.USER_TOKEN + info.getTenantId() + ":" + info.getId());
         }
         return true;
     }

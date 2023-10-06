@@ -1,17 +1,18 @@
 package top.krasus1966.system.facade;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.krasus1966.core.rule_engine.IRuleExecuteService;
-import top.krasus1966.core.web.facade.AbstractCrudFacade;
-import top.krasus1966.system.domain.form.SysUserSearchForm;
-import top.krasus1966.system.domain.form.SysUserUpdateForm;
-import top.krasus1966.system.domain.persistent.SysUser;
-import top.krasus1966.system.domain.response.SysUserResponse;
-import top.krasus1966.system.service.SysUserBaseServiceImpl;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import top.krasus1966.core.web.entity.R;
+import top.krasus1966.core.web.facade.AbstractAdminFacade;
+import top.krasus1966.system.domain.sys_user.SysUser;
+import top.krasus1966.system.domain.sys_user.SysUserRole;
+import top.krasus1966.system.service.SysUserService;
 
 /**
  * @author Krasus1966
@@ -19,8 +20,26 @@ import jakarta.servlet.http.HttpServletResponse;
  **/
 @RestController
 @RequestMapping("/admin/sys-user")
-public class SysUserFacade extends AbstractCrudFacade<SysUserBaseServiceImpl, SysUser, SysUserResponse, SysUserUpdateForm, SysUserSearchForm> {
-    public SysUserFacade(HttpServletRequest request, HttpServletResponse response, SysUserBaseServiceImpl service, IRuleExecuteService ruleExecuteService) {
-        super(request, response, service,ruleExecuteService);
+public class SysUserFacade extends AbstractAdminFacade<SysUserService, SysUser> {
+
+    public SysUserFacade(HttpServletRequest request, HttpServletResponse response, SysUserService service, IRuleExecuteService ruleExecuteService) {
+        super(request, response, service, ruleExecuteService);
+    }
+
+    /**
+     * 分页查询角色下用户
+     *
+     * @param role 角色对象
+     * @param user 用户对象
+     * @param page 分页对象
+     * @method queryPageRoleUser
+     * @author krasus1966
+     * @date 2022/4/18 15:09
+     * @description 分页查询角色下用户
+     */
+    @ApiOperation(value = "分页查询角色下用户")
+    @GetMapping("/queryPageRoleUser")
+    public R<Page<SysUser>> queryPageRoleUser(SysUserRole role, SysUser user, Page<SysUser> page) {
+        return R.success(service.queryPageRoleUser(role, user, page));
     }
 }

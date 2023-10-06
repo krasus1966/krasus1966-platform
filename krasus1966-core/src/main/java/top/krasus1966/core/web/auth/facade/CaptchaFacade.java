@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.krasus1966.core.cache.redis_util.CacheUtil;
 import top.krasus1966.core.web.auth.entity.Captcha;
-import top.krasus1966.core.web.constant.LoginConstants;
+import top.krasus1966.core.web.constant.LoginConst;
 import top.krasus1966.core.web.entity.R;
 
 import javax.imageio.ImageIO;
@@ -53,7 +53,7 @@ public class CaptchaFacade {
         String base64Img = str + Base64.encode(outputStream.toByteArray());
 
         // 存储到redis中，超时时间120秒
-        CacheUtil.hset(LoginConstants.CAPTCHA_KEY, key, code, 120L);
+        CacheUtil.hset(LoginConst.CAPTCHA_KEY, key, code, 120L);
         log.info("验证码 -- {} - {}", key, code);
         return R.success(new Captcha(key, base64Img));
     }

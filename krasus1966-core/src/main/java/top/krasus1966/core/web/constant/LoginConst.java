@@ -8,7 +8,7 @@ import top.krasus1966.core.cache.constant.Cache;
  * @author Krasus1966
  * @date 2022/10/31 14:16
  **/
-public interface LoginConstants {
+public interface LoginConst {
     /**
      * 验证码
      */
