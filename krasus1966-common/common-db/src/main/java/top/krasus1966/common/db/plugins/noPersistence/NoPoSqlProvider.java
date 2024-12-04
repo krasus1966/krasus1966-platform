@@ -1,4 +1,4 @@
-package top.krasus1966.common.db.noPersistence;
+package top.krasus1966.common.db.plugins.noPersistence;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;

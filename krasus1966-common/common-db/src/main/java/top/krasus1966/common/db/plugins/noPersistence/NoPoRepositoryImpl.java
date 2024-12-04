@@ -1,4 +1,4 @@
-package top.krasus1966.common.db.noPersistence;
+package top.krasus1966.common.db.plugins.noPersistence;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
