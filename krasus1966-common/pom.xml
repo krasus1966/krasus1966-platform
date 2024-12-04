@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>top.krasus1966.platform</groupId>
+        <groupId>top.krasus1966</groupId>
         <artifactId>krasus1966-platform</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -12,10 +12,9 @@
     <artifactId>krasus1966-common</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>krasus1966-common-file</module>
-        <module>krasus1966-common-preview</module>
-        <module>krasus1966-common-rule-engine</module>
+        <module>common-core</module>
+        <module>common-file</module>
+        <module>common-web</module>
     </modules>
-
 
 </project>

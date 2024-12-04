@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>krasus1966-tools</artifactId>
+    <artifactId>krasus1966-middleware</artifactId>
 
 
 </project>

@@ -1,0 +1,78 @@
+package top.krasus1966.common.core.crypto.util;
+
+import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.HexUtil;
+import cn.hutool.crypto.Mode;
+import cn.hutool.crypto.Padding;
+import cn.hutool.crypto.symmetric.AES;
+
+import java.util.UUID;
+
+/**
+ * AES加密
+ *
+ * @author Krasus1966
+ * @date 2022/11/17 17:36
+ **/
+public class AESUtil {
+
+    /**
+     * AES加密
+     *
+     * @param content 需加密内容
+     * @param key     密钥，32位字符串
+     * @param iv      偏移量，32位字符串
+     * @return java.lang.String
+     * @method encrypt
+     * @author krasus1966
+     * @date 2022/11/17 17:46
+     * @description AES加密
+     */
+    public static String encrypt(String content, String key, String iv) {
+        if (CharSequenceUtil.isBlank(content) || CharSequenceUtil.isBlank(key) || CharSequenceUtil.isBlank(iv)) {
+            return null;
+        }
+        byte[] keyByte = HexUtil.decodeHex(key);
+        byte[] ivByte = HexUtil.decodeHex(iv);
+        AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, keyByte, ivByte);
+        return aes.encryptBase64(content);
+    }
+
+    /**
+     * AES解密
+     *
+     * @param content 需解密内容
+     * @param key     密钥，32位字符串
+     * @param iv      偏移量，32位字符串
+     * @return java.lang.String
+     * @method decrypt
+     * @author krasus1966
+     * @date 2022/11/17 17:46
+     * @description AES解密
+     */
+    public static String decrypt(String content, String key, String iv) {
+        if (CharSequenceUtil.isBlank(content) || CharSequenceUtil.isBlank(key) || CharSequenceUtil.isBlank(iv)) {
+            return null;
+        }
+        byte[] keyByte = HexUtil.decodeHex(key);
+        byte[] ivByte = HexUtil.decodeHex(iv);
+        AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, keyByte, ivByte);
+        return aes.decryptStr(content);
+    }
+
+
+    /**
+     * 生成AES对称密钥
+     *
+     * @return java.lang.String[]
+     * @method generateKey
+     * @author krasus1966
+     * @date 2022/11/17 20:15
+     * @description 生成AES对称密钥
+     */
+    public static String[] generateKey() {
+        String uuid1 = UUID.randomUUID().toString().trim().replaceAll("-", "").toLowerCase();
+        String uuid2 = UUID.randomUUID().toString().trim().replaceAll("-", "").toLowerCase();
+        return new String[]{uuid1, uuid2};
+    }
+}

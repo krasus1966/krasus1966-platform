@@ -9,7 +9,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>krasus1966-tools</artifactId>
+    <artifactId>krasus1966-module</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>module-manage-sys</module>
+        <module>module-client-sys</module>
+    </modules>
 
 
 </project>

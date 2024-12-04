@@ -5,11 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>top.krasus1966</groupId>
-        <artifactId>krasus1966-platform</artifactId>
+        <artifactId>krasus1966-common</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>krasus1966-tools</artifactId>
-
+    <artifactId>common-file</artifactId>
 
 </project>
