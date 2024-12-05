@@ -1,11 +1,8 @@
 package top.krasus1966.common.core.cache;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -239,7 +236,7 @@ public interface ICache {
      * @date 2022/11/17 21:27
      * @description 简单方式加锁
      */
-    boolean trySimpleLock(String key, long timeoutSec);
+    boolean tryLock(String key, long timeoutSec);
 
     /**
      * 简单方式解锁

@@ -1,5 +1,7 @@
 package top.krasus1966.common.core.constant;
 
+import lombok.Data;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import top.krasus1966.common.core.crypto.util.CryptoType;
@@ -11,6 +13,7 @@ import top.krasus1966.common.core.crypto.util.CryptoType;
  * @author Krasus1966
  * @date 2022/10/31 13:24
  **/
+@Data
 @ConfigurationProperties(prefix = "project.login")
 @Slf4j
 public class LoginConstants {
@@ -59,82 +62,6 @@ public class LoginConstants {
      * 签名加密算法
      */
     private CryptoType.SignCryptoType signCryptoType = CryptoType.SignCryptoType.SHA_256;
-
-    public String getHeaderUserToken() {
-        return headerUserToken;
-    }
-
-    public LoginConstants setHeaderUserToken(String headerUserToken) {
-        this.headerUserToken = headerUserToken;
-        return this;
-    }
-
-    public String getHeaderSignName() {
-        return headerSignName;
-    }
-
-    public LoginConstants setHeaderSignName(String headerSignName) {
-        this.headerSignName = headerSignName;
-        return this;
-    }
-
-    public String getHeaderSignRandomName() {
-        return headerSignRandomName;
-    }
-
-    public LoginConstants setHeaderSignRandomName(String headerSignRandomName) {
-        this.headerSignRandomName = headerSignRandomName;
-        return this;
-    }
-
-    public String getHeaderSignAesKey() {
-        return headerSignAesKey;
-    }
-
-    public LoginConstants setHeaderSignAesKey(String headerSignAesKey) {
-        this.headerSignAesKey = headerSignAesKey;
-        return this;
-    }
-
-    public Long getExpireTimeLogin() {
-        return expireTimeLogin;
-    }
-
-    public LoginConstants setExpireTimeLogin(Long expireTimeLogin) {
-        this.expireTimeLogin = expireTimeLogin;
-        return this;
-    }
-
-    public Integer getFailLockNum() {
-        return failLockNum;
-    }
-
-    public LoginConstants setFailLockNum(Integer failLockNum) {
-        this.failLockNum = failLockNum;
-        return this;
-    }
-
-    public Long getLockLoginExpire() {
-        return lockLoginExpire;
-    }
-
-    public LoginConstants setLockLoginExpire(Long lockLoginExpire) {
-        this.lockLoginExpire = lockLoginExpire;
-        return this;
-    }
-
-    public Long getTimeoutExpire() {
-        return timeoutExpire;
-    }
-
-    public LoginConstants setTimeoutExpire(Long timeoutExpire) {
-        this.timeoutExpire = timeoutExpire;
-        return this;
-    }
-
-    public CryptoType.SignCryptoType getSignCryptoType() {
-        return signCryptoType;
-    }
 
     public LoginConstants setSignCryptoType(CryptoType.SignCryptoType signCryptoType) {
         if (null == signCryptoType) {

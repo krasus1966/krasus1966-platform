@@ -3,13 +3,12 @@ package top.krasus1966.common.core.util;
 import cn.hutool.core.text.CharSequenceUtil;
 import org.springframework.stereotype.Component;
 import top.krasus1966.common.core.cache.CacheFactory;
-import top.krasus1966.common.core.constant.LoginConstant;
+import top.krasus1966.common.core.constant.LoginCacheConstant;
 import top.krasus1966.common.core.entity.UserLoginInfo;
 
 import java.util.Map;
 import java.util.function.Function;
 
-@Component
 public abstract class AbstractLoginUtil {
 
     /**
@@ -25,7 +24,7 @@ public abstract class AbstractLoginUtil {
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }
-        Map<String, String> infoMap = CacheFactory.getCache().hget(LoginConstant.USER_INFO + token.trim());
+        Map<String, String> infoMap = CacheFactory.getCache().hget(LoginCacheConstant.USER_INFO + token.trim());
         if (null == infoMap || infoMap.isEmpty()) {
             return null;
         }
@@ -60,9 +59,9 @@ public abstract class AbstractLoginUtil {
         UserLoginInfo info = getUserLoginInfo(token);
         if (null != info) {
             // 删除缓存用户信息
-            CacheFactory.getCache().del(LoginConstant.USER_INFO + token);
+            CacheFactory.getCache().del(LoginCacheConstant.USER_INFO + token);
             // 删除token信息
-            CacheFactory.getCache().del(LoginConstant.USER_TOKEN + info.getTenantId() + ":" + info.getId());
+            CacheFactory.getCache().del(LoginCacheConstant.USER_TOKEN + info.getTenantId() + ":" + info.getId());
         }
         return true;
     }
@@ -76,7 +75,7 @@ public abstract class AbstractLoginUtil {
      * @date 2022/4/15 22:09
      * @description 从header中获取token
      */
-    abstract String getToken();
+    public abstract String getToken();
 
     /**
      * 设置登录信息
@@ -88,7 +87,7 @@ public abstract class AbstractLoginUtil {
      * @date 2022/4/15 22:09
      * @description 设置登录信息
      */
-    abstract void setLoginUserInfo(UserLoginInfo userInfo);
+    public abstract void setLoginUserInfo(UserLoginInfo userInfo);
 
     /**
      * 获得登录信息某字段
@@ -103,7 +102,7 @@ public abstract class AbstractLoginUtil {
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }
-        return CacheFactory.getCache().hget(LoginConstant.USER_INFO + token.trim(), field);
+        return CacheFactory.getCache().hget(LoginCacheConstant.USER_INFO + token.trim(), field);
     }
 
     /**
@@ -122,10 +121,10 @@ public abstract class AbstractLoginUtil {
             return false;
         }
         String redisToken =
-                CacheFactory.getCache().get(LoginConstant.USER_TOKEN + info.getTenantId() + ":" + info.getId());
+                CacheFactory.getCache().get(LoginCacheConstant.USER_TOKEN + info.getTenantId() + ":" + info.getId());
         // 当前用户登录缓存token和缓存用户信息中的token不一致，应删除缓存用户信息
         if (!redisToken.equals(info.getToken())) {
-            CacheFactory.getCache().del(LoginConstant.USER_INFO + info.getToken());
+            CacheFactory.getCache().del(LoginCacheConstant.USER_INFO + info.getToken());
             return false;
         }
         return true;
@@ -159,7 +158,7 @@ public abstract class AbstractLoginUtil {
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }
-        return CacheFactory.getCache().hget(LoginConstant.USER_INFO + token.trim(), "id");
+        return CacheFactory.getCache().hget(LoginCacheConstant.USER_INFO + token.trim(), "id");
     }
 
     /**
@@ -176,7 +175,7 @@ public abstract class AbstractLoginUtil {
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }
-        return CacheFactory.getCache().hget(LoginConstant.USER_INFO + token.trim(), "loginIp");
+        return CacheFactory.getCache().hget(LoginCacheConstant.USER_INFO + token.trim(), "loginIp");
     }
 
     /**
@@ -193,6 +192,6 @@ public abstract class AbstractLoginUtil {
         if (CharSequenceUtil.isBlank(token)) {
             return null;
         }
-        return CacheFactory.getCache().hget(LoginConstant.USER_INFO + token.trim(), field);
+        return CacheFactory.getCache().hget(LoginCacheConstant.USER_INFO + token.trim(), field);
     }
 }

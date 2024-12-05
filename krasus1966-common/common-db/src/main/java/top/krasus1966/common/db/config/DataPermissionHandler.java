@@ -14,7 +14,7 @@ import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import top.krasus1966.common.core.cache.CacheFactory;
 import top.krasus1966.common.core.cache.ICache;
-import top.krasus1966.common.core.constant.LoginConstant;
+import top.krasus1966.common.core.constant.LoginCacheConstant;
 import top.krasus1966.common.core.entity.UserLoginInfo;
 import top.krasus1966.common.core.util.AbstractLoginUtil;
 import top.krasus1966.common.core.util.SpringUtil;
@@ -28,16 +28,17 @@ public class DataPermissionHandler implements MultiDataPermissionHandler {
 
     @Override
     public Expression getSqlSegment(Table table, Expression where, String mappedStatementId) {
+        AbstractLoginUtil loginUtil = SpringUtil.getBean(AbstractLoginUtil.class);
         ICache cache = CacheFactory.getCache();
         List<TablePermission> permissionPOList = null;
         try {
-            permissionPOList = cache.getObject(LoginConstant.DATA_PERMISSION_CACHE + table.getName(),
+            permissionPOList = cache.getObject(LoginCacheConstant.DATA_PERMISSION_CACHE + table.getName(),
                     new TypeReference<>() {
                     });
             if (permissionPOList == null || permissionPOList.isEmpty()) {
                 return null;
             }
-            UserLoginInfo userLoginInfo = SpringUtil.getBean(AbstractLoginUtil.class).getUserLoginInfo();
+            UserLoginInfo userLoginInfo = loginUtil.getUserLoginInfo();
             if (null == userLoginInfo) {
                 return null;
             }
@@ -56,15 +57,16 @@ public class DataPermissionHandler implements MultiDataPermissionHandler {
     }
 
     private Expression createTablePermissionSql(TablePermission tablePermission) {
+        AbstractLoginUtil loginUtil = SpringUtil.getBean(AbstractLoginUtil.class);
         switch (tablePermission.getPermissionType()) {
             case TablePermission.SJQX_BR:
                 return new EqualsTo(new Column(StringUtils.camelToUnderline(tablePermission.getCreatorColumn())),
-                        new StringValue(SpringUtil.getBean(AbstractLoginUtil.class).getUserLoginId()));
+                        new StringValue(loginUtil.getUserLoginId()));
             case TablePermission.SJQX_DEPT:
                 return new EqualsTo(new Column(StringUtils.camelToUnderline(tablePermission.getDepartColumn())),
-                        new StringValue(SpringUtil.getBean(AbstractLoginUtil.class).getUserLoginInfo().getDeptId()));
+                        new StringValue(loginUtil.getUserLoginInfo().getDeptId()));
             case TablePermission.SJQX_DEPT_ALL:
-                String deptFullIds = SpringUtil.getBean(AbstractLoginUtil.class).getUserLoginInfo().getDeptFullIds();
+                String deptFullIds = loginUtil.getUserLoginInfo().getDeptFullIds();
                 ExpressionList<StringValue> expressionList =
                         new ExpressionList<>(Arrays.stream(deptFullIds.split(",")).map(StringValue::new).toList());
                 return new InExpression(new Column(StringUtils.camelToUnderline(tablePermission.getDepartColumn())),

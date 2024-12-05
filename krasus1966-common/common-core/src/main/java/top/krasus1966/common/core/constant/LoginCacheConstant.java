@@ -6,7 +6,7 @@ package top.krasus1966.common.core.constant;
  * @author Krasus1966
  * @date 2022/10/31 14:16
  **/
-public interface LoginConstant {
+public interface LoginCacheConstant {
     /**
      * 验证码
      */

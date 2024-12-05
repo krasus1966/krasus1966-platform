@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.krasus1966.common.core.cache.CacheFactory;
-import top.krasus1966.common.core.constant.LoginConstant;
+import top.krasus1966.common.core.constant.LoginCacheConstant;
 import top.krasus1966.common.core.entity.R;
 import top.krasus1966.common.web.entity.Captcha;
 
@@ -53,7 +53,7 @@ public class CaptchaFacade {
         String base64Img = str + Base64.encode(outputStream.toByteArray());
 
         // 存储到redis中，超时时间120秒
-        CacheFactory.getCache().hset(LoginConstant.CAPTCHA_KEY, key, code, 120L);
+        CacheFactory.getCache().hset(LoginCacheConstant.CAPTCHA_KEY, key, code, 120L);
         log.info("验证码 -- {} - {}", key, code);
         return R.success(new Captcha(key, base64Img));
     }

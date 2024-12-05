@@ -1,4 +1,4 @@
-package top.krasus1966.common.core.func;
+package top.krasus1966.common.web.facade;
 
 
 import top.krasus1966.common.core.entity.AbstractDTO;
