@@ -3,15 +3,9 @@ package top.krasus1966.common.db.plugins.history_record.config;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * 用户中心数据源配置类
- *
- * @author daijiaqi
- * @version 1.0
- */
+
 @Configuration
-@MapperScan(basePackages = "com.ttsx.common.mybatis.history_record.mapper", sqlSessionFactoryRef =
-        "platformSqlSessionFactory")
+@MapperScan(basePackages = "top.krasus1966")
 public class HistoryRecordDataSourceConfig {
     /*@Value("${spring.jta.enabled:false}")
     boolean jtaEnabled;

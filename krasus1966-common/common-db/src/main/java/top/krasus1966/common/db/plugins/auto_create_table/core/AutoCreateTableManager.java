@@ -240,7 +240,7 @@ public class AutoCreateTableManager {
      * 遍历并对比字段信息，返回字段信息不一致的字段信息
      * @param columnsInfo
      * @param javaColumnsInfo
-     * @return java.util.List<com.ttsx.common.mybatis.auto_create_table.entity.ColumnInfo>
+     * @return java.util.List<ColumnInfo>
      * @throws
      * @method scanNeedChangeColumns
      * @author krasus1966

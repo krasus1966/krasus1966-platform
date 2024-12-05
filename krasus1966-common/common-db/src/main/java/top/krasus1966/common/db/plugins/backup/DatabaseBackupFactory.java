@@ -1,9 +1,9 @@
 package top.krasus1966.common.db.plugins.backup;
 
-import com.ttsx.common.base.entity.DataSourceProperties;
-import com.ttsx.platform.tool.util.StringUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
+import top.krasus1966.common.db.plugins.backup.entity.BackupDataSourceProperty;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -56,15 +56,15 @@ public class DatabaseBackupFactory {
 
     public IDatabaseBackup getServiceByJdbcUrl(String jdbcUrl) {
         String dbType = getPattern(jdbcUrl, "db");
-        if (StringUtil.isEmpty(dbType)) {
+        if (CharSequenceUtil.isEmpty(dbType)) {
             throw new RuntimeException("读取数据库类型失败");
         }
         return getService(dbType.toLowerCase(Locale.ROOT));
     }
 
-    public IDatabaseBackup getService(DataSourceProperties dataSourceProperties) {
-        String dbType = getPattern(dataSourceProperties.getJdbcUrl(), "db");
-        if (StringUtil.isEmpty(dbType)) {
+    public IDatabaseBackup getService(BackupDataSourceProperty dataSourceProperties) {
+        String dbType = getPattern(dataSourceProperties.url(), "db");
+        if (CharSequenceUtil.isEmpty(dbType)) {
             throw new RuntimeException("读取数据库类型失败");
         }
         return getService(dbType.toLowerCase(Locale.ROOT));

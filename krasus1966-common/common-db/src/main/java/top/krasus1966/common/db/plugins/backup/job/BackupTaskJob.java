@@ -1,13 +1,12 @@
 package top.krasus1966.common.db.plugins.backup.job;
 
 
-
 import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import top.krasus1966.common.db.plugins.backup.DatabaseBackupFactory;
 import top.krasus1966.common.db.plugins.backup.DatabaseBackupRecord;
 import top.krasus1966.common.db.plugins.backup.IDatabaseBackup;
+import top.krasus1966.common.db.plugins.backup.entity.BackupDataSourceProperty;
 import top.krasus1966.common.db.plugins.backup.job.entity.BackupBaseJob;
 import top.krasus1966.common.db.plugins.backup.job.entity.BackupTaskInfo;
 import top.krasus1966.common.db.plugins.backup.job.entity.JobKey;
@@ -15,10 +14,7 @@ import top.krasus1966.common.db.plugins.backup.job.repository.BackupRepository;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Krasus1966
@@ -30,10 +26,10 @@ public class BackupTaskJob {
     private final BackupRepository repository;
     private final String backupPath;
     private final DatabaseBackupFactory databaseBackupFactory;
-    private final List<DataSourceProperties> propertiesList;
+    private final List<BackupDataSourceProperty> propertiesList;
 
     public BackupTaskJob(BackupRepository repository, DatabaseBackupFactory databaseBackupFactory, String backupPath,
-                         List<DataSourceProperties> propertiesList) {
+                         List<BackupDataSourceProperty> propertiesList) {
         this.repository = repository;
         this.backupPath = backupPath;
         this.databaseBackupFactory = databaseBackupFactory;
@@ -72,8 +68,8 @@ public class BackupTaskJob {
         StringBuilder builder = new StringBuilder();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         if (propertiesList != null && !propertiesList.isEmpty()) {
-            for (DataSourceProperties dataSourceProperties : propertiesList) {
-                String jdbcUrl = dataSourceProperties.getJdbcUrl();
+            for (BackupDataSourceProperty dataSourceProperties : propertiesList) {
+                String jdbcUrl = dataSourceProperties.url();
                 String hostAndDbName = DatabaseBackupFactory.getHostAndDbName(jdbcUrl);
                 if (ObjectUtil.isEmpty(hostAndDbName) || alreadyDeal.contains(hostAndDbName)) {
                     continue;
@@ -83,13 +79,14 @@ public class BackupTaskJob {
 
                 // 创建备份日志
                 DatabaseBackupRecord record = new DatabaseBackupRecord();
-                record.setId(UUIDUtil.getUUID());
+                record.setId(UUID.randomUUID().toString());
                 record.setDbType(dbType);
                 record.setDbName(DatabaseBackupFactory.getPattern(jdbcUrl, "dbName"));
                 record.setSuccess(false);
                 record.setCrtTime(crtTime);
 
-                builder.append("连接池{").append(dataSourceProperties.getPoolName()).append("}\n数据库类型{").append(dbType).append("}\n");
+                builder.append("数据库{").append(dataSourceProperties.dataSourceName()).append("}\n数据库类型{").append(dbType).append(
+                        "}\n");
                 IDatabaseBackup service = databaseBackupFactory.getServiceByJdbcUrl(jdbcUrl);
                 if (service == null) {
                     builder.append("ERR:不支持的数据库类型").append("\n");

@@ -8,6 +8,8 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.CronTask;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import top.krasus1966.common.db.plugins.backup.DatabaseBackupFactory;
+import top.krasus1966.common.db.plugins.backup.entity.BackupDataSourceConfigProperty;
+import top.krasus1966.common.db.plugins.backup.entity.BackupDataSourceProperty;
 import top.krasus1966.common.db.plugins.backup.job.entity.BackupBaseJob;
 import top.krasus1966.common.db.plugins.backup.job.entity.BackupTaskInfo;
 import top.krasus1966.common.db.plugins.backup.job.entity.JobKey;
@@ -28,11 +30,11 @@ public class BackupTaskScanJob implements SchedulingConfigurer {
     private final BackupTaskJob backupTaskJob;
 
     public BackupTaskScanJob(JdbcTemplate jdbcTemplate, DatabaseBackupFactory databaseBackupFactory,
-                             BackupProperties backupProperties, List<DataSourceProperties> propertiesList) {
+                             BackupDataSourceConfigProperty configProperty) {
         this.manageService = new BackupTaskManageService();
         this.repository = new BackupRepository(jdbcTemplate);
-        this.backupTaskJob = new BackupTaskJob(repository, databaseBackupFactory, backupProperties.getBackupPath(),
-                propertiesList);
+        this.backupTaskJob = new BackupTaskJob(repository, databaseBackupFactory, configProperty.getBackupPath(),
+                configProperty.getBackupDataSource());
     }
 
     @Override

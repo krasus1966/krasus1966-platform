@@ -29,7 +29,7 @@ public class DbInfoQuery {
      * @param schemaPattern 数据库名称
      * @param tableNamePattern 匹配表名称
      * @param types 查询类型
-     * @return java.util.List<com.ttsx.common.mybatis.auto_create_table.entity.TableInfo>
+     * @return java.util.List<TableInfo>
      * @method getTables
      * @author krasus1966
      * @date 2024/9/12
@@ -84,7 +84,7 @@ public class DbInfoQuery {
      * @param schema 数据库名称
      * @param tableName 表名
      * @param primaryKeys 主键列表
-     * @return java.util.List<com.ttsx.common.mybatis.auto_create_table.entity.ColumnInfo>
+     * @return java.util.List<ColumnInfo>
      * @method getColumnsInfo
      * @author krasus1966
      * @date 2024/9/12

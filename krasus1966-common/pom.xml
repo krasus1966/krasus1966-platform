@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>common-core</module>
+        <module>common-db</module>
         <module>common-file</module>
         <module>common-web</module>
     </modules>

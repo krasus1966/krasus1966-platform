@@ -1,7 +1,8 @@
 package top.krasus1966.common.db.plugins.backup;
 
 
-import com.ttsx.common.base.entity.DataSourceProperties;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import top.krasus1966.common.db.plugins.backup.entity.BackupDataSourceProperty;
 
 /**
  * @author krasus1966
@@ -12,6 +13,6 @@ public interface IDatabaseBackup {
 
     String dbType();
 
-    Boolean backup(String filePath, String dbName, DataSourceProperties dataSourceProperties,
+    Boolean backup(String filePath, String dbName, BackupDataSourceProperty dataSourceProperty,
                    DatabaseBackupRecord record);
 }

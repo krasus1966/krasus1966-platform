@@ -1,11 +1,13 @@
 package top.krasus1966.common.db.plugins.backup.impl;
 
-import com.ttsx.common.base.backup.DatabaseBackupFactory;
-import com.ttsx.common.base.backup.DatabaseBackupRecord;
-import com.ttsx.common.base.backup.IDatabaseBackup;
-import com.ttsx.common.base.entity.DataSourceProperties;
+
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.stereotype.Service;
+import top.krasus1966.common.db.plugins.backup.DatabaseBackupFactory;
+import top.krasus1966.common.db.plugins.backup.DatabaseBackupRecord;
+import top.krasus1966.common.db.plugins.backup.IDatabaseBackup;
+import top.krasus1966.common.db.plugins.backup.entity.BackupDataSourceProperty;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,14 +26,14 @@ public class MySQLDatabaseBackup implements IDatabaseBackup {
     }
 
     @Override
-    public Boolean backup(String fileName, String dbName, DataSourceProperties dataSourceProperties,
+    public Boolean backup(String fileName, String dbName, BackupDataSourceProperty dataSourceProperty,
                           DatabaseBackupRecord record) {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder("mysqldump", "-h",
-                    DatabaseBackupFactory.getPattern(dataSourceProperties.getJdbcUrl(), "host"),
-                    "-P", DatabaseBackupFactory.getPattern(dataSourceProperties.getJdbcUrl(), "port"),
-                    "-u", dataSourceProperties.getUsername(), dbName);
-            processBuilder.environment().put("MYSQL_PWD", dataSourceProperties.getPassword());
+                    DatabaseBackupFactory.getPattern(dataSourceProperty.url(), "host"), "-P",
+                    DatabaseBackupFactory.getPattern(dataSourceProperty.url(), "port"), "-u",
+                    dataSourceProperty.username(), dbName);
+            processBuilder.environment().put("MYSQL_PWD", dataSourceProperty.password());
             processBuilder.redirectOutput(new File(fileName));
             Process process = processBuilder.start();
 

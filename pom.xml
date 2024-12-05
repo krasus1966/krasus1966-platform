@@ -23,7 +23,6 @@
         <module>krasus1966-cloud</module>
         <module>krasus1966-boot</module>
         <module>krasus1966-middleware</module>
-        <module>krasus1966-common/common-db</module>
     </modules>
     <scm>
         <connection/>
