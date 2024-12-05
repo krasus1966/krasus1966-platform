@@ -31,9 +31,9 @@ public abstract class BaseFunction {
     private static final Set<String> SEARCH_TYPE = Set.of("WHERE", "ORDER", "PAGE");
 
     @Autowired(required = false)
-    private HttpServletRequest request;
+    protected HttpServletRequest request;
     @Autowired(required = false)
-    private HttpServletResponse response;
+    protected HttpServletResponse response;
 
     public String getTenantId() {
         return getHeader(Constants.RequestHeader.TENANT_ID_NAME);
